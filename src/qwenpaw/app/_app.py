@@ -53,6 +53,8 @@ from .migration import (
     ensure_qa_agent_exists,
 )
 from .channels.registry import register_custom_channel_routes
+from backend.core.loader import load_builtin_backend_modules
+from backend.core.registry import get_backend_modules
 
 # Apply log level on load so reload child process gets same level as CLI.
 logger = setup_logger(os.environ.get(LOG_LEVEL_ENV, "info"))
@@ -69,6 +71,14 @@ mimetypes.add_type("image/svg+xml", ".svg")
 # Load persisted env vars into os.environ at module import time
 # so they are available before the lifespan starts.
 load_envs_into_environ()
+
+
+def mount_backend_modules(app: FastAPI) -> None:
+    """挂载根目录 backend 下的业务模块路由。"""
+    load_builtin_backend_modules()
+    for module in get_backend_modules():
+        for router_factory in module.router_factories:
+            app.include_router(router_factory())
 
 
 # Dynamic runner that selects the correct workspace runner based on request
@@ -678,6 +688,7 @@ app.include_router(voice_router, tags=["voice"])
 
 # Custom channel routes (before SPA catch-all to ensure route priority)
 register_custom_channel_routes(app)
+mount_backend_modules(app)
 
 # Console static files and SPA fallback
 # Register these AFTER API routes to ensure proper routing priority

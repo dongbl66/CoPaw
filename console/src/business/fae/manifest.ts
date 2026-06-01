@@ -1,0 +1,44 @@
+import { registerBusinessModule } from "@/business/common/registry/registry";
+import type { BusinessModuleManifest } from "@/business/common/registry/types";
+import GovernmentOpportunityDetailPage from "./pages/GovernmentOpportunityDetail";
+import GovernmentOpportunitiesPage from "./pages/GovernmentOpportunities";
+
+const faeManifest: BusinessModuleManifest = {
+  id: "fae",
+  name: "fae",
+  version: "0.1.0",
+  enabledByDefault: true,
+  routes: [
+    {
+      key: "biz-fae-government-opportunities",
+      path: "/biz/fae/government-opportunities",
+      label: "政企商机",
+      component: GovernmentOpportunitiesPage,
+      priority: 30,
+      icon: "F",
+    },
+    {
+      key: "biz-fae-government-opportunities-detail",
+      path: "/biz/fae/government-opportunities/:projectId",
+      label: "政企商机详情",
+      component: GovernmentOpportunityDetailPage,
+      activeMenuKey: "biz-fae-government-opportunities",
+      priority: 31,
+      icon: "F",
+    },
+  ],
+  menus: [
+    {
+      key: "biz-fae-government-opportunities",
+      path: "/biz/fae/government-opportunities",
+      label: "政企商机",
+      groupKey: "fae-workspace-group",
+      priority: 10,
+      icon: "F",
+    },
+  ],
+};
+
+registerBusinessModule(faeManifest);
+
+export default faeManifest;

@@ -24,6 +24,9 @@ set "QWENPAW_BIN=%QWENPAW_HOME%\bin"
 set "PYTHON_VERSION=3.12"
 set "QWENPAW_REPO=https://github.com/agentscope-ai/QwenPaw.git"
 
+REM ── Conda environment override ──────────────────────────────────────────────────────────────
+set "QWENPAW_VENV=D:\Program\anaconda3\envs\evotraders-py310"
+
 REM ──── Argument defaults ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 set "ARG_VERSION="
 set "ARG_FROM_SOURCE=0"
@@ -306,27 +309,16 @@ REM ──── Step 1: Ensure uv ───────────────
 call :ensure_uv
 if errorlevel 1 exit /b 1
 
-REM ──── Step 2: Create / update virtual environment ──────────────────────────────────────────────────────────────
-if exist "%QWENPAW_VENV%" (
-    echo [qwenpaw] Existing environment found, upgrading...
-) else (
-    echo [qwenpaw] Creating Python %PYTHON_VERSION% environment...
-)
-
-uv venv "%QWENPAW_VENV%" --python %PYTHON_VERSION% --quiet --clear
-if errorlevel 1 (
-    echo [qwenpaw] ERROR: Failed to create virtual environment
-    exit /b 1
-)
-
-set "VENV_PYTHON=%QWENPAW_VENV%\Scripts\python.exe"
+REM ──── Step 2: Verify conda environment ─────────────────────────────────────────────────────────
+set "VENV_PYTHON=%QWENPAW_VENV%\python.exe"
 if not exist "%VENV_PYTHON%" (
-    echo [qwenpaw] ERROR: Failed to create virtual environment
+    echo [qwenpaw] ERROR: Conda environment not found at %VENV_PYTHON%
+    echo [qwenpaw]        Please create it first: conda create -n evotraders-py310 python=3.10
     exit /b 1
 )
 
 for /f "delims=" %%v in ('"%VENV_PYTHON%" --version 2^>^&1') do set "PY_VERSION=%%v"
-echo [qwenpaw] Python environment ready (%PY_VERSION%)
+echo [qwenpaw] Conda environment ready (%PY_VERSION%)
 
 REM ──── Step 3: Install QwenPaw ──────────────────────────────────────────────────────────────────────────────────────────────────────────
 set "EXTRAS_SUFFIX="
@@ -471,15 +463,13 @@ if not exist "%QWENPAW_BIN%" mkdir "%QWENPAW_BIN%"
 
 REM PowerShell wrapper
 set "WRAPPER_PS1=%QWENPAW_BIN%\qwenpaw.ps1"
-echo # QwenPaw CLI wrapper -- delegates to the uv-managed environment. > "%WRAPPER_PS1%"
+echo # QwenPaw CLI wrapper -- delegates to the conda-managed environment. > "%WRAPPER_PS1%"
 echo $ErrorActionPreference = "Stop" >> "%WRAPPER_PS1%"
 echo. >> "%WRAPPER_PS1%"
-echo $QwenpawHome = if ($env:QWENPAW_HOME) { $env:QWENPAW_HOME } else { Join-Path $HOME ".qwenpaw" } >> "%WRAPPER_PS1%"
-echo $RealBin = Join-Path $QwenpawHome "venv\Scripts\qwenpaw.exe" >> "%WRAPPER_PS1%"
+echo $RealBin = "D:\Program\anaconda3\envs\evotraders-py310\Scripts\qwenpaw.exe" >> "%WRAPPER_PS1%"
 echo. >> "%WRAPPER_PS1%"
 echo if (-not (Test-Path $RealBin)) { >> "%WRAPPER_PS1%"
-echo     Write-Error "QwenPaw environment not found at $QwenpawHome\venv" >> "%WRAPPER_PS1%"
-echo     Write-Error "Please reinstall: irm ^<install-url^> ^| iex" >> "%WRAPPER_PS1%"
+echo     Write-Error "QwenPaw environment not found at $RealBin" >> "%WRAPPER_PS1%"
 echo     exit 1 >> "%WRAPPER_PS1%"
 echo } >> "%WRAPPER_PS1%"
 echo. >> "%WRAPPER_PS1%"
@@ -489,13 +479,10 @@ echo [qwenpaw] Wrapper created at %WRAPPER_PS1%
 REM CMD wrapper
 set "WRAPPER_CMD=%QWENPAW_BIN%\qwenpaw.cmd"
 echo @echo off > "%WRAPPER_CMD%"
-echo REM QwenPaw CLI wrapper -- delegates to the uv-managed environment. >> "%WRAPPER_CMD%"
-echo set "QWENPAW_HOME=%%QWENPAW_HOME%%" >> "%WRAPPER_CMD%"
-echo if "%%QWENPAW_HOME%%"=="" set "QWENPAW_HOME=%%USERPROFILE%%\.qwenpaw" >> "%WRAPPER_CMD%"
-echo set "REAL_BIN=%%QWENPAW_HOME%%\venv\Scripts\qwenpaw.exe" >> "%WRAPPER_CMD%"
+echo REM QwenPaw CLI wrapper -- delegates to the conda-managed environment. >> "%WRAPPER_CMD%"
+echo set "REAL_BIN=D:\Program\anaconda3\envs\evotraders-py310\Scripts\qwenpaw.exe" >> "%WRAPPER_CMD%"
 echo if not exist "%%REAL_BIN%%" ( >> "%WRAPPER_CMD%"
-echo     echo Error: QwenPaw environment not found at %%QWENPAW_HOME%%\venv ^>^&2 >> "%WRAPPER_CMD%"
-echo     echo Please reinstall ^>^&2 >> "%WRAPPER_CMD%"
+echo     echo Error: QwenPaw environment not found >> "%WRAPPER_CMD%"
 echo     exit /b 1 >> "%WRAPPER_CMD%"
 echo ) >> "%WRAPPER_CMD%"
 echo "%%REAL_BIN%%" %%* >> "%WRAPPER_CMD%"

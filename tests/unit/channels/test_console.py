@@ -178,6 +178,70 @@ class TestConsoleChannelUnit:
         assert "Line 1" in captured.out
         assert "Line 2" in captured.out
 
+    @pytest.mark.asyncio
+    async def test_stream_one_emits_structured_result_event_after_response(
+        self,
+        channel,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        """完成响应后应额外推送一条 structured_result 专用事件。"""
+
+        class DummyResponseEvent:
+            """Minimal response event used for SSE emission tests."""
+
+            object = "response"
+            status = "completed"
+            type = "response.completed"
+
+            def __init__(self) -> None:
+                self.output = [
+                    MagicMock(
+                        id="msg-1",
+                        metadata={
+                            "structured_result": {
+                                "eventType": "structured_result",
+                                "version": "1.0",
+                                "title": "分析结果",
+                                "result": {
+                                    "type": "text",
+                                    "payload": {"text": "结构化分析内容"},
+                                },
+                            },
+                        },
+                    ),
+                ]
+
+        async def fake_process(_request):
+            yield DummyResponseEvent()
+
+        monkeypatch.setattr(channel, "_process", fake_process)
+        monkeypatch.setattr(
+            channel,
+            "_serialize_event_for_sse",
+            lambda _event: '{"object":"response","status":"completed"}',
+        )
+
+        events = [
+            item
+            async for item in channel.stream_one(
+                {
+                    "sender_id": "user-1",
+                    "content_parts": [
+                        {
+                            "type": "text",
+                            "text": "hello",
+                        },
+                    ],
+                    "meta": {"session_id": "session-1"},
+                },
+            )
+        ]
+
+        assert len(events) == 2
+        assert '"object":"response"' in events[0]
+        assert '"object":"structured_result_event"' in events[1]
+        assert '"title":"分析结果"' in events[1]
+
 
 class TestConsoleChannelFromEnv:
     """Tests for from_env factory method."""

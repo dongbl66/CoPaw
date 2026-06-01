@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>泰山纸面石膏板 - 轻质高强的墙面专家</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1e88e5;
+            --primary-dark: #1565c0;
+            --secondary-color: #4caf50;
+            --accent-color: #ff9800;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --bg-light: #f5f7fa;
+            --white: #ffffff;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--white);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero .subtitle {
+            font-size: 20px;
+            opacity: 0.95;
+            margin-bottom: 25px;
+        }
+
+        .hero-image {
+            max-width: 700px;
+            margin: 25px auto 0;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+            background: var(--white);
+            padding: 12px;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 50px 0;
+        }
+
+        section:nth-child(even) {
+            background: var(--bg-light);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 35px;
+            color: var(--text-dark);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--primary-color);
+            margin: 12px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 25px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 3px solid var(--primary-color);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+        }
+
+        .feature-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .feature-card ul {
+            list-style: none;
+            color: var(--text-light);
+        }
+
+        .feature-card li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 14px;
+        }
+
+        .feature-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        /* Specs Table */
+        .specs-table {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .specs-table th,
+        .specs-table td {
+            padding: 12px 18px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+
+        .specs-table th {
+            background: var(--primary-color);
+            color: var(--white);
+            font-weight: 600;
+            width: 35%;
+        }
+
+        .specs-table tr:hover {
+            background: var(--bg-light);
+        }
+
+        .specs-table tr:last-child th,
+        .specs-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Scenarios */
+        .scenarios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            margin-top: 25px;
+        }
+
+        .scenario-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .scenario-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .scenario-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 17px;
+        }
+
+        .scenario-card ul {
+            list-style: none;
+            color: var(--text-light);
+            text-align: left;
+        }
+
+        .scenario-card li {
+            padding: 4px 0;
+            padding-left: 18px;
+            position: relative;
+            font-size: 13px;
+        }
+
+        .scenario-card li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+        }
+
+        /* Cases */
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .case-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .case-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .case-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            background: var(--bg-light);
+        }
+
+        .case-content {
+            padding: 18px;
+        }
+
+        .case-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            font-size: 17px;
+        }
+
+        .case-content p {
+            color: var(--text-light);
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+
+        .case-tag {
+            display: inline-block;
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        /* Honors */
+        .honors-list {
+            max-width: 750px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .honor-item {
+            background: var(--white);
+            padding: 18px 22px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .honor-icon {
+            font-size: 28px;
+        }
+
+        .honor-text {
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        /* FAQ */
+        .faq-list {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--white);
+            margin-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .faq-question {
+            padding: 18px 22px;
+            background: var(--primary-color);
+            color: var(--white);
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .faq-answer {
+            padding: 18px 22px;
+            color: var(--text-light);
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 50px 0;
+        }
+
+        .cta-section .section-title {
+            color: var(--white);
+        }
+
+        .cta-section .section-title::after {
+            background: var(--white);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 850px;
+            margin: 30px auto;
+        }
+
+        .contact-card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .contact-label {
+            opacity: 0.9;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .contact-value {
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .services-list {
+            max-width: 650px;
+            margin: 30px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .service-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            color: var(--white);
+            font-size: 14px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: var(--white);
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.8;
+            font-size: 13px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .hero .subtitle {
+                font-size: 16px;
+            }
+
+            .hero-image {
+                padding: 8px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+
+            section {
+                padding: 35px 0;
+            }
+
+            .features-grid,
+            .scenarios-grid,
+            .cases-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .specs-table th,
+            .specs-table td {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+
+            .contact-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="container">
+            <h1>泰山纸面石膏板</h1>
+            <p class="subtitle">轻质高强的墙面专家</p>
+            <div class="hero-image">
+                <img src="../resources/paper-faced-gypsum-board.png" alt="泰山纸面石膏板">
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Features -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">核心优势</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🏗️</div>
+                    <h3>轻质高强</h3>
+                    <ul>
+                        <li>密度仅 0.65g/cm³</li>
+                        <li>承重能力达 120kg/m²</li>
+                        <li>抗弯强度≥400N</li>
+                        <li>减轻建筑荷载</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔨</div>
+                    <h3>施工便捷</h3>
+                    <ul>
+                        <li>可锯可钉可刨</li>
+                        <li>干法作业，即装即用</li>
+                        <li>工期缩短 40%</li>
+                        <li>配套系统完善</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔥</div>
+                    <h3>防火性能卓越</h3>
+                    <ul>
+                        <li>A 级不燃材料</li>
+                        <li>遇火释放结晶水</li>
+                        <li>耐火极限 30-60 分钟</li>
+                        <li>不释放有毒气体</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🌿</div>
+                    <h3>环保健康</h3>
+                    <ul>
+                        <li>无放射性，安全无害</li>
+                        <li>甲醛释放量≤0.01mg/m³</li>
+                        <li>调节室内湿度</li>
+                        <li>100% 可回收</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Specs -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">产品规格</h2>
+            <table class="specs-table">
+                <tr>
+                    <th>标准规格</th>
+                    <td>1200×2400mm / 1200×3000mm</td>
+                </tr>
+                <tr>
+                    <th>厚度</th>
+                    <td>9.5mm / 12mm / 15mm / 18mm</td>
+                </tr>
+                <tr>
+                    <th>防火等级</th>
+                    <td>A 级不燃 (GB 8624-2012)</td>
+                </tr>
+                <tr>
+                    <th>环保等级</th>
+                    <td>E0 级 (GB 18580-2017)</td>
+                </tr>
+                <tr>
+                    <th>含水率</th>
+                    <td>≤3%</td>
+                </tr>
+                <tr>
+                    <th>面密度</th>
+                    <td>9.5mm: ≤9.5kg/m²; 12mm: ≤12kg/m²</td>
+                </tr>
+                <tr>
+                    <th>断裂荷载</th>
+                    <td>纵向≥500N, 横向≥200N</td>
+                </tr>
+                <tr>
+                    <th>护面纸与石膏芯粘结</th>
+                    <td>不裸露石膏芯</td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <!-- Application Scenarios -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">适用场景</h2>
+            <div class="scenarios-grid">
+                <div class="scenario-card">
+                    <div class="scenario-icon">🏠</div>
+                    <h3>住宅建筑</h3>
+                    <ul>
+                        <li>室内隔墙、吊顶</li>
+                        <li>客厅、卧室、书房</li>
+                        <li>厨卫干区吊顶</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="scenario-icon">🏢</div>
+                    <h3>公共建筑</h3>
+                    <ul>
+                        <li>办公楼、写字楼</li>
+                        <li>学校、医院、养老院</li>
+                        <li>商场、酒店、餐厅</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="scenario-icon">🏭</div>
+                    <h3>工业建筑</h3>
+                    <ul>
+                        <li>厂房、仓库隔断</li>
+                        <li>洁净车间吊顶</li>
+                        <li>办公区域装修</li>
+                    </ul>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="scenario-icon">🛡️</div>
+                    <h3>特殊场景</h3>
+                    <ul>
+                        <li>防火分区隔墙</li>
+                        <li>隔音墙体系统</li>
+                        <li>造型吊顶基层</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Classic Cases -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">经典案例</h2>
+            <div class="cases-grid">
+                <div class="case-card">
+                    <img src="../resources/case-daxing-airport.png" alt="大兴国际机场" class="case-image">
+                    <div class="case-content">
+                        <h3>北京大兴国际机场</h3>
+                        <p><strong>项目亮点：</strong>年旅客吞吐量 1 亿人次的超级枢纽</p>
+                        <p><strong>应用面积：</strong>超过 50 万平方米</p>
+                        <p><strong>核心优势：</strong>轻质高强、防火安全、施工高效</p>
+                        <span class="case-tag">交通枢纽</span>
+                    </div>
+                </div>
+
+                <div class="case-card">
+                    <img src="../resources/case-winter-olympics-venue.png" alt="冬奥场馆" class="case-image">
+                    <div class="case-content">
+                        <h3>2022 北京冬奥场馆</h3>
+                        <p><strong>项目亮点：</strong>国家级体育盛事，高标准要求</p>
+                        <p><strong>选用产品：</strong>泰山石膏板系统</p>
+                        <p><strong>核心优势：</strong>A 级防火、环保健康、品质可靠</p>
+                        <span class="case-tag">体育赛事</span>
+                    </div>
+                </div>
+
+                <div class="case-card">
+                    <img src="../resources/case-xiongan-station.png" alt="雄安站" class="case-image">
+                    <div class="case-content">
+                        <h3>雄安高铁站</h3>
+                        <p><strong>项目亮点：</strong>千年大计，国家重点工程</p>
+                        <p><strong>应用范围：</strong>候车大厅、办公区域、商业配套</p>
+                        <p><strong>核心优势：</strong>品质卓越、供应稳定、服务完善</p>
+                        <span class="case-tag">国家重点工程</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Honors -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">企业荣誉</h2>
+            
+            <!-- 荣誉资质主图 -->
+            <div style="text-align: center;">
+                <img src="../resources/honors-and-qualifications.png" alt="企业荣誉资质" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">常见问题</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">Q: 石膏板会不会受潮发霉？</div>
+                    <div class="faq-answer">
+                        A: 普通纸面石膏板适用于干燥环境。如用于潮湿区域，建议选用耐水石膏板或防水石膏板，并做好表面防水处理。
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Q: 石膏板吊顶会不会开裂？</div>
+                    <div class="faq-answer">
+                        A: 规范施工是关键。确保龙骨间距合理、板材错缝安装、接缝处理到位，可有效避免开裂。泰山石膏板采用优质护面纸，抗裂性能更优。
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Q: 石膏板的防火性能如何？</div>
+                    <div class="faq-answer">
+                        A: 泰山纸面石膏板为 A 级不燃材料，遇火时石膏中的结晶水会释放，吸收热量并延缓火势蔓延，耐火极限可达 30-60 分钟。
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Q: 一平方米需要多少材料？</div>
+                    <div class="faq-answer">
+                        A: 以 12mm 厚度为例，每平方米约需：石膏板 1㎡、轻钢龙骨 2.5-3m、自攻螺钉 15-20 个、嵌缝石膏 0.3kg。具体用量根据实际施工方案确定。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>温馨提示：以上产品参数仅供参考，具体以实际产品为准。如需了解更多产品信息，请联系当地经销商或拨打服务热线。</p>
+            <p style="margin-top: 20px;">© 2026 泰山石膏股份有限公司 版权所有</p>
+        </div>
+    </footer>
+</body>
+</html>

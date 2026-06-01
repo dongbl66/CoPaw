@@ -1,0 +1,64 @@
+{
+  "rules": [
+    {
+      "id": "R001",
+      "category": "资质条件",
+      "item_name": "营业执照",
+      "requirement": "必须提供有效的营业执照，经营范围包含本项目相关业务"
+    },
+    {
+      "id": "R002",
+      "category": "资质条件",
+      "item_name": "资质证书",
+      "requirement": "ISO9001质量管理体系认证或同等资质"
+    },
+    {
+      "id": "R003",
+      "category": "否决项",
+      "item_name": "投标保证金",
+      "requirement": "投标保证金不低于投标总价的2%，须在开标前到账"
+    },
+    {
+      "id": "R004",
+      "category": "否决项",
+      "item_name": "投标有效期",
+      "requirement": "投标有效期不少于90天"
+    },
+    {
+      "id": "R005",
+      "category": "符合性",
+      "item_name": "投标函签署",
+      "requirement": "投标函须由法定代表人签字并加盖公章"
+    },
+    {
+      "id": "R006",
+      "category": "符合性",
+      "item_name": "授权委托书",
+      "requirement": "如有授权代表，须提供有效的授权委托书"
+    },
+    {
+      "id": "R007",
+      "category": "商务评审",
+      "item_name": "报价完整性",
+      "requirement": "报价清单须覆盖全部采购项，无缺项漏项"
+    },
+    {
+      "id": "R008",
+      "category": "商务评审",
+      "item_name": "分项报价合理性",
+      "requirement": "各分项报价不得明显偏离市场均价（±30%以内）"
+    },
+    {
+      "id": "R009",
+      "category": "技术评审",
+      "item_name": "技术方案完整性",
+      "requirement": "技术方案须包含系统架构、部署方案、实施计划"
+    },
+    {
+      "id": "R010",
+      "category": "技术评审",
+      "item_name": "人员配置",
+      "requirement": "项目经理须具备PMP或同等认证，核心技术人员不少于3人"
+    }
+  ]
+}

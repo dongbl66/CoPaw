@@ -1,0 +1,32 @@
+[
+  {
+    "path": "01-投标函.pdf",
+    "type": "file",
+    "size": 1024
+  },
+  {
+    "path": "02-法定代表人授权委托书.pdf",
+    "type": "file",
+    "size": 1024
+  },
+  {
+    "path": "03-营业执照.pdf",
+    "type": "file",
+    "size": 1024
+  },
+  {
+    "path": "04-资质证书/ISO9001认证.pdf",
+    "type": "file",
+    "size": 1024
+  },
+  {
+    "path": "05-技术方案/系统架构设计.pdf",
+    "type": "file",
+    "size": 1024
+  },
+  {
+    "path": "06-报价清单/分项报价表.xlsx",
+    "type": "file",
+    "size": 1024
+  }
+]

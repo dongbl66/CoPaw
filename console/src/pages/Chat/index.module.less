@@ -1,3 +1,18 @@
+.chatPageShell {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  min-width: 0;
+}
+
+.chatMainPane {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 /* Disabled input overlay */
 .chatDisabledOverlay {
   position: relative;
@@ -77,6 +92,127 @@
   }
 }
 
+.resultPanel {
+  flex: 1 1 0;
+  width: 0;
+  min-width: 0;
+  max-width: none;
+  height: 100%;
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.resultPanelHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.resultPanelHeaderContent {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.resultPanelHeaderActions {
+  align-items: flex-start;
+}
+
+.resultPanelMeta {
+  font-size: 12px;
+}
+
+.resultPanelBody {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 16px;
+}
+
+.resultFrame {
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  border: 0;
+  background: #fff;
+}
+
+.resultPlainText {
+  white-space: pre-wrap;
+  margin-bottom: 0;
+}
+
+.resultMarkdown {
+  line-height: 1.6;
+}
+
+.resultSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.metaItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.businessResult,
+.productResult {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.businessCardList,
+.attachmentList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.businessCard,
+.attachmentCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.businessCardHeader,
+.attachmentHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.businessReason {
+  margin-bottom: 0;
+}
+
 .suggestionLabel {
   display: flex;
   align-items: flex-start;
@@ -104,12 +240,28 @@
 }
 
 :global(.dark-mode) {
+  .resultPanel {
+    background: #141414;
+    border-left-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .resultPanelHeader {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+  }
+
   .suggestionCommand {
     color: #ff7f16;
   }
 
   .suggestionDescription {
     color: rgba(255, 255, 255, 0.65);
+  }
+
+  .metaItem,
+  .businessCard,
+  .attachmentCard {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.08);
   }
 }
 

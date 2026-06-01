@@ -1,0 +1,61 @@
+{
+  "id": "ai-bid-audit",
+  "name": "数据稽核智能体",
+  "version": "1.0.0",
+  "description": "负责报价金额一致性与算术正确性校验",
+  "agent_role": "数据稽核",
+  "capabilities": [
+    {
+      "name": "金额一致性",
+      "method": "多维度交叉验证",
+      "check_items": [
+        "大写金额=小写金额",
+        "分项合计=投标总价",
+        "数量×单价=分项金额",
+        "税率计算正确"
+      ]
+    },
+    {
+      "name": "报价完整性",
+      "method": "清单逐项核对",
+      "check_items": [
+        "无缺项漏项",
+        "报价项与采购清单一一对应",
+        "备品备件报价完整"
+      ]
+    },
+    {
+      "name": "价格合理性",
+      "method": "市场均价偏离度",
+      "check_items": [
+        "分项报价偏离度≤±30%",
+        "总价在预算内",
+        "无异常低价竞标"
+      ]
+    },
+    {
+      "name": "算术正确性",
+      "method": "公式重新计算",
+      "check_items": [
+        "合计=∑分项",
+        "含税价=不含税价×(1+税率)",
+        "折扣后价格计算正确"
+      ]
+    }
+  ],
+  "input_schema": {
+    "files": "报价相关文件",
+    "budget": "预算金额（来自规则）"
+  },
+  "output_schema": {
+    "format": "audit-result.json",
+    "fields": [
+      "agent_role",
+      "conclusion",
+      "issues",
+      "evidence",
+      "summary"
+    ]
+  },
+  "failure_strategy": "算术错误→标记issues并重新计算；严重偏离→不通过"
+}

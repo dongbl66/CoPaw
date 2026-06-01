@@ -1,0 +1,29 @@
+[
+  {
+    "path": "C:\\Users\\dongbaolei\\.copaw\\workspaces\\RA-agent\\memory\\2026-05-07.md",
+    "start_line": 1,
+    "end_line": 20,
+    "score": 0.8333333333333334,
+    "snippet": "# 2026-05-07 工作记录\n\n## 任务：分析《辅助评审需求》文档，输出需求分析文档\n\n### 输入文件\n- `media/5a26c7f809c64c79bcd0436a176a6305_辅助评审需求.doc` — WPS格式旧版Word文档\n\n### 处理方法\n1. 使用 win32com（Word COM）将 .doc 转换为 .docx，再读取文字内容\n2. 读取 `skills/requirement-designer/assets/product-context.json` 进行产品能力匹配\n3. 按 requirement-designer 技能规范的 13 章结构生成正式需求文档\n\n### 输出文件\n- `reports/AI辅助评审系统_需求分析文档.md` — 正式需求分析文档\n\n### 核心发现\n- 原始需求涵盖 5 大模块：规则梳理、文件结构化拆分、客观分自动评分、主观分辅助评审、验真对接\n- 产品匹配：齐鲁智聚平台（核心底座）+ 智慧云眼（OCR）+ 知识助理（文档解析）+ 智能问数（数据分析）+ 芯合一体机（信创部署）\n- 本期范围明确，不含专家在线交互、报价计算、移动端等\n",
+    "source": "memory",
+    "metadata": {}
+  },
+  {
+    "path": "C:\\Users\\dongbaolei\\.copaw\\workspaces\\RA-agent\\MEMORY.md",
+    "start_line": 1,
+    "end_line": 53,
+    "score": 0.25,
+    "snippet": "# MEMORY.md — RA-agent 长期记忆\n\n> 精心整理的记忆，精选信息而非原始日志。\n\n## 工具设置\n\n- **技能清单来源（双源）：**\n  - `C:\\Users\\dongbaolei\\.copaw\\workspaces\\RA-agent\\skills\\` — copaw 内置技能（13个）\n  - `C:\\Users\\dongbaolei\\.agents\\skills\\` — 用户技能库（79个）\n- **brave-search：** 需要 `BRAVE_API_KEY` 环境变量，首次使用前运行 `npm ci`\n- **web-to-markdown：** 需要 `web2md` CLI 已安装\n- **baoyu-url-to-markdown：** 通过 `npx -y bun` 运行，需要 Chrome\n- **xlsx：** 需要 LibreOffice（用于公式重算），Python 依赖 openpyxl/pandas\n- **pdf：** Python 依赖 pypdf/pdfplumber/reportlab/pytesseract\n\n## 决策记录\n\n### 2026-05-06: 初始化\n- 设定为调研分析智能体（RA-agent）\n- 23 个技能已启用（90 个注册），覆盖五大核心能力维度：\n  - 🔍 信息检索（6）：source-driven-development, context-engineering, brave-search, web-to-markdown, baoyu-url-to-markdown, web-to-doc\n  - 📊 数据分析（5）：idea-refine, xlsx, excel-analysis, excel-financial-analysis, stock-analysis\n  - 📄 文档报告（4）：documentation-and-adrs, doc-coauthoring, pdf, docx\n  - 🏗️ 工程化输出（2）：spec-driven-development, planning-and-task-breakdown\n  - 🤖 AI 评估（2）：rag-implementation, llm-evaluation\n  - 📝 辅助（4）：requirement-analysis, business-license-review, browser_cdp, file_reader\n- 五大工作模式：市场调研 / 竞品分析 / 技术选型 / 文献综述 / 数据驱动分析\n- 信息来源分级制度：S > A > B > C > D\n- 标准化五阶段调研流程：问题拆解 → 信息检索 → 数据提取 → 分析洞察 → 报告输出\n- 用户：dongbaolei（称呼待确认）\n\n### 技术教训\n- **skill.json 写入风险：** `json.dump` 可能会丢失数据。必须读取→修改→验证→写入，确保完整性。\n- **copaw 会动态管理 skill.json：** 不要依赖目录联接，直接从双源扫描合并构建。\n\n## 缺失技能（待配置）\n\n- `mineru` — 文献综述模式所需\n- `xparse-parse` — 文献综述模式所需\n- `sql-toolkit` — 数据驱动分析模式所需\n- `postgres-db` — 数据驱动分析模式所需\n\n## 偏好\n\n- 用户偏好结构化输出\n- 用户关注中国市场相关分析\n- 用户重视信息来源可追溯性\n- 否定联接方案，采用双源合并方案管理技能\n\n## 待办\n\n- [ ] 确认用户称呼偏好\n",
+    "source": "memory",
+    "metadata": {}
+  },
+  {
+    "path": "C:\\Users\\dongbaolei\\.copaw\\workspaces\\RA-agent\\memory.md",
+    "start_line": 1,
+    "end_line": 27,
+    "score": 0.16666666666666666,
+    "snippet": "---\nsummary: \"Agent 长期记忆 — 工具设置与经验教训\"\nread_when:\n  - 手动引导工作区\n---\n\n## 工具设置\n\nSkills 定义工具怎么用。这文件记你的具体情况 — 你独有的设置。\n\n### 这里记什么\n\n加上任何能帮你干活的东西。这是你的小抄。\n\n比如：\n\n- SSH 主机和别名\n- 其他执行skills的时候，和用户相关的设置\n\n### 示例\n\n```markdown\n### SSH\n\n- home-server → 192.168.1.100，用户：admin\n```\n",
+    "source": "memory",
+    "metadata": {}
+  }
+]

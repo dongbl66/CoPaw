@@ -94,6 +94,7 @@ async def _run_task(
     skills_dir: str | None = None,
 ) -> dict:
     from agentscope.message import Msg
+    from ..agents.output_binding import resolve_agent_output_binding
     from ..agents.react_agent import QwenPawAgent
 
     agent_config.running.max_iters = max_iters
@@ -103,10 +104,13 @@ async def _run_task(
         base_workspace = Path(agent_config.workspace_dir).expanduser()
 
     with _isolated_skills_workspace(skills_dir, base_workspace) as workspace:
+        output_binding = resolve_agent_output_binding(agent_config)
         agent = QwenPawAgent(
             agent_config=agent_config,
             request_context=request_context,
             workspace_dir=workspace,
+            default_structured_model=output_binding.structured_model,
+            final_output_parser=output_binding.final_output_parser,
         )
 
         t0 = time.monotonic()

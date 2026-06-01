@@ -1,0 +1,60 @@
+{
+  "id": "ai-bid-master",
+  "name": "AI辅助评审主智能体",
+  "version": "1.0.0",
+  "description": "负责并行调度三个子智能体并聚合评审结果",
+  "agent_role": "主评审编排",
+  "capabilities": [
+    {
+      "name": "并行任务调度",
+      "method": "submit_to_agent + check_agent_task",
+      "check_items": [
+        "同时启动三子智能体",
+        "轮询子任务状态",
+        "超时处理"
+      ]
+    },
+    {
+      "name": "结果聚合",
+      "method": "子结果读取+合并",
+      "check_items": [
+        "读取三个子结果JSON",
+        "按评审项逐条合并",
+        "生成统一结论"
+      ]
+    },
+    {
+      "name": "上下文传递",
+      "method": "prompt注入",
+      "check_items": [
+        "规则路径",
+        "文件清单路径",
+        "子智能体ID",
+        "输出路径"
+      ]
+    }
+  ],
+  "input_schema": {
+    "rules_file_path": "评审规则路径",
+    "files_manifest_path": "文件清单路径",
+    "supplier_name": "供应商名称",
+    "sub_agent_ids": [
+      "auth",
+      "compliance",
+      "audit"
+    ]
+  },
+  "output_schema": {
+    "format": "review-result.json",
+    "fields": [
+      "project_name",
+      "supplier_name",
+      "final_conclusion",
+      "review_items",
+      "sub_agent_results",
+      "issues",
+      "confidence"
+    ]
+  },
+  "failure_strategy": "单子智能体失败→issues标记，final_conclusion降级为'需复核'"
+}

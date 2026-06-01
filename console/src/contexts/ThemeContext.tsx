@@ -23,8 +23,8 @@ interface ThemeContextValue {
 }
 
 const ThemeContext = createContext<ThemeContextValue>({
-  themeMode: "light",
-  isDark: false,
+  themeMode: "dark",
+  isDark: true,
   setThemeMode: () => {},
   toggleTheme: () => {},
 });
@@ -38,7 +38,7 @@ function getInitialMode(): ThemeMode {
   } catch {
     // ignore storage errors
   }
-  return "system";
+  return "dark";
 }
 
 function resolveIsDark(mode: ThemeMode): boolean {

@@ -1,0 +1,18 @@
+{
+  "chats": [
+    {
+      "channel": "console",
+      "created_at": "2026-06-01T12:27:25.300215Z",
+      "id": "a07c24a5-5bd2-4c22-890d-a6068a80fa1d",
+      "meta": {},
+      "name": "你是谁询问",
+      "pinned": false,
+      "session_id": "1780316845096",
+      "source": "chat",
+      "status": "idle",
+      "updated_at": "2026-06-01T12:27:30.449550Z",
+      "user_id": "default"
+    }
+  ],
+  "version": 1
+}

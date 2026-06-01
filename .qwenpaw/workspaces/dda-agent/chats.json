@@ -1,0 +1,29 @@
+{
+  "chats": [
+    {
+      "channel": "console",
+      "created_at": "2026-05-06T11:29:10.085946Z",
+      "id": "bf8912ec-3bcb-441e-8e44-27690c518000",
+      "meta": {},
+      "name": "## Demo 开发",
+      "pinned": false,
+      "session_id": "1778066949873",
+      "status": "idle",
+      "updated_at": "2026-05-06T11:32:37.525492Z",
+      "user_id": "default"
+    },
+    {
+      "channel": "console",
+      "created_at": "2026-05-06T11:48:31.595742Z",
+      "id": "afe701eb-eec0-4689-bf85-ed73d86524a5",
+      "meta": {},
+      "name": "告诉你是干什么的，你",
+      "pinned": false,
+      "session_id": "1778068096392",
+      "status": "idle",
+      "updated_at": "2026-05-15T08:20:45.321808Z",
+      "user_id": "default"
+    }
+  ],
+  "version": 1
+}

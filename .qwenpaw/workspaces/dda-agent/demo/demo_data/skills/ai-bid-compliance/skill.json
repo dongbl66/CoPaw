@@ -1,0 +1,64 @@
+{
+  "id": "ai-bid-compliance",
+  "name": "合规审核智能体",
+  "version": "1.0.0",
+  "description": "负责资格条件、否决项与符合性审查",
+  "agent_role": "合规审核",
+  "capabilities": [
+    {
+      "name": "资格条件审核",
+      "method": "规则逐条匹配",
+      "check_items": [
+        "营业范围",
+        "资质等级",
+        "财务状况",
+        "业绩要求",
+        "人员要求"
+      ]
+    },
+    {
+      "name": "否决项检查",
+      "method": "红色标记触发",
+      "check_items": [
+        "投标保证金",
+        "投标有效期",
+        "联合体要求",
+        "分包限制"
+      ]
+    },
+    {
+      "name": "符合性审查",
+      "method": "形式要件校验",
+      "check_items": [
+        "投标函签署",
+        "授权委托书",
+        "技术方案完整性",
+        "报价表盖章"
+      ]
+    },
+    {
+      "name": "法律法规合规",
+      "method": "法规条款比对",
+      "check_items": [
+        "政府采购法",
+        "招标投标法",
+        "行业监管要求"
+      ]
+    }
+  ],
+  "input_schema": {
+    "rules": "评审规则文件 (rules.json)",
+    "files": "投标文件清单"
+  },
+  "output_schema": {
+    "format": "compliance-result.json",
+    "fields": [
+      "agent_role",
+      "conclusion",
+      "issues",
+      "evidence",
+      "summary"
+    ]
+  },
+  "failure_strategy": "否决项不通过→整体不通过；建议项→标记issues"
+}

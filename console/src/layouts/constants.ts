@@ -42,6 +42,9 @@ export const KEY_TO_PATH: Record<string, string> = {
   debug: "/debug",
   backups: "/backups",
   "plugin-manager": "/plugin-manager",
+  "biz-marketing-product-solutions": "/biz/marketing/product-solutions",
+  "biz-marketing-opportunities": "/biz/marketing/opportunities",
+  "biz-fae-government-opportunities": "/biz/fae/government-opportunities",
 };
 
 export const KEY_TO_LABEL: Record<string, string> = {
@@ -64,6 +67,9 @@ export const KEY_TO_LABEL: Record<string, string> = {
   security: "nav.security",
   "token-usage": "nav.tokenUsage",
   agents: "nav.agents",
+  "biz-marketing-product-solutions": "nav.taishanProductSolutions",
+  "biz-marketing-opportunities": "nav.taishanMarketOpportunities",
+  "biz-fae-government-opportunities": "nav.faeGovernmentOpportunities",
   debug: "nav.debug",
   backups: "nav.backups",
 };

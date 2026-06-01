@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>泰山石膏 - 引领绿色建材新时代</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: #f8f8f8;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 24px;
+            opacity: 0.9;
+        }
+        
+        .hero {
+            background: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .hero h2 {
+            font-size: 36px;
+            color: #1e3a5f;
+            margin-bottom: 30px;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+        
+        .hero-image {
+            width: 100%;
+            max-width: 900px;
+            height: 400px;
+            background: linear-gradient(135deg, #e0e5ec 0%, #d1d9e6 100%);
+            border-radius: 10px;
+            margin: 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #999;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .stat-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-item h3 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .stat-item p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .section {
+            padding: 60px 0;
+            background: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: #1e3a5f;
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            font-size: 18px;
+            color: #666;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .product-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #999;
+        }
+        
+        .product-info {
+            padding: 25px;
+        }
+        
+        .product-info h3 {
+            font-size: 20px;
+            color: #1e3a5f;
+            margin-bottom: 10px;
+        }
+        
+        .product-info p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .product-features {
+            list-style: none;
+        }
+        
+        .product-features li {
+            font-size: 13px;
+            color: #555;
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .product-features li:before {
+            content: "✓";
+            color: #667eea;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .advantages {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8edf2 100%);
+        }
+        
+        .advantage-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+        
+        .advantage-item {
+            text-align: center;
+            padding: 30px 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .advantage-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: white;
+        }
+        
+        .advantage-item h3 {
+            font-size: 22px;
+            color: #1e3a5f;
+            margin-bottom: 15px;
+        }
+        
+        .advantage-item p {
+            font-size: 15px;
+            color: #666;
+        }
+        
+        .application-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        
+        .application-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 20px;
+            background: #f8f8f8;
+            border-radius: 8px;
+        }
+        
+        .application-number {
+            width: 50px;
+            height: 50px;
+            background: #1e3a5f;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .application-content h4 {
+            font-size: 18px;
+            color: #1e3a5f;
+            margin-bottom: 8px;
+        }
+        
+        .application-content p {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .cta {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .cta p {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: white;
+            color: #1e3a5f;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .footer {
+            background: #1a1a1a;
+            color: #999;
+            padding: 40px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .advantage-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .application-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 32px;
+            }
+            
+            .section-title h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1>泰山石膏</h1>
+            <p>引领绿色建材新时代 · 打造健康居住空间</p>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>专业石膏建材解决方案提供商</h2>
+            <p>泰山石膏专注石膏建材研发与生产四十余年，致力于为全球客户提供高品质、环保、节能的绿色建材产品，助力建筑行业可持续发展。</p>
+            
+            <div class="hero-image">
+                🏭 精品石膏 · 绿色未来
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <h3>40+</h3>
+                    <p>年专业经验</p>
+                </div>
+                <div class="stat-item">
+                    <h3>100+</h3>
+                    <p>项专利技术</p>
+                </div>
+                <div class="stat-item">
+                    <h3>500+</h3>
+                    <p>工程案例</p>
+                </div>
+                <div class="stat-item">
+                    <h3>30+</h3>
+                    <p>出口国家</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Products Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>核心产品体系</h2>
+                <p>多元化产品矩阵，满足不同应用场景需求</p>
+            </div>
+            
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">纸面石膏板</div>
+                    <div class="product-info">
+                        <h3>纸面石膏板</h3>
+                        <p>经典轻质墙材，广泛应用于室内隔墙、吊顶，施工便捷，性价比高。</p>
+                        <ul class="product-features">
+                            <li>轻质高强，减轻建筑荷载</li>
+                            <li>防火防潮，安全可靠</li>
+                            <li>隔音降噪，提升舒适度</li>
+                            <li>施工便捷，缩短工期</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">分解甲醛石膏板</div>
+                    <div class="product-info">
+                        <h3>分解甲醛石膏板</h3>
+                        <p>创新环保科技，持续分解室内甲醛，打造健康居住环境。</p>
+                        <ul class="product-features">
+                            <li>持续分解甲醛，净化空气</li>
+                            <li>长效除醛，10年以上</li>
+                            <li>无二次污染，安全环保</li>
+                            <li>绿色建材认证产品</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">石膏基阻燃板</div>
+                    <div class="product-info">
+                        <h3>石膏基阻燃板</h3>
+                        <p>卓越防火性能，满足建筑消防规范要求，守护生命财产安全。</p>
+                        <ul class="product-features">
+                            <li>A1级不燃材料</li>
+                            <li>耐火极限达3小时</li>
+                            <li>强度高，耐久性好</li>
+                            <li>适用钢结构防火包覆</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">布面石膏板</div>
+                    <div class="product-info">
+                        <h3>布面石膏板</h3>
+                        <p>高性价比基材，表面贴纸或布后可直接使用，装饰效果出众。</p>
+                        <ul class="product-features">
+                            <li>表面平整度好</li>
+                            <li>抗冲击性能优异</li>
+                            <li>装饰多样，风格可选</li>
+                            <li>适用各类商业空间</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">抹灰石膏</div>
+                    <div class="product-info">
+                        <h3>抹灰石膏</h3>
+                        <p>高效墙体抹灰材料，替代传统水泥砂浆，提升施工效率和质量。</p>
+                        <ul class="product-features">
+                            <li>粘结力强，不开裂率低</li>
+                            <li>施工便捷，省工省时</li>
+                            <li>表面细腻，装饰性好</li>
+                            <li>绿色环保，无扬尘污染</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">轻钢龙骨</div>
+                    <div class="product-info">
+                        <h3>轻钢龙骨</h3>
+                        <p>优质冷轧钢板制作，配合石膏板构建轻质隔墙体系，性能稳定。</p>
+                        <ul class="product-features">
+                            <li>高强度，耐腐蚀</li>
+                            <li>标准化生产，精度高</li>
+                            <li>安装快捷，拆卸方便</li>
+                            <li>配套完整，系统化供应</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Advantages Section -->
+    <section class="advantages">
+        <div class="container">
+            <div class="section-title">
+                <h2>核心优势</h2>
+                <p>品质源自专业，信赖源于实力</p>
+            </div>
+            
+            <div class="advantage-grid">
+                <div class="advantage-item">
+                    <div class="advantage-icon">🏆</div>
+                    <h3>品牌实力</h3>
+                    <p>中国石膏板行业领军企业，拥有多个生产基地，年产能超千万平方米，产品远销全球30多个国家和地区。</p>
+                </div>
+                
+                <div class="advantage-item">
+                    <div class="advantage-icon">🔬</div>
+                    <h3>科技创新</h3>
+                    <p>设有国家级企业技术中心，拥有100余项专利技术，持续推出创新产品，引领行业发展方向。</p>
+                </div>
+                
+                <div class="advantage-item">
+                    <div class="advantage-icon">🌱</div>
+                    <h3>绿色环保</h3>
+                    <p>所有产品符合国家绿色建材标准，通过ISO14001环境管理体系认证，致力于可持续发展。</p>
+                </div>
+                
+                <div class="advantage-item">
+                    <div class="advantage-icon">✅</div>
+                    <h3>品质保证</h3>
+                    <p>严格执行质量管理体系，从原材料到成品全程把控，确保产品质量稳定可靠。</p>
+                </div>
+                
+                <div class="advantage-item">
+                    <div class="advantage-icon">🤝</div>
+                    <h3>专业服务</h3>
+                    <p>提供产品（选型、技术指导、施工培训等全方位服务，为客户创造更大价值。</p>
+                </div>
+                
+                <div class="advantage-item">
+                    <div class="advantage-icon">🏗️</div>
+                    <h3>工程案例</h3>
+                    <p>参与大兴国际机场、雄安站、冬奥场馆等国家级重点工程建设，品质得到验证。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Applications Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>应用领域</h2>
+                <p>广泛应用于各类建筑场景</p>
+            </div>
+            
+            <div class="application-list">
+                <div class="application-item">
+                    <div class="application-number">1</div>
+                    <div class="application-content">
+                        <h4>住宅建筑</h4>
+                        <p>别墅、公寓、商品房等住宅项目的内墙隔断、吊顶系统，营造健康舒适的居住环境。</p>
+                    </div>
+                </div>
+                
+                <div class="application-item">
+                    <div class="application-number">2</div>
+                    <div class="application-content">
+                        <h4>商业建筑</h4>
+                        <p>写字楼、商场、酒店、展厅等商业空间的内隔墙、吊顶装修，提升空间品质和商业价值。</p>
+                    </div>
+                </div>
+                
+                <div class="application-item">
+                    <div class="application-number">3</div>
+                    <div class="application-content">
+                        <h4>公共建筑</h4>
+                        <p>医院、学校、文体馆等公共

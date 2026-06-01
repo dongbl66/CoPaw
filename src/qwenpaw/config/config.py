@@ -1168,6 +1168,32 @@ class AgentProfileConfig(BaseModel):
         default_factory=CodingModeConfig,
         description="Coding Mode configuration for this agent",
     )
+    output_binding: Optional["AgentOutputBindingConfig"] = Field(
+        default=None,
+        description=(
+            "Structured output binding for this agent. Import paths are "
+            "resolved when creating the agent instance."
+        ),
+    )
+
+
+class AgentOutputBindingConfig(BaseModel):
+    """Import-path based output binding for one agent profile."""
+
+    structured_model_import_path: Optional[str] = Field(
+        default=None,
+        description=(
+            "Import path to a Pydantic BaseModel subclass used as the "
+            "default structured output schema."
+        ),
+    )
+    final_output_parser_import_path: Optional[str] = Field(
+        default=None,
+        description=(
+            "Import path to a callable that post-processes the final "
+            "reply message."
+        ),
+    )
 
 
 class AgentsConfig(BaseModel):

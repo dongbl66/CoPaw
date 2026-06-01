@@ -1,0 +1,96 @@
+{
+  "chats": [
+    {
+      "channel": "console",
+      "created_at": "2026-05-06T10:06:13.238143Z",
+      "id": "8f0cf52e-d11a-4b52-90de-33d3dda3d0a8",
+      "meta": {},
+      "name": "1. 调研分析智能体",
+      "pinned": false,
+      "session_id": "1778061973023",
+      "source": "chat",
+      "status": "idle",
+      "updated_at": "2026-05-07T13:03:01.775142Z",
+      "user_id": "default"
+    },
+    {
+      "channel": "console",
+      "created_at": "2026-05-07T13:05:41.569276Z",
+      "id": "ace396b0-0659-4d0f-9f4c-82c877206769",
+      "meta": {},
+      "name": "分析文档，输出需求分",
+      "pinned": false,
+      "session_id": "1778159081527",
+      "source": "chat",
+      "status": "idle",
+      "updated_at": "2026-05-25T03:38:31.633477Z",
+      "user_id": "default"
+    },
+    {
+      "channel": "console",
+      "created_at": "2026-05-25T01:42:07.703904Z",
+      "id": "7ce502c7-f795-41aa-a9c5-0551ad5da678",
+      "meta": {},
+      "name": "你是谁",
+      "pinned": false,
+      "session_id": "1779673327583",
+      "source": "chat",
+      "status": "idle",
+      "updated_at": "2026-05-25T08:33:25.624437Z",
+      "user_id": "default"
+    },
+    {
+      "channel": "console",
+      "created_at": "2026-05-25T08:08:24.631061Z",
+      "id": "53e5842f-cb11-4847-b017-39cefe11d191",
+      "meta": {},
+      "name": "基于这段录音生成需求",
+      "pinned": false,
+      "session_id": "1779696477748",
+      "source": "chat",
+      "status": "idle",
+      "updated_at": "2026-05-25T08:10:17.638181Z",
+      "user_id": "default"
+    },
+    {
+      "channel": "console",
+      "created_at": "2026-05-25T08:10:38.028326Z",
+      "id": "ee89dcce-f87b-4fb3-b675-173e919978cc",
+      "meta": {},
+      "name": "分析音频，生成需求说",
+      "pinned": false,
+      "session_id": "1779696628943",
+      "source": "chat",
+      "status": "idle",
+      "updated_at": "2026-05-26T06:37:07.353409Z",
+      "user_id": "default"
+    },
+    {
+      "channel": "console",
+      "created_at": "2026-05-26T08:27:34.371294Z",
+      "id": "4704a77e-531b-4fc4-b7d9-256c831304b0",
+      "meta": {},
+      "name": "2、莒县公交集团康养",
+      "pinned": false,
+      "session_id": "1779784054115",
+      "source": "chat",
+      "status": "idle",
+      "updated_at": "2026-05-26T08:40:42.283795Z",
+      "user_id": "default"
+    },
+    {
+      "channel": "console",
+      "created_at": "2026-06-01T14:08:59.937169Z",
+      "id": "5ebd3611-a1ec-41bf-b03e-02af3f8d95aa",
+      "meta": {},
+      "name": "刘关庄塑料厂通话分析",
+      "pinned": false,
+      "session_id": "1780322930643",
+      "source": "chat",
+      "status": "idle",
+      "updated_at": "2026-06-01T14:41:05.934745Z",
+      "user_id": "default"
+    }
+  ],
+  "version": 1
+}

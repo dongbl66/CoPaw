@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>装修避坑指南 | 姐妹们选对了</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; line-height: 1.8; color: #333; background: #f8f8f8; }
+        .container { max-width: 750px; margin: 0 auto; background: white; }
+        .header { background: linear-gradient(135deg, #ff6b9d 0%, #ff8e5e 100.5%); padding: 50px 30px; color: white; text-align: center; }
+        .header h1 { font-size: 1.9rem; font-weight: 700; margin-bottom: 10px; line-height: 1.3; }
+        .header .subtitle { font-size: 1rem; opacity: 0.95; }
+        .content { padding: 35px 25px; }
+        .intro-box { background: linear-gradient(135deg, #fff5f5 0%, #ffebee 100%); padding: 25px; border-radius: 20px; margin-bottom: 35px; border-left: 5px solid #ff6b9d; }
+        .section-title { font-size: 1.4rem; font-weight: 700; margin: 40px 0 22px; color: #333; display: flex; align-items: center; gap: 10px; }
+        .section-title::before { content: ''; width: 5px; height: 28px; background: linear-gradient(180deg, #ff6b9d 0%, #ff8e5e 100%); border-radius: 5px; }
+        .product-card { background: #fff; padding: 28px; border-radius: 18px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);ver border: 1px solid #f0f0f0; }
+        .product-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); transition: all 0.3s ease; }
+        .product-header { display: flex; align-items: center; margin-bottom: 15px; }
+        .product-emoji { font-size: 2.5rem; margin-right: 15px; }
+        .product-name { font-size: 1.25rem; font-weight: 700; color: #333; }
+        .product-tag { background: linear-gradient(135deg, #ff6b9d 0%, #ff8e5e 100%); color: white; padding: 4px 15px; border-radius: 20px; font-size: 0.8rem; margin-left: auto; }
+        .product-desc { color: #555; margin-bottom: 15px; line-height: 1.8; }
+        .feature-list { list-style: none; }
+        .feature-list li { padding: 8px 0; padding-left: 28px; position: relative; color: #555; }
+        .feature-list li::before { content: '✓'; position: absolute; left: 0; color: #4CAF50; font-weight: 700; }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin: 30px 0; }
+        .stat-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 22px; border-radius: 15px; text-align: center; color: white; }
+        .stat-number { font-size: 1.8rem; font-weight: 700; margin-bottom: 6px; }
+        .stat-label { font-size: 0.9rem; opacity: 0.9; }
+        .tip-box { background: #fff3e0; padding: 22px 25px; border-radius: 18px; margin: 35px 0; border-left: 5px solid #ff9800; }
+        .tip-title { font-weight: 700; color: #f57c00; margin-bottom: 12px; font-size: 1.05rem; }
+        .review-section { background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 25px; border-radius: 18px; margin: 35px 0; }
+        .review-item { background: white; padding: 18px; border-radius: 15px; margin-bottom: 15px; }
+        .review-user { display: flex; align-items: center; margin-bottom: 8px; }
+        .user-avatar { width: 40px; height: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; margin-right: 12px; }
+        .user-name { font-weight: 600; color: #333; }
+        .stars { color: #ffc107; margin-left: auto; }
+        .buy-section { background: linear-gradient(135deg, #ff6b9d 0%, #ff8e5e 100%); padding: 32px; border-radius: 18px; text-align: center; color: white; margin-top: 45px; }
+        .hashtag-section { text-align: center; margin: 30px 0; padding: 18px; }
+        .hashtag { display: inline-block; background: #f0f0f0; color: #666; padding: 5px 13px; border-radius: 15px; font-size: 0.85rem; margin: 5px; }
+        .footer { text-align: center; padding: 35px 20px; color: #999; font-size: 0.9rem; border-top: 1px solid #eee; }
+        .divider { height: 1px; background: linear-gradient(90deg, transparent 0%, #eee 50%, transparent 100%); margin: 35px 0; }
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.5rem; }
+            .section-title { font-size: 1.25rem; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏠 装修避坑指南 | 姐妹们选对了</h1>
+            <div class="subtitle">✨ 从踩坑到省钱，这篇笔记帮你省10万+ ✨</div>
+        </div>
+
+        <div class="content">
+            <div class="intro-box">
+                <p style="color: #555; line-height: 1.9;">姐妹们，我必须要来分享一下我的装修心得！😭 去年装修踩过的坑，说起来都是泪……直到遇到了🏔️泰山石膏，才发现原来选对建材真的这么重要！今天来和大家好好聊聊，为什么我家业主群里都在夸泰山石膏！👏</p>
+            </div>
+
+            <h2 class="section-title">💪 为什么选泰山石膏？</h2>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">50+年</div>
+                    <div class="stat-label">老品牌，放心</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">20亿㎡</div>
+                    <div class="stat-label">年产能，稳</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">30+基地</div>
+                    <div class="stat-label">全国覆盖</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">ISO认证</div>
+                    <div class="stat-label">国际标准</div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <p style="color: #555;">💡 简单说：泰山石膏成立于1971年，是中国最大的石膏板生产企业。业主群里的装修老师傅都说："泰山，稳！"全国有30多个生产基地，不管你在哪装修，都能快速供货，我家工地缺板材，第二天就送到了，师傅都夸效率高！</p>
+            </div>
+
+            <h2 class="section-title">🌟 明星产品推荐</h2>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-emoji">🏢</div>
+                    <div class="product-name">纸面石膏板</div>
+                    <div class="product-tag">人气Top1</div>
+                </div>
+                <div class="product-desc">
+                    家里隔墙、吊顶统统用的它！
+                </div>
+                <ul class="feature-list">
+                    <li>高强轻质，师傅说施工特别省力</li>
+                    <li>防火阻燃，安全系数杠杠的</li>
+                    <li>隔音效果超赞，再也不用被吵醒</li>
+                    <li>防潮防霉，南方的梅雨季也不怕</li>
+                </ul>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-emoji">🌸</div>
+                    <div class="product-name">分解甲醛石膏板</div>
+                    <div class="product-tag">黑科技</div>
+                </div>
+                <div class="product-desc">
+                    有娃家庭必备！我家宝宝刚出生，选这个太对了！
+                </div>
+                <ul class="feature-list">
+                    <li>能持续分解室内甲醛</li>
+                    <li>净化空气，改善室内环境</li>
+                    <li>长效持久，住进去就能享受</li>
+                </ul>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-emoji">🔥</div>
+                    <div class="product-name">石膏基阻燃板</div>
+                    <div class="product-tag">安全</div>
+                </div>
+                <div class="product-desc">
+                    A级防火，燃烧性能达到最高级！
+                </div>
+                <ul class="feature-list">
+                    <li>A级防火，安全拉满</li>
+                    <li>高强耐久，可以用几十年</li>
+                    <li>表面平整，后期刮腻子特别顺滑</li>
+                </ul>
+            </div>
+
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-emoji">🔩</div>
+                    <div class="product-name">轻钢龙骨</div>
+                    <div class="product-tag">配对CP</div>
+                </div>
+                <div class="product-desc">
+                    和石膏板天生一对！
+                </div>
+                <ul class="feature-list">
+                    <li>强度高，稳定性好</li>
+                    <li>防腐防锈，使用寿命长</li>
+                    <li>规格齐全，什么尺寸都有</li>
+                </ul>
+            </div>
+
+            <div class="divider"></div>
+
+            <h2 class="section-title">💡 装修避坑指南</h2>
+
+            <div class="tip-box">
+                <div class="tip-title">⚠️ 这些坑千万别踩！</div>
+                <div style="color: #555;">
+                    <p style="margin-bottom: 12px;">1. 别贪便宜买杂牌！后期出问题更麻烦 😭</p>
+                    <p style="margin-bottom: 12px;">2. 看准环保认证！有娃家庭尤其要注意 🌿</p>
+                    <p style="margin-bottom: 12px;">3. 防火性能不能忽视！安全第一 🔥</p>
+                    <p>5. 最好选大品牌！售后有保障 🏆</p>
+                </div>
+            </div>
+
+            <h2 class="section-title">💬 业主群真实反馈</h2>
+
+            <div class="review-section">
+                <div class="review-item">
+                    <div class="review-user">
+                        <div class="user-avatar">王</div>
+                        <div class="user-name">王女士</div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                    <div style="color: #555; line-height: 1.7;">
+                        装修师傅强烈推荐的！我家两个卧室的隔墙都用泰山石膏，隔音效果真的很好，老公打游戏也不会吵到宝宝睡觉！
+                    </div>
+                </div>
+                <div class="review-item">
+                    <div class="review-user">
+                        <div class="user-avatar">李</div>
+                        <div class="user-name">李先生</div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                    <div style="color: #555; line-height: 1.7;">
+                        建材老板推荐的，说泰山是国民品牌，用了就知道好！我家吊顶做完特别平整，师傅都夸板材质量好！
+                    </div>
+                </div>
+            </div>
+
+            <div class="buy-section">
+                <h3 style="font-size: 1.3rem; margin-bottom: 12px;">🎉 还在等什么？</h3>
+                <p style="margin-bottom: 18px; opacity: 0.95;">选对建材，装修少走十年弯路！</p>
+                <div style="background: rgba(255,255,255,0.2); padding: 15px 25px; border-radius: 30px; display: inline-block;">
+                    <span style="font-size: 1.1rem; font-weight: 600;">咨询热线：400-888-8888</span>
+                </div>
+            </div>
+
+            <div class="hashtag-section">
+                <span class="hashtag">#装修避坑</span>
+                <span class="hashtag">#泰山石膏</span>
+                <span class="hashtag">#装修材料</span>
+                <span class="hashtag">#家居好物</span>
+                <span class="hashtag">#装修必备</span>
+                <span class="hashtag">#建材推荐</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 泰山石膏股份有限公司 | 50年品质承诺</p>
+        </div>
+    </div>
+</body>
+</html>

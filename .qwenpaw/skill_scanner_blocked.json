@@ -1,0 +1,36 @@
+[
+  {
+    "skill_name": "product_copy",
+    "blocked_at": "2026-06-01T14:33:45.498223+00:00",
+    "max_severity": "HIGH",
+    "findings": [
+      {
+        "severity": "HIGH",
+        "title": "Attempts to bypass content policy or safety guidelines",
+        "description": "Attempts to bypass content policy or safety guidelines",
+        "file_path": "output\\taishan-gypsum-seeding-summary-20260327.md",
+        "line_number": 103,
+        "rule_id": "PROMPT_INJECTION_BYPASS_POLICY"
+      }
+    ],
+    "content_hash": "cc9e35e245d765bd30e7de921a345c0bce64b95b14d6f7dda6b276f40c2a8eb1",
+    "action": "warned"
+  },
+  {
+    "skill_name": "product_copy",
+    "blocked_at": "2026-06-01T14:33:46.985905+00:00",
+    "max_severity": "HIGH",
+    "findings": [
+      {
+        "severity": "HIGH",
+        "title": "Attempts to bypass content policy or safety guidelines",
+        "description": "Attempts to bypass content policy or safety guidelines",
+        "file_path": "output\\taishan-gypsum-seeding-summary-20260327.md",
+        "line_number": 103,
+        "rule_id": "PROMPT_INJECTION_BYPASS_POLICY"
+      }
+    ],
+    "content_hash": "cc9e35e245d765bd30e7de921a345c0bce64b95b14d6f7dda6b276f40c2a8eb1",
+    "action": "warned"
+  }
+]

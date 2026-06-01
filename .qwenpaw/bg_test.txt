@@ -1,0 +1,41 @@
+ 驱动器 F 中的卷是 工作空间
+ 卷的序列号是 10A4-0703
+
+ F:\QiLuProject\QwenPawPlus\QwenPawPro1.9_digital 的目录
+
+2026/06/01  14:29    <DIR>          .
+2026/05/27  18:47    <DIR>          ..
+2026/05/27  09:00               865 .dockerignore
+2026/05/27  09:00               166 .flake8
+2026/05/27  09:00                21 .gitattributes
+2026/05/27  09:00    <DIR>          .github
+2026/05/31  18:56             1,896 .gitignore
+2026/05/31  20:23    <DIR>          .omx
+2026/05/31  18:56             3,784 .pre-commit-config.yaml
+2026/05/27  11:17    <DIR>          .pytest_cache
+2026/05/27  09:00                 6 .python-version
+2026/06/01  16:04    <DIR>          .qwenpaw
+2026/05/27  11:17    <DIR>          configs
+2026/06/01  15:59    <DIR>          console
+2026/05/27  09:00            14,086 CONTRIBUTING.md
+2026/05/27  09:00            13,592 CONTRIBUTING_zh.md
+2026/05/27  09:00    <DIR>          deploy
+2026/05/27  09:00               601 docker-compose.yml
+2026/05/27  19:09    <DIR>          docs
+2026/05/31  18:56    <DIR>          e2e
+2026/05/27  09:00            10,958 LICENSE
+2026/05/27  09:00             1,397 Makefile
+2026/05/27  09:00    <DIR>          plugins
+2026/05/31  18:56             4,927 pyproject.toml
+2026/05/31  18:56            33,759 README.md
+2026/05/31  18:56            41,674 README_ja.md
+2026/05/31  18:56            51,703 README_ru.md
+2026/05/31  18:56            35,729 README_zh.md
+2026/06/01  14:15    <DIR>          scripts
+2026/05/27  09:00            11,479 SECURITY.md
+2026/05/27  09:00                66 setup.py
+2026/05/27  14:23    <DIR>          src
+2026/05/27  11:17    <DIR>          tests
+2026/05/27  09:00    <DIR>          website
+              18 个文件        226,709 字节
+              16 个目录 863,689,244,672 可用字节

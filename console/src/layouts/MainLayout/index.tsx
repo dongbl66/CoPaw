@@ -1,6 +1,12 @@
 import { Suspense } from "react";
 import { Layout, Spin } from "antd";
-import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+  matchPath,
+} from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Sidebar from "../Sidebar";
 import Header from "../Header";
@@ -8,6 +14,7 @@ import ConsolePollService from "../../components/ConsolePollService";
 import { ChunkErrorBoundary } from "../../components/ChunkErrorBoundary";
 import { lazyImportWithRetry } from "../../utils/lazyWithRetry";
 import { usePlugins } from "../../plugins/PluginContext";
+import { composeBusinessRoutes } from "../../business/common/registry/composeRoutes";
 import { useCodingMode } from "../../stores/codingModeStore";
 import { useSyncCodingMode } from "../../stores/useSyncCodingMode";
 import styles from "../index.module.less";
@@ -47,6 +54,7 @@ const BackupsPage = lazyImportWithRetry("../../pages/Settings/Backups");
 const PluginManagerPage = lazyImportWithRetry(
   "../../pages/Settings/PluginManager",
 );
+const WeeklyReportsPage = lazyImportWithRetry("../../pages/WeeklyReports");
 
 const { Content } = Layout;
 
@@ -94,6 +102,7 @@ const pathToKey: Record<string, string> = {
   "/debug": "debug",
   "/backups": "backups",
   "/plugin-manager": "plugin-manager",
+  "/weekly-reports": "weekly-reports",
 };
 
 export default function MainLayout() {
@@ -101,6 +110,7 @@ export default function MainLayout() {
   const location = useLocation();
   const currentPath = location.pathname;
   const { pluginRoutes } = usePlugins();
+  const businessRoutes = composeBusinessRoutes();
 
   // Backend is the source of truth for Coding Mode state — refill the
   // in-memory store every time the selected agent changes.
@@ -108,6 +118,16 @@ export default function MainLayout() {
 
   // Resolve selected key: check static routes first, then plugin routes
   let selectedKey = pathToKey[currentPath] || "";
+  if (!selectedKey) {
+    const matchedBusiness = businessRoutes.find(
+      (route) =>
+        currentPath === route.path ||
+        !!matchPath({ path: route.path, end: true }, currentPath),
+    );
+    if (matchedBusiness) {
+      selectedKey = matchedBusiness.activeMenuKey || matchedBusiness.key;
+    }
+  }
   if (!selectedKey) {
     const matchedPlugin = pluginRoutes.find(
       (route) => currentPath === route.path,
@@ -168,6 +188,15 @@ export default function MainLayout() {
                     path="/plugin-manager"
                     element={<PluginManagerPage />}
                   />
+                  <Route path="/weekly-reports" element={<WeeklyReportsPage />} />
+
+                  {businessRoutes.map((route) => (
+                    <Route
+                      key={route.path}
+                      path={route.path}
+                      element={<route.component />}
+                    />
+                  ))}
 
                   {/* Plugin routes — dynamically injected at runtime */}
                   {pluginRoutes.map((route) => (

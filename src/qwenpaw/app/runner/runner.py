@@ -33,6 +33,7 @@ from .mission_dispatch import (
 from .session import SafeJSONSession
 from .utils import build_env_context
 from ..channels.schema import DEFAULT_CHANNEL
+from ...agents.output_binding import resolve_agent_output_binding
 from ...agents.react_agent import QwenPawAgent
 from ...exceptions import convert_model_exception
 from ...agents.utils.file_handling import (
@@ -702,6 +703,7 @@ class AgentRunner(Runner):
                     )
                     plan_notebook = None
 
+            output_binding = resolve_agent_output_binding(agent_config)
             agent = QwenPawAgent(
                 agent_config=agent_config,
                 env_context=env_context,
@@ -712,6 +714,8 @@ class AgentRunner(Runner):
                 workspace_dir=self.workspace_dir,
                 task_tracker=self._task_tracker,
                 plan_notebook=plan_notebook,
+                default_structured_model=output_binding.structured_model,
+                final_output_parser=output_binding.final_output_parser,
             )
             await agent.register_mcp_clients()
             agent.set_console_output_enabled(enabled=False)

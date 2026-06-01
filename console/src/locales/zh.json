@@ -48,6 +48,8 @@
     "cronJobs": "定时任务",
     "heartbeat": "心跳",
     "agent": "工作区",
+    "workbench": "工作台",
+    "management": "管理",
     "workspace": "文件",
     "skills": "技能",
     "skillPool": "技能池",
@@ -57,6 +59,7 @@
     "acp": "ACP",
     "agentConfig": "运行配置",
     "agents": "智能体管理",
+    "digitalEmployees": "数智员工",
     "settings": "设置",
     "models": "模型",
     "environments": "环境变量",
@@ -64,10 +67,97 @@
     "tokenUsage": "Token 消耗",
     "agentStats": "智能体统计",
     "voiceTranscription": "语音转写",
+    "business": "业务场景",
+    "businessMenu": "业务菜单",
+    "sceneApplications": "场景应用",
+    "businessMarketingWorkbench": "营销工作台",
+    "marketingModule": "营销模块",
+    "taishanAnalysis": "泰山石膏分析",
+    "taishanScenario": "泰山石膏",
+    "faeModule": "FAE 模块",
+    "faeWorkspace": "FAE工作区",
+    "internalEfficiency": "内部提效",
+    "taishanProductSolutions": "产品方案",
+    "taishanMarketOpportunities": "市场商机",
+    "faeGovernmentOpportunities": "政企商机",
     "debug": "调试",
     "plugins": "插件",
     "backups": "备份",
     "pluginManager": "插件管理"
+  },
+  "business": {
+    "common": {
+      "refresh": "刷新",
+      "preview": "预览",
+      "viewDetail": "查看详情"
+    },
+    "labels": {
+      "builtinModule": "内置业务模块"
+    },
+    "marketing": {
+      "workbench": {
+        "title": "营销工作台",
+        "description": "这里是业务模块注册制的最小骨架入口。后续可逐步迁入产品库、商机清单与营销场景工作流。",
+        "nextStepTitle": "下一步建议",
+        "nextStepOne": "将旧版营销页面迁移到 console/src/business/marketing 下。",
+        "nextStepTwo": "把营销专有的 API、类型与 UI 桥接逻辑集中到 marketing 目录中。",
+        "nextStepThree": "新增 finance、bid 等模块时，复用相同 manifest 与 registry 机制。"
+      }
+    },
+    "taishan": {
+      "common": {
+        "backToList": "返回列表"
+      },
+      "productSolutions": {
+        "title": "泰山石膏产品方案",
+        "description": "这里展示在聊天结果工作台中手动确认保存的正式产品方案成果。",
+        "savedListTitle": "已保存方案",
+        "empty": "暂无已保存产品方案",
+        "columns": {
+          "title": "方案标题",
+          "type": "结果类型",
+          "scene": "业务场景",
+          "updatedAt": "更新时间"
+        }
+      },
+      "productSolutionDetail": {
+        "title": "产品方案详情",
+        "description": "这里展示单条已保存产品方案的完整详情内容。",
+        "empty": "未找到对应产品方案",
+        "summary": "方案摘要",
+        "content": "方案内容",
+        "emptyContent": "当前记录暂无可展示的结构化内容",
+        "fields": {
+          "status": "保存状态"
+        }
+      },
+      "opportunities": {
+        "title": "泰山石膏市场商机",
+        "description": "这里展示当前项目沉淀的市场商机结果，便于统一查看和复盘。",
+        "listTitle": "商机列表",
+        "empty": "暂无市场商机",
+        "openSource": "打开来源",
+        "columns": {
+          "title": "商机标题",
+          "level": "等级",
+          "region": "区域",
+          "budget": "预算",
+          "updatedAt": "更新时间",
+          "action": "操作"
+        }
+      },
+      "opportunityDetail": {
+        "title": "市场商机详情",
+        "description": "这里展示单条市场商机的详细信息。",
+        "empty": "未找到对应市场商机",
+        "summary": "商机摘要",
+        "reason": "推荐理由",
+        "fields": {
+          "source": "来源",
+          "deadline": "截止时间"
+        }
+      }
+    }
   },
   "debug": {
     "title": "调试",
@@ -892,7 +982,7 @@
     "welcomeGreeting": "欢迎语",
     "welcomeText": "欢迎消息",
     "welcomeTextTooltip": "用户当天首次进入机器人单聊会话时机器人自动发送的消息",
-    "welcomeTextPlaceholder": "例如：你好！我是 QwenPaw，有什么可以帮你的？",
+    "welcomeTextPlaceholder": "例如：你好！我是 FAE Console，有什么可以帮你的？",
     "loginWeCom": "获取企业微信二维码",
     "wecomSetupGuide": "使用二维码创建机器人时，授权机器人可使用的能力时请选择「暂不授权」。如果选择了「确认授权」，除了机器人创建者，其他用户可能无法与机器人交互。",
     "wecomScanAuth": "扫码授权",
@@ -1752,7 +1842,7 @@
     "statusInProgress": "进行中",
     "disclaimer": "懂你所需，伴你左右",
     "greeting": "你好，我今天能帮你做什么？",
-    "description": "我是一个智能助手，可以帮助你解答问题。",
+    "description": "我是 FAE Console，可以帮助你处理实时对话与业务问题。",
     "prompt1": "让我们开启一段新的旅程吧！",
     "prompt2": "能告诉我你有哪些技能吗？",
     "inputPlaceholder": "\"↑↓\" 浏览消息 · \"/\" 快捷指令（审批时 \"/approve\" 或 \"/deny\"）",
@@ -1789,6 +1879,28 @@
       "multimodalWarning": "当前模型未检测到多模态能力，图片或视频可能无法被正确处理",
       "imageOnlyAccept": "当前模型仅支持图片文件",
       "imageOnlyWarning": "当前模型仅检测到图片支持，视频等非图片文件可能无法被正确处理"
+    },
+    "resultPanel": {
+      "title": "结果面板",
+      "empty": "暂无结构化结果",
+      "close": "关闭",
+      "refresh": "刷新",
+      "save": "保存",
+      "saved": "已保存",
+      "viewDetail": "查看详情",
+      "updatedAt": "更新时间：",
+      "unsupported": "暂不支持的结果类型",
+      "emptyPdf": "PDF 地址为空",
+      "emptyHtml": "HTML 内容为空",
+      "attachments": "附件预览",
+      "unnamedAttachment": "未命名附件",
+      "openAttachment": "打开附件",
+      "basicInfo": "基础信息",
+      "productInfo": "方案信息",
+      "opportunities": "商机列表",
+      "budget": "预算",
+      "openSource": "打开来源",
+      "solutionContent": "方案内容"
     },
     "speech": {
       "startRecording": "开始语音录制 (Ctrl+Shift+M)",

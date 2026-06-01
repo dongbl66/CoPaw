@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>泰山石膏 - 品质筑家 信赖一生</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2c5270 100%);
+            color: white;
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 24px;
+            opacity: 0.9;
+        }
+
+        .header .tagline {
+            margin-top: 30px;
+            font-size: 18px;
+            background: rgba(255,255,255,0.15);
+            display: inline-block;
+            padding: 10px 30px;
+            border-radius: 25px;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 80px 0;
+            background: white;
+            margin-bottom: 20px;
+        }
+
+        .section:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            color: #1e3a5f;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: #e34c35;
+            margin: 20px auto 0;
+        }
+
+        /* Company Profile */
+        .company-profile {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .company-profile .image {
+            width: 100%;
+            height: 400px;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .company-profile .image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .company-profile .text {
+            font-size: 16px;
+        }
+
+        .company-profile .text h3 {
+            font-size: 28px;
+            color: #e34c35;
+            margin-bottom: 20px;
+        }
+
+        .company-profile .text p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+
+        .company-profile .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .company-profile .stat-item {
+            background: #1e3a5f;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .company-profile .stat-item .number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #e34c35;
+        }
+
+        .company-profile .stat-item .label {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .product-card .image {
+            width: 100%;
+            height: 220px;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-card .image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-card .content {
+            padding: 25px;
+        }
+
+        .product-card .content h4 {
+            font-size: 20px;
+            color: #1e3a5f;
+            margin-bottom: 15px;
+        }
+
+        .product-card .content .features {
+            list-style: none;
+        }
+
+        .product-card .content .features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            color: #666;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        .product-card .content .features li::before {
+            content: '✓';
+            color: #e34c35;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        /* Advantages */
+        .advantages {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .advantage-item {
+            text-align: center;
+            padding: 40px 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .advantage-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .advantage-item .icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #e34c35, #ff6b5b);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: white;
+        }
+
+        .advantage-item h4 {
+            font-size: 20px;
+            color: #1e3a5f;
+            margin-bottom: 15px;
+        }
+
+        .advantage-item p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Applications */
+        .applications {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .application-item {
+            position: relative;
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .application-item .content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 30px 20px 20px;
+            color: white;
+        }
+
+        .application-item .content h4 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .application-item .content p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Honors */
+        .honors {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .honor-item {
+            text-align: center;
+            width: 200px;
+        }
+
+        .honor-item .image {
+            width: 180px;
+            height: 180px;
+            background: #e0e0e0;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .honor-item .image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .honor-item h4 {
+            font-size: 16px;
+            color: #1e3a5f;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2c5270 100%);
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .cta .button {
+            display: inline-block;
+            background: #e34c35;
+            color: white;
+            padding: 18px 50px;
+            border-radius: 30px;
+            font-size: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .cta .button:hover {
+            background: #ff6b5b;
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .footer .info {
+            margin-bottom: 30px;
+        }
+
+        .footer .info h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .footer .info p {
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .footer .copyright {
+            border-top: 1px solid #333;
+            padding-top: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .header p {
+                font-size: 18px;
+            }
+
+            .company-profile {
+                grid-template-columns: 1fr;
+            }
+
+            .advantages {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .applications {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .advantages {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="container">
+            <h1="quality-builds-home-legacy-for-life">泰山石膏</h1>
+            <p="leading-gypsum-board-manufacturer-in-china">中国石膏板制造业的领军者</p>
+            <div class="tagline="quality-craftsmanship-trustworthy-for-life">品质筑家 · 信赖一生</div>
+        </div>
+    </div>
+
+    <!-- Company Profile -->
+    <div class="section">
+        <div class="container">
+            <h2 class="section-title="about-us">关于我们</h2>
+            <div class="company-profile">
+                <div class="image">
+                    <img src="../../assets/taishan-gypsum/company-profile.png" alt="泰山石膏公司简介">
+                </div>
+                <div class="text">
+                    <h3="industry-leading-manufacturer">行业领先的石膏板制造商</h3>
+                    <p="founded-in-1971-taishan-gypsum-has-devoted-more-than-half-a-century">泰山石膏成立于1971年，半个多世纪以来，我们始终专注于石膏板及相关产品的研发、生产和销售。作为中国最大的石膏板制造商之一，我们拥有遍布全国的现代化生产基地，年产能超过20亿平方米。</p>
+                    <p="adhering-to-quality-first-innovation-driven">秉承"质量第一，创新驱动"的企业理念，我们先后引进国际先进的生产线和检测设备，建立了完善的质量管理体系。产品广泛应用于住宅、商业、工业等各类建筑项目，深受国内外客户的信赖和好评。</p>
+                    <p="committed-to-green-environmental-sustainable-development">我们致力于绿色环保和可持续发展，大力推广绿色建材，为建设美好人居环境贡献力量。</p>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="number="50-years">50+</div>
+                            <div class="label="years-of-industry-experience">年行业经验</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="number="20-billion-square-meters">20亿+</div>
+                            <div class="label="annual-production-capacity-square-meters">年产能（平方米）</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products -->
+    <div class="section">
+        <div class="container">
+            <h2 class="section-title="core-products">核心产品</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="image">
+                        <img src="../../assets/taishan-gypsum/paper-faced-gypsum-board.png" alt="纸面石膏板">
+                    </div>
+                    <div class="content">
+                        <h4="paper-faced-gypsum-board">纸面石膏板</h4>
+                        <ul class="features">
+                            <li="excellent-fire-resistance">优异的防火性能</li>
+                            <li="high-strength-good-toughness">高强度、韧性好</li>
+                            <li="sound-insulation-noise-reduction">隔音降噪效果佳</li>
+                            <li="environmental-protection-low-formaldehyde">环保低甲醛</li>
+                            <li="easy-construction-efficiency">施工便捷，效率高</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="image">
+                        <img src="../../assets/taishan-gypsum/fabric-faced-gypsum-board.png" alt="布面石膏板">
+                    </div>
+                    <div class="content">
+                        <h4="fabric-faced-gypsum-board">布面石膏板</h4>
+                        <ul class="features">
+                            <li="excellent-decorative-effect">装饰效果优良</li>
+                            <li="wear-resistant-durable">耐磨耐用</li>
+                            <li="moisture-proof-mildew-resistant">防潮防霉</li>
+                            <li="rich-colors-diverse-styles">花色丰富，风格多样</li>
+                            <li="suitable-for-diverse-spaces">适用于多种空间</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="image">
+                        <img src="../../assets/taishan-gypsum/gypsum-based-fire-board.png" alt="石膏基阻燃板">
+                    </div>
+                    <div class="content">
+                        <h4="gypsum-based-fire-board">石膏基阻燃板</h4>
+                        <ul class="features">
+                            <li="superior-fire-resistance">卓越的阻燃性能</li>
+                            <li="non-combustible-material">不燃材料</li>
+                            <li="high-temperature-stability">高温稳定性好</li>
+                            <li="meets-national-fire-standards">符合国家防火标准</li>
+                            <li="ideal-for-fire-partitions">适用于防火隔断</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="image">
+                        <img src="../../assets/taishan-gypsum/formaldehyde-reducing-gypsum-board.png" alt="分解甲醛石膏板">
+                    </div>
+                    <div class="content">
+                        <h4="formaldehyde-reducing-gypsum-board">分解甲醛石膏板</h4>
+                        <ul class="features">
+                            <li="actively-decomposes-formaldehyde">主动分解甲醛</li>
+                            <li="improves-indoor-air-quality">改善室内空气质量</li>
+                            <li="long-lasting-effect">长效持久</li>
+                            <li="healthy-environmental-friendly">健康环保</li>
+                            <li="suitable-for-new-homes">适用于新装房屋</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="image">
+                        <img src="../../assets/taishan-gypsum/light-steel-keel.png" alt="轻钢龙骨">
+                    </div>
+                    <div class="content">
+                        <h4="light-steel-keel">轻钢龙骨</h4>
+                        <ul class="features">
+                            <li="high-strength-load-bearing">高强度，承载能力强</li>
+                            <li="lightweight-easy-transport">重量轻，便于运输</li>
+                            <li="corrosion-resistant-long-life">防腐蚀，使用寿命长</li>
+                            <li="precise-dimensions-standardized">尺寸精确，标准化</li>
+                            <li="perfect-match-with-gypsum-board">与石膏板完美配合</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="image">
+                        <img src="../../assets/taishan-gypsum/plaster-gypsum.png" alt="抹灰石膏">
+                    </div>
+                    <div class="content">
+                        <h4="plaster-gypsum">抹灰石膏</h4>
+                        <ul class="features">
+                            <li="smooth-and-even-plastering">抹灰光滑平整</li>
+                            <li="strong-adhesion">粘结力强</li>
+                            <li="crack-resistant">抗裂性能好</li>
+                            <li="quick-drying-high-efficiency">快干高效</li>
+                            <li="environmental-protection-non-toxic">环保无毒</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="image">
+                        <img src="../../assets/taishan-gypsum/gypsum-fiber-board.png" alt="石膏纤维板">
+                    </div>
+                    <div class="content">
+                        <h4="gypsum-fiber-board">石膏纤维板</h4>
+                        <ul class="features">
+                            <li="high-impact-resistance">抗冲击性强</li>
+                            <li="excellent-water-resistance">优异的防水性能</li>
+                            <li="good-nail-holding-capacity">握钉力好</li>
+                            <li="durable-and-stable">耐久稳定</li>
+                            <li="suitable-for-high-traffic-areas">适用于高流量区域</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="image">
+                        <img src="../../assets/taishan-gypsum/plant-fiber-board.png" alt="植物纤维板">
+                    </div>
+                    <div class="content">
+                        <h4="plant-fiber-board">植物纤维板</h4>
+                        <ul class="features">
+                            <li="natural-environmental-material">天然环保材料</li>
+                            <li="excellent-sound-absorption">优异的吸音性能</li>
+                            <li="good-thermal-insulation">良好的保温隔热</li>
+                            <li="lightweight-easy-install">轻质易安装</li>
+                            <li="suitable-for-decorative-applications">适用于装饰应用</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Advantages -->
+    <div class="section">
+        <div class="container">
+            <h2 class="section-title="why-choose-us">为什么选择泰山石膏</h2>
+            <div class="advantages">
+                <div class="advantage-item">
+                    <div class="icon">🏭</div>
+                    <h4="advanced-manufacturing">先进制造</h4>
+                    <p="introducing-international-advanced-production-equipment-and-technology">引进国际先进的生产设备和工艺，确保产品质量稳定可靠</p>
+                </div>
+
+                <div class="advantage-item">
+                    <div class="icon">🔬</div>
+                    <h4="strict-quality-control">严苛质检</h4>
+                    <p="comprehensive-quality-control-system-from-raw-materials-to-finished-products">全面的质量控制体系，从原料到成品层层把关</p>
+                </div>
+
+                <div class="advantage-item">
+                    <div class="icon">🌱</div>
+                    <h4="green-environmental">绿色环保</h4>
+                    <p="products-meet-national-environmental-standards-and-are-low-formaldehyde">产品符合国家环保标准，低甲醛、无污染，健康安全</p>
+                </div>
+
+                <div class="advantage-item">
+                    <div class="icon">🚚</div>
+                    <h4="nationwide-network">全国网络</h4>
+                    <p="nationwide-sales-and-service-network-timely-delivery-professional-after-sales">遍布全国的销售与服务网络，供货及时，售后专业</p>
+                </div>
+
+                <div class="advantage-item">
+                    <div class="icon">💡</div>
+                    <h4="innovation-r-d">创新研发</h4>
+                    <p="continuous-product-innovation-and-technological-breakthroughs-leading-industry-development">持续的产品创新和技术突破，引领行业发展</p>
+                </div>
+
+                <div class="advantage-item">
+                    <div class="icon="comprehensive-solution">📋</div>
+                    <h4="complete-solutions">完整方案</h4>
+                    <p="providing-wall-systems-solutions-from-products-to-construction-guidance">提供墙面系统解决方案，从产品到施工指导一站式服务</p>
+                </div>
+
+                <div class="advantage-item">
+                    <div class="icon">🏆</div>
+                    <h4="brand-credibility">品牌信誉</h4>
+                    <p="more-than-50-years-of-brand-history-trusted-by-countless-projects">50余年品牌历史，无数重点工程见证品质</p>
+                </div>
+
+                <div class="advantage-item">
+                    <div class="icon">⚙️</div>
+                    <h4="professional-service">专业服务</h4>
+                    <p="professional-technical-team-providing-comprehensive-consulting-and-support">专业的技术团队，提供全方位的咨询和支持服务</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Applications -->
+    <div class="section">
+        <div class="container">
+            <h2 class="section-title="application-scenarios">应用场景</h2>
+            <div class="applications">
+                <div class="application-item" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="content">
+                        <h4="residential-buildings">住宅建筑</h4>
+                        <p="interior-partitions-decorative-ceiling-sound-insulation-and-noise-reduction">内墙隔断、装饰吊顶、隔音降噪</p>
+                    </div>
+                </div>
+
+                <div class="application-item" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="content">
+                        <h4="commercial-projects">商业项目</h4>
+                        <p="office-partitions-shopping-malls-decoration-fire-requirements">办公室隔断、商场装修、防火要求</p>
+                    </div>
+                </div>
+
+                <div class="application-item" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <div class="content">
+                        <h4="industrial-facilities">工业厂房</h4>
+                        <p="factory-partitions-insulation-thermal-insulation-fire-protection">工厂隔断、保温隔热、防火保护</p>
+                    </div>
+                </div>
+
+                <div class="application-item" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <div class="content">
+                        <h4="public-buildings">公共建筑</h4>
+                        <p="hospitals-schools-government-buildings-decorative-requirements">医院、学校、政府机关等装饰需求</p>
+                    </div>
+                </div>
+
+                <div class="application-item" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                    <div class="content">
+                        <h4="renovation-projects">装修改造</h4>
+                        <p="home-renovation-old-building-transformation-space-optimization">家装翻新、旧楼改造、空间优化</p>
+                    </div>
+                </div>
+
+                <div class="application-item" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                    <div class="content">
+                        <h4="special-applications">特殊应用</h4>
+                        <p="clean-room-laboratory-theater-and-cinema-acoustic-treatment">洁净室、实验室、影剧院等声学处理</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Honors -->
+    <div class="section">
+        <div class="container">
+            <h2 class="section-title="honors-and-qualifications">荣誉资质</h2>
+            <div class="honors">
+                <div class="honor-item">
+                    <div class="image">
+                        <img src="../../assets/taishan-gypsum/honors-and-qualifications.png" alt="荣誉资质">
+                    </div>
+                    <h4="national-advanced-enterprise">国家先进企业</h4>
+                </div>
+                <div class="honor-item">
+                    <div class="image">
+                        <img src="../../assets/taishan-gypsum/honors-and-qualifications.png" alt="荣誉资质">
+                    </div>
+                    <h4="quality-award">质量奖</h4>
+                </div>
+                <div class="honor-item">
+                    <div class="image">
+                        <img src="../../assets/taishan-gypsum/honors-and-qualifications.png" alt="荣誉资质">
+                    </div>
+                    <h4="environmental-certification">环保认证</h4>
+                </div>
+                <div class="honor-item">
+                    <div class="image">
+                        <img src="../../assets/taishan-gypsum/honors-and-qualifications.png" alt="荣誉资质">
+                    </div>
+                    <h4="famous-brand">著名品牌</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta">
+        <div class="container">
+            <h2="ready-to-create-quality-spaces-with-taishan-gypsum">准备好用泰山石膏打造品质空间了吗？</h2>
+            <p="contact-us-to-learn-more-about-products-solutions-and-cooperation-opportunities">联系我们，了解更多产品信息、解决方案和合作机会</p>
+            <a href="tel:400-888-8888" class="button">立即咨询</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="info">
+                <h3="taishan-gypsum-group-co-ltd">泰山石膏股份有限公司</h3>
+                <p>地址：山东省泰安市</p>
+                <p>电话：400-888-8888</p>
+                <p>邮箱：info@taishangypsum.com</p>
+                <p>网站：www.taishangypsum.com</p>
+            </div>
+            <div class="copyright">
+                <p>© 2026 泰山石膏股份有限公司 版权所有</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1187 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>泰山石膏客户拜访PPT</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: rgba(10, 20, 38, 0.86);
+      --panel-strong: rgba(12, 26, 46, 0.96);
+      --line: rgba(129, 164, 255, 0.28);
+      --text: #f4f7ff;
+      --muted: #aebad4;
+      --blue: #4da3ff;
+      --cyan: #3ce1ff;
+      --green: #38d39f;
+      --orange: #ffb257;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.36);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 20%, rgba(77, 163, 255, 0.18), transparent 22%),
+        radial-gradient(circle at 82% 22%, rgba(60, 225, 255, 0.16), transparent 18%),
+        radial-gradient(circle at 72% 78%, rgba(56, 211, 159, 0.12), transparent 20%),
+        linear-gradient(135deg, #06101d, #0a1630 45%, #08101e 100%);
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: auto;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      filter: blur(110px);
+      pointer-events: none;
+      opacity: 0.35;
+      z-index: 0;
+    }
+
+    body::before {
+      top: -80px;
+      right: -80px;
+      background: rgba(77, 163, 255, 0.25);
+    }
+
+    body::after {
+      bottom: -120px;
+      left: -80px;
+      background: rgba(74, 86, 255, 0.2);
+    }
+
+    .deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+
+    .slide {
+      position: absolute;
+      width: min(94vw, 1460px);
+      aspect-ratio: 16 / 9;
+      padding: 42px 52px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 28px;
+      background:
+        linear-gradient(180deg, rgba(14, 27, 49, 0.95), rgba(7, 16, 30, 0.96)),
+        url("company.png") center/cover no-repeat;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateX(120px) scale(0.97);
+      transition: transform 0.45s ease, opacity 0.45s ease;
+      pointer-events: none;
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(8, 14, 28, 0.18), rgba(8, 14, 28, 0.52));
+      z-index: 0;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      pointer-events: auto;
+      z-index: 2;
+    }
+
+    .slide.prev {
+      opacity: 0;
+      transform: translateX(-120px) scale(0.97);
+      z-index: 1;
+    }
+
+    .slide-content {
+      position: relative;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      font-size: 14px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 12px;
+    }
+
+    .title {
+      font-size: 40px;
+      line-height: 1.16;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      line-height: 1.65;
+      color: var(--muted);
+      max-width: 1040px;
+    }
+
+    .accent {
+      color: var(--cyan);
+    }
+
+    .hero {
+      justify-content: space-between;
+    }
+
+    .hero-grid {
+      margin-top: auto;
+      display: grid;
+      grid-template-columns: 1.4fr 0.95fr;
+      gap: 28px;
+      align-items: end;
+    }
+
+    .hero-panel,
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.24);
+    }
+
+    .hero-panel {
+      padding: 28px;
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .metric {
+      padding: 18px 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 34px;
+      line-height: 1.1;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .agenda {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .agenda-item,
+    .chip,
+    .pill {
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .agenda-item {
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 14px;
+      color: #dbe7ff;
+    }
+
+    .pill {
+      width: fit-content;
+      padding: 8px 14px;
+      margin-bottom: 18px;
+      font-size: 13px;
+      color: #dce8ff;
+      background: rgba(77, 163, 255, 0.12);
+      border: 1px solid rgba(77, 163, 255, 0.2);
+    }
+
+    .two-col {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .col {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-height: 0;
+    }
+
+    .panel {
+      padding: 22px 24px;
+    }
+
+    .panel h3 {
+      font-size: 21px;
+      margin-bottom: 14px;
+    }
+
+    .panel ul {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .panel li {
+      position: relative;
+      padding-left: 18px;
+      font-size: 16px;
+      line-height: 1.65;
+      color: #e4ebfb;
+    }
+
+    .panel li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 11px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      box-shadow: 0 0 0 4px rgba(60, 225, 255, 0.1);
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-item {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .timeline-item strong {
+      display: inline-block;
+      margin-bottom: 6px;
+      color: var(--cyan);
+      font-size: 15px;
+    }
+
+    .timeline-item p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #e5eeff;
+    }
+
+    .stat-grid,
+    .card-grid,
+    .case-grid,
+    .step-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .stat-grid {
+      margin-top: 28px;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stat-card,
+    .card,
+    .step {
+      border-radius: 22px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 22px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+    }
+
+    .stat-card strong {
+      display: block;
+      font-size: 34px;
+      margin-bottom: 8px;
+      color: #ffffff;
+    }
+
+    .stat-card span {
+      display: block;
+      font-size: 15px;
+      color: #dfebff;
+      margin-bottom: 8px;
+    }
+
+    .stat-card small {
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 13px;
+    }
+
+    .image-panel {
+      position: relative;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .image-panel img,
+    .image-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .image-panel::after,
+    .image-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent, rgba(4, 9, 18, 0.46));
+      pointer-events: none;
+    }
+
+    .card-grid {
+      margin-top: 26px;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 220px;
+    }
+
+    .card .chip {
+      width: fit-content;
+      padding: 6px 12px;
+      font-size: 12px;
+      color: #dbe8ff;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .card h3 {
+      font-size: 21px;
+      line-height: 1.3;
+    }
+
+    .card p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .card strong {
+      color: #ffffff;
+      font-size: 15px;
+    }
+
+    .solution-grid {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 22px;
+      flex: 1;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .mini-card {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .mini-card h4 {
+      font-size: 17px;
+      margin-bottom: 8px;
+    }
+
+    .mini-card p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .case-grid {
+      margin-top: 26px;
+      grid-template-columns: repeat(3, 1fr);
+      align-items: stretch;
+    }
+
+    .image-card {
+      position: relative;
+      min-height: 280px;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .case-caption {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      z-index: 1;
+      padding: 16px 16px 14px;
+      border-radius: 18px;
+      background: rgba(6, 14, 28, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+    }
+
+    .case-caption h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .case-caption p {
+      font-size: 14px;
+      line-height: 1.58;
+      color: #d4e2ff;
+    }
+
+    .service-layout {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 24px;
+      flex: 1;
+    }
+
+    .service-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .service-item {
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .service-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    .service-item p {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    .step-grid {
+      margin-top: 26px;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .step span {
+      display: inline-flex;
+      width: 42px;
+      height: 42px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, rgba(77, 163, 255, 0.22), rgba(60, 225, 255, 0.15));
+      color: #ffffff;
+      font-weight: 700;
+      border: 1px solid rgba(77, 163, 255, 0.26);
+    }
+
+    .step h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .step p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .summary-grid {
+      margin-top: auto;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 26px;
+      align-items: end;
+    }
+
+    .quote-box {
+      padding: 28px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(77, 163, 255, 0.14), rgba(60, 225, 255, 0.08));
+      border: 1px solid rgba(77, 163, 255, 0.18);
+    }
+
+    .quote-box p {
+      font-size: 26px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .source-box {
+      padding: 22px 24px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .source-box h3 {
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+
+    .source-box ul {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .footer-note {
+      margin-top: auto;
+      padding-top: 16px;
+      font-size: 12px;
+      color: rgba(220, 232, 255, 0.68);
+    }
+
+    .page-number {
+      position: fixed;
+      left: 50%;
+      bottom: 58px;
+      transform: translateX(-50%);
+      z-index: 10;
+      color: rgba(240, 246, 255, 0.72);
+      font-size: 14px;
+      letter-spacing: 0.08em;
+    }
+
+    .progress {
+      position: fixed;
+      left: 50%;
+      bottom: 28px;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      gap: 10px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.24);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: transform 0.25s ease, background 0.25s ease;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      transform: scale(1.25);
+    }
+
+    .hint {
+      position: fixed;
+      top: 22px;
+      right: 26px;
+      z-index: 10;
+      color: rgba(220, 232, 255, 0.65);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="hint">← → 切换 / Enter 或 F 全屏</div>
+  <div class="deck">
+    <section class="slide active">
+      <div class="slide-content hero">
+        <div>
+          <div class="eyebrow">Taishan Gypsum · Client Visit Deck</div>
+          <h1 class="title">泰山石膏客户拜访PPT<br>以<span class="accent">绿色建材系统方案</span>支撑高品质项目交付</h1>
+          <p class="subtitle">面向工程甲方、总包、设计院及渠道客户的商务拜访材料。重点围绕政策背景、企业实力、资质荣誉、产品体系、系统解决方案与典型案例展开。</p>
+        </div>
+
+        <div class="hero-grid">
+          <div class="hero-panel">
+            <div class="pill">推荐拜访主线</div>
+            <div class="agenda">
+              <div class="agenda-item">01 政策背景与采购趋势</div>
+              <div class="agenda-item">02 企业实力与品牌公信力</div>
+              <div class="agenda-item">03 资质荣誉与研发能力</div>
+              <div class="agenda-item">04 产品矩阵与系统价值</div>
+              <div class="agenda-item">05 典型案例与交付能力</div>
+              <div class="agenda-item">06 服务保障与合作推进</div>
+            </div>
+          </div>
+
+          <div class="hero-metrics">
+            <div class="metric">
+              <strong>1971</strong>
+              <span>企业起步时间，长期深耕石膏建材行业</span>
+            </div>
+            <div class="metric">
+              <strong>53%</strong>
+              <span>官网披露国内市场占有率约 53%</span>
+            </div>
+            <div class="metric">
+              <strong>56家</strong>
+              <span>官网披露子（分）公司规模</span>
+            </div>
+            <div class="metric">
+              <strong>23省</strong>
+              <span>生产与服务网络覆盖的省级区域</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content">
+        <div class="eyebrow">Policy Background</div>
+        <h1 class="title">政策背景正在把建材采购重点<br>从“单价比较”推向<span class="accent">绿色、品质与系统交付</span></h1>
+        <p class="subtitle">客户采购越来越看重低碳环保、防火安全、交付稳定与全系统配套能力。对客户而言，选材逻辑已经从“材料合格”升级为“项目风险更低、品质更稳、验收更顺”。</p>
+
+        <div class="two-col">
+          <div class="col">
+            <div class="panel">
+              <h3>政策信号</h3>
+              <div class="timeline">
+                <div class="timeline-item">
+                  <strong>2021年10月24日</strong>
+                  <p>国务院印发《2030年前碳达峰行动方案》，提出推动建材行业绿色低碳转型。</p>
+                </div>
+                <div class="timeline-item">
+                  <strong>2022年</strong>
+                  <p>住建部、国家发改委印发《城乡建设领域碳达峰实施方案》，进一步强调绿色建造、节能降碳与建筑品质提升。</p>
+                </div>
+                <div class="timeline-item">
+                  <strong>2023年12月18日 / 2024年1月1日起</strong>
+                  <p>国家认监委发布修订后的绿色建材产品分级认证实施规则，绿色建材认证标准持续完善。</p>
+                </div>
+                <div class="timeline-item">
+                  <strong>2025年3月5日</strong>
+                  <p>政府工作报告提出建设“安全、舒适、绿色、智慧”的好房子，品质型建材需求继续强化。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="panel">
+              <h3>对客户采购的直接影响</h3>
+              <ul>
+                <li>项目材料不只看价格，更看环保、防火、耐久与系统兼容。</li>
+                <li>甲方与总包更关注品牌稳定供货、全国交付与节点协同能力。</li>
+                <li>设计端更重视标准化系统做法、构造适配与可复制案例。</li>
+                <li>精装与家装端更强调净醛、低碳、空间美观与健康属性。</li>
+              </ul>
+            </div>
+
+            <div class="panel">
+              <h3>本次拜访建议落点</h3>
+              <ul>
+                <li>以“政策方向 + 客户痛点 + 可落地方案”组织汇报。</li>
+                <li>突出泰山石膏在工程项目中的系统能力，而不只是一种单品材料。</li>
+                <li>把“交付保障、技术支持、样板推进”放进合作方案中，增强成交感。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content">
+        <div class="eyebrow">Company Strength</div>
+        <h1 class="title">为什么在客户拜访场景里优先推荐<span class="accent">泰山石膏</span></h1>
+        <p class="subtitle">对客户来说，选择泰山石膏的核心不只是品牌知名度，而是“规模化制造 + 稳定交付 + 头部项目验证 + 系统化产品能力”的综合确定性。</p>
+
+        <div class="stat-grid">
+          <div class="stat-card">
+            <strong>133亿元</strong>
+            <span>官网披露资产规模</span>
+            <small>体现资金实力与制造能力，有利于大型工程、连续项目与长期合作。</small>
+          </div>
+          <div class="stat-card">
+            <strong>56家</strong>
+            <span>子（分）公司布局</span>
+            <small>分布 23 个省，支持跨区域工程协同、区域保供与属地服务。</small>
+          </div>
+          <div class="stat-card">
+            <strong>275+</strong>
+            <span>办事处服务网络</span>
+            <small>便于跟进招投标、送样、节点交底、现场技术支持与售后响应。</small>
+          </div>
+          <div class="stat-card">
+            <strong>53%</strong>
+            <span>国内市场占有率</span>
+            <small>头部品牌具备较高行业认可度，对客户形成风险更低的采购决策。</small>
+          </div>
+        </div>
+
+        <div class="two-col" style="margin-top: 22px;">
+          <div class="col">
+            <div class="panel">
+              <h3>拜访时可重点强调的客户价值</h3>
+              <ul>
+                <li>全国化产销网络，降低大项目跨区供货的不确定性。</li>
+                <li>从石膏板、龙骨到抹灰粉料的成套系统供应，减少多供应商协同成本。</li>
+                <li>头部工程案例众多，便于向客户证明产品成熟度与交付经验。</li>
+                <li>品牌影响力强，利于甲方、设计、总包形成统一选材共识。</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="panel image-panel">
+              <img src="company.png" alt="泰山石膏企业实力">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content">
+        <div class="eyebrow">Qualification & Honor</div>
+        <h1 class="title">资质荣誉不是“堆奖项”<br>而是给客户一个<span class="accent">更可信的决策理由</span></h1>
+        <p class="subtitle">客户拜访场景下，资质与荣誉的作用是证明企业具备持续研发、质量控制、行业认可和重点项目服务能力，从而降低客户选型风险。</p>
+
+        <div class="two-col">
+          <div class="col">
+            <div class="panel">
+              <h3>建议重点讲的能力证明</h3>
+              <ul>
+                <li>国家级高新技术企业，具备持续研发与技术迭代能力。</li>
+                <li>拥有山东省唯一的石膏建材工程研究中心，技术研发基础扎实。</li>
+                <li>产品通过国家标准检测，并获得欧盟 CE 认证，质量体系更具说服力。</li>
+                <li>拥有多项自主知识产权与专利成果，支撑产品升级和工艺优化。</li>
+              </ul>
+            </div>
+
+            <div class="panel">
+              <h3>建议重点讲的行业认可</h3>
+              <ul>
+                <li>曾获全国五一劳动奖状、中国石膏工业标杆企业等荣誉。</li>
+                <li>品牌层面具备中国名牌产品、中国驰名商标等市场影响力标签。</li>
+                <li>荣誉背后对应的是客户更关心的“品牌公信力与项目适配经验”。</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="panel image-panel">
+              <img src="honors.png" alt="泰山石膏荣誉资质">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content">
+        <div class="eyebrow">Product Matrix</div>
+        <h1 class="title">从单品供应升级到<span class="accent">系统化产品组合</span><br>更适合客户拜访中的解决方案表达</h1>
+        <p class="subtitle">官网披露泰山石膏已形成石膏板、轻钢龙骨、粉料制品、装饰板、护面纸及配套产品等六大类体系。客户更容易接受的表达方式是“场景化系统方案”，而非单个材料参数堆叠。</p>
+
+        <div class="card-grid">
+          <div class="card">
+            <div class="chip">Board</div>
+            <h3>纸面石膏板 / 工程石膏板</h3>
+            <p>适用于吊顶、隔墙等主流应用场景，是工程项目中的高频基础材料。</p>
+            <strong>价值关键词：成熟、稳定、适配面广</strong>
+          </div>
+          <div class="card">
+            <div class="chip">Fire Safety</div>
+            <h3>GFP 高强石膏基阻燃板</h3>
+            <p>针对高防火、高强度部位需求，适合医院、学校、公共建筑等高标准场景。</p>
+            <strong>价值关键词：A级不燃、高强、提升安全边界</strong>
+          </div>
+          <div class="card">
+            <div class="chip">Health</div>
+            <h3>分解甲醛 / 生态型板材</h3>
+            <p>更适合精装、家装和注重室内空气质量的客户需求表达。</p>
+            <strong>价值关键词：净醛、健康、品质空间</strong>
+          </div>
+          <div class="card">
+            <div class="chip">Keel</div>
+            <h3>轻钢龙骨系统</h3>
+            <p>与板材配套形成吊顶和隔墙系统，强化结构稳定性与施工效率。</p>
+            <strong>价值关键词：配套、标准化、施工友好</strong>
+          </div>
+          <div class="card">
+            <div class="chip">Powder</div>
+            <h3>抹灰石膏 / 嵌缝粉等粉料</h3>
+            <p>可用于内墙找平、板缝处理与系统收口，提升整体交付一致性。</p>
+            <strong>价值关键词：效率、平整度、系统完整性</strong>
+          </div>
+          <div class="card">
+            <div class="chip">Decor</div>
+            <h3>装饰板与配套辅材</h3>
+            <p>支撑更多面层与空间效果表达，适用于商业、办公、精装等项目。</p>
+            <strong>价值关键词：装饰效果、场景延展、配套完善</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content">
+        <div class="eyebrow">Core Products</div>
+        <h1 class="title">客户更容易被打动的，不是产品名单<br>而是<span class="accent">产品如何解决项目问题</span></h1>
+        <p class="subtitle">建议在拜访中把核心产品与“防火、环保、交付、施工效率、系统配套”这些客户语言绑定，形成从需求到选型的闭环。</p>
+
+        <div class="solution-grid">
+          <div class="panel image-panel">
+            <img src="board.png" alt="纸面石膏板">
+          </div>
+
+          <div class="col">
+            <div class="mini-grid">
+              <div class="mini-card">
+                <h4>工程石膏板</h4>
+                <p>适用于常规吊顶隔墙系统，适合办公、商业、公建等大多数主流项目。</p>
+              </div>
+              <div class="mini-card">
+                <h4>GFP 阻燃板</h4>
+                <p>适合高防火要求部位，强调安全等级、强度与公共建筑适配性。</p>
+              </div>
+              <div class="mini-card">
+                <h4>分解甲醛石膏板</h4>
+                <p>适合学校、医院、住宅精装等关注空气质量与健康空间的客户。</p>
+              </div>
+              <div class="mini-card">
+                <h4>轻钢龙骨</h4>
+                <p>与板材配套形成系统方案，提升安装效率、结构稳定与施工一致性。</p>
+              </div>
+              <div class="mini-card">
+                <h4>T130 抹灰石膏</h4>
+                <p>适用于墙面找平与效率施工场景，有助于缩短施工周期和提升平整度。</p>
+              </div>
+              <div class="mini-card">
+                <h4>系统辅材</h4>
+                <p>嵌缝、界面、背涂等配套产品一起使用，更容易保证交付效果。</p>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h3>一句话表达建议</h3>
+              <ul>
+                <li>对甲方：更稳的品牌、更低的项目风险、更成熟的案例验证。</li>
+                <li>对总包：更顺的供货协调、更完整的系统配套、更高的施工效率。</li>
+                <li>对设计院：更明确的构造做法、更成熟的案例参考、更容易标准化落地。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content">
+        <div class="eyebrow">Solution Value</div>
+        <h1 class="title">把客户痛点翻译成系统方案<br>是客户拜访材料里最关键的一页</h1>
+        <p class="subtitle">这一页的目标是让客户感觉：泰山石膏不只是在卖材料，而是在帮项目降低质量风险、供应风险、协同风险与验收风险。</p>
+
+        <div class="solution-grid">
+          <div class="panel">
+            <h3>客户常见痛点</h3>
+            <ul>
+              <li>公共建筑和医院学校项目，对防火等级和稳定性要求更高。</li>
+              <li>精装和住宅项目，对环保健康、净醛与空间观感更敏感。</li>
+              <li>多项目并行或跨区域施工，担心供货不稳与服务响应慢。</li>
+              <li>多供应商体系下，材料兼容、节点交底与现场收口成本较高。</li>
+              <li>客户希望既能过标准，也能兼顾成本、效率和可复制经验。</li>
+            </ul>
+          </div>
+
+          <div class="col">
+            <div class="panel">
+              <h3>对应解决思路</h3>
+              <ul>
+                <li>用板材 + 龙骨 + 粉料的系统思维替代单品采购，减少协同摩擦。</li>
+                <li>按项目场景匹配常规板、阻燃板、健康型板材与配套辅材。</li>
+                <li>依托全国布局与办事处网络，提升跨区域项目的交付确定性。</li>
+                <li>通过案例复用、送样测试、节点交底，让客户更快完成决策。</li>
+              </ul>
+            </div>
+
+            <div class="panel">
+              <h3>建议拜访话术</h3>
+              <ul>
+                <li>我们希望帮助贵方把选材标准，从“单品合格”升级为“系统交付更稳”。</li>
+                <li>如果项目关注防火、环保、工期和协同，泰山石膏更适合从整套系统来匹配。</li>
+                <li>我们可以从样板、送样和技术交底开始，先用一个小场景快速验证。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content">
+        <div class="eyebrow">Reference Cases</div>
+        <h1 class="title">典型案例的意义，不只是“做过大项目”<br>更是证明<span class="accent">可以稳定落地</span></h1>
+        <p class="subtitle">官网展示的重点项目覆盖交通枢纽、重大赛事场馆与大型会展建筑。对客户拜访来说，案例页要回答“在哪里用过、证明了什么能力、对当前客户有什么借鉴意义”。</p>
+
+        <div class="case-grid">
+          <div class="image-card">
+            <img src="case-daxing.png" alt="北京大兴国际机场">
+            <div class="case-caption">
+              <h3>北京大兴国际机场</h3>
+              <p>大型交通枢纽项目。适合用于证明泰山石膏在高标准工程中的品牌公信力与项目服务经验。</p>
+            </div>
+          </div>
+          <div class="image-card">
+            <img src="case-winter.png" alt="北京2022年冬奥会场馆">
+            <div class="case-caption">
+              <h3>北京2022年冬奥会场馆</h3>
+              <p>重大赛事场馆项目。适合强调公共建筑、高规格场景下的应用经验与交付能力。</p>
+            </div>
+          </div>
+          <div class="image-card">
+            <img src="case-xiongan.png" alt="雄安站">
+            <div class="case-caption">
+              <h3>雄安站</h3>
+              <p>国家级重点交通项目。适合强调品牌稳定供货、系统应用与重大项目配套能力。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content">
+        <div class="eyebrow">Supply & Service</div>
+        <h1 class="title">客户最终看重的，是产品之外的<span class="accent">供货与服务保障</span></h1>
+        <p class="subtitle">真正决定合作推进速度的，往往不是材料参数本身，而是供货半径、响应效率、技术支持、项目协同与样板验证能力。</p>
+
+        <div class="service-layout">
+          <div class="panel">
+            <h3>为什么这一页必须保留</h3>
+            <ul>
+              <li>把企业宣传稿升级成商务拜访稿。</li>
+              <li>回答客户“能不能做、做得稳不稳、出了问题谁来协同”。</li>
+              <li>增强甲方、总包、设计端对合作可执行性的信心。</li>
+            </ul>
+          </div>
+
+          <div class="service-list">
+            <div class="service-item">
+              <strong>全国布局，提升保供能力</strong>
+              <p>23 个省、56 家子（分）公司与 275 余个办事处的网络基础，有利于跨区域项目协同与区域交付。</p>
+            </div>
+            <div class="service-item">
+              <strong>技术支持，缩短决策周期</strong>
+              <p>可围绕送样测试、系统选型、节点交底、方案沟通等环节提供前置支持。</p>
+            </div>
+            <div class="service-item">
+              <strong>系统配套，降低协同成本</strong>
+              <p>板材、龙骨、粉料与辅材联动表达，更容易保证安装效率、兼容性与最终效果。</p>
+            </div>
+            <div class="service-item">
+              <strong>品牌背书，提升项目通过率</strong>
+              <p>头部品牌案例多、认可度高，便于在甲方审批、设计推荐和项目复制中形成优势。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-content">
+        <div class="eyebrow">Next Step</div>
+        <h1 class="title">建议把拜访落到<span class="accent">可执行的下一步动作</span><br>让客户更容易继续推进</h1>
+        <p class="subtitle">结束页不要只停留在“感谢聆听”。客户拜访最有效的收口方式，是给出 2-4 个可执行动作，让合作从“认可”走向“启动”。</p>
+
+        <div class="step-grid">
+          <div class="step">
+            <span>01</span>
+            <h3>样板先行</h3>
+            <p>先确定一个样板区或样板节点，快速验证材料效果、工艺适配和客户感知。</p>
+          </div>
+          <div class="step">
+            <span>02</span>
+            <h3>送样测试</h3>
+            <p>围绕防火、环保、平整度、观感等关键点做小范围测试，降低决策阻力。</p>
+          </div>
+          <div class="step">
+            <span>03</span>
+            <h3>技术交底</h3>
+            <p>针对项目节点和系统做法开展沟通，让设计、采购、施工三端更快形成一致。</p>
+          </div>
+          <div class="step">
+            <span>04</span>
+            <h3>项目清单对接</h3>
+            <p>围绕在建项目或储备项目梳理材料清单、供货节奏和合作方式，推动实质落地。</p>
+          </div>
+        </div>
+
+        <div class="summary-grid">
+          <div class="quote-box">
+            <p>客户拜访的重点不是“我们有多少荣誉”，而是让客户相信：<br>选择泰山石膏，项目会<span class="accent">更稳、更省心、更容易落地</span>。</p>
+          </div>
+
+          <div class="source-box">
+            <h3>内容口径说明</h3>
+            <ul>
+              <li>本稿基于泰山石膏官网公开信息与国家公开政策文件整理。</li>
+              <li>数据与案例引用时间：截至 2026 年 3 月 23 日。</li>
+              <li>如需用于正式外部汇报，建议再与企业最新口径核对一次具体数字。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-note">感谢聆听 · 建议下一步：送样测试 / 样板推进 / 项目清单对接</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="page-number" id="pageNumber">1 / 10</div>
+  <div class="progress" id="progress"></div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    const progress = document.getElementById("progress");
+    const pageNumber = document.getElementById("pageNumber");
+    let current = 0;
+
+    slides.forEach((_, index) => {
+      const dot = document.createElement("button");
+      dot.className = "dot";
+      dot.type = "button";
+      dot.setAttribute("aria-label", `跳转到第 ${index + 1} 页`);
+      dot.addEventListener("click", () => goTo(index));
+      progress.appendChild(dot);
+    });
+
+    function render() {
+      slides.forEach((slide, index) => {
+        slide.classList.remove("active", "prev");
+        if (index === current) {
+          slide.classList.add("active");
+        } else if (index < current) {
+          slide.classList.add("prev");
+        }
+      });
+
+      document.querySelectorAll(".dot").forEach((dot, index) => {
+        dot.classList.toggle("active", index === current);
+      });
+
+      pageNumber.textContent = `${current + 1} / ${slides.length}`;
+    }
+
+    function goTo(index) {
+      current = Math.max(0, Math.min(slides.length - 1, index));
+      render();
+    }
+
+    function next() {
+      goTo(current + 1);
+    }
+
+    function prev() {
+      goTo(current - 1);
+    }
+
+    async function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight" || event.key === " ") {
+        event.preventDefault();
+        next();
+      } else if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        prev();
+      } else if (event.key === "Enter" || event.key.toLowerCase() === "f") {
+        event.preventDefault();
+        toggleFullScreen();
+      }
+    });
+
+    let touchStartX = 0;
+
+    document.addEventListener("touchstart", (event) => {
+      touchStartX = event.touches[0].clientX;
+    }, { passive: true });
+
+    document.addEventListener("touchend", (event) => {
+      const diff = touchStartX - event.changedTouches[0].clientX;
+      if (Math.abs(diff) > 60) {
+        if (diff > 0) {
+          next();
+        } else {
+          prev();
+        }
+      }
+    }, { passive: true });
+
+    render();
+  </script>
+</body>
+</html>
+

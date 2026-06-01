@@ -1,0 +1,115 @@
+{
+  "project_name": "2025年智慧城市云平台技术服务公开采购项目",
+  "supplier_name": "星辰科技有限公司",
+  "review_time": "2026-05-15T16:01:51.720919",
+  "final_conclusion": "通过",
+  "review_items": [
+    {
+      "item_id": "R001",
+      "category": "资质条件",
+      "item_name": "营业执照",
+      "requirement": "必须提供有效的营业执照，经营范围包含本项目相关业务",
+      "verification": "通过",
+      "compliance": "通过",
+      "audit": "不适用",
+      "conclusion": "通过"
+    },
+    {
+      "item_id": "R002",
+      "category": "资质条件",
+      "item_name": "资质证书",
+      "requirement": "ISO9001质量管理体系认证或同等资质",
+      "verification": "通过",
+      "compliance": "通过",
+      "audit": "不适用",
+      "conclusion": "通过"
+    },
+    {
+      "item_id": "R003",
+      "category": "否决项",
+      "item_name": "投标保证金",
+      "requirement": "投标保证金不低于投标总价的2%，须在开标前到账",
+      "verification": "通过",
+      "compliance": "建议整改",
+      "audit": "不适用",
+      "conclusion": "通过"
+    },
+    {
+      "item_id": "R004",
+      "category": "否决项",
+      "item_name": "投标有效期",
+      "requirement": "投标有效期不少于90天",
+      "verification": "通过",
+      "compliance": "通过",
+      "audit": "不适用",
+      "conclusion": "通过"
+    },
+    {
+      "item_id": "R005",
+      "category": "符合性",
+      "item_name": "投标函签署",
+      "requirement": "投标函须由法定代表人签字并加盖公章",
+      "verification": "通过",
+      "compliance": "通过",
+      "audit": "不适用",
+      "conclusion": "通过"
+    },
+    {
+      "item_id": "R006",
+      "category": "符合性",
+      "item_name": "授权委托书",
+      "requirement": "如有授权代表，须提供有效的授权委托书",
+      "verification": "通过",
+      "compliance": "通过",
+      "audit": "不适用",
+      "conclusion": "通过"
+    },
+    {
+      "item_id": "R007",
+      "category": "商务评审",
+      "item_name": "报价完整性",
+      "requirement": "报价清单须覆盖全部采购项，无缺项漏项",
+      "verification": "通过",
+      "compliance": "通过",
+      "audit": "通过",
+      "conclusion": "通过"
+    },
+    {
+      "item_id": "R008",
+      "category": "商务评审",
+      "item_name": "分项报价合理性",
+      "requirement": "各分项报价不得明显偏离市场均价（±30%以内）",
+      "verification": "通过",
+      "compliance": "通过",
+      "audit": "通过",
+      "conclusion": "通过"
+    },
+    {
+      "item_id": "R009",
+      "category": "技术评审",
+      "item_name": "技术方案完整性",
+      "requirement": "技术方案须包含系统架构、部署方案、实施计划",
+      "verification": "通过",
+      "compliance": "通过",
+      "audit": "不适用",
+      "conclusion": "通过"
+    },
+    {
+      "item_id": "R010",
+      "category": "技术评审",
+      "item_name": "人员配置",
+      "requirement": "项目经理须具备PMP或同等认证，核心技术人员不少于3人",
+      "verification": "通过",
+      "compliance": "通过",
+      "audit": "不适用",
+      "conclusion": "通过"
+    }
+  ],
+  "sub_agent_results": {
+    "verification_result_path": "demo_data/projects/37d488a5-bb9/results/supplier_6a227d22/verification-result.json",
+    "compliance_result_path": "demo_data/projects/37d488a5-bb9/results/supplier_6a227d22/compliance-result.json",
+    "audit_result_path": "demo_data/projects/37d488a5-bb9/results/supplier_6a227d22/audit-result.json"
+  },
+  "issues": [],
+  "confidence": "high"
+}

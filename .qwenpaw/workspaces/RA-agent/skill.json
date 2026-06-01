@@ -1,0 +1,395 @@
+{
+  "schema_version": "workspace-skill-manifest.v1",
+  "version": 1780324833811,
+  "skills": {
+    "browser_cdp": {
+      "enabled": true,
+      "channels": [
+        "all"
+      ],
+      "source": "custom",
+      "metadata": {
+        "name": "browser_cdp",
+        "description": "当用户明确希望连接到已运行的 Chrome 浏览器（connect_cdp）、扫描本地 CDP 端口、或以暴露 CDP 端口的方式启动浏览器（start + cdp_port）时，使用本 skill。用户没有明确提到 CDP、共享浏览器或远程调试时，启动浏览器不得携带 cdp_port，也不得使用 connect_cdp。CDP 模式会暴露浏览器历史、Cookies 等敏感信息，使用前须告知用户；同一 workspace 同时只能运行或连接一个浏览器。",
+        "version_text": "1.0",
+        "commit_text": "",
+        "source": "custom",
+        "protected": false,
+        "requirements": {
+          "require_bins": [],
+          "require_envs": []
+        },
+        "updated_at": "2026-06-01T14:02:20.256795Z"
+      },
+      "requirements": {
+        "require_bins": [],
+        "require_envs": []
+      },
+      "updated_at": "2026-06-01T14:02:20.256795Z",
+      "config": {}
+    },
+    "browser_visible": {
+      "enabled": false,
+      "channels": [
+        "all"
+      ],
+      "source": "builtin",
+      "metadata": {
+        "name": "browser_visible",
+        "description": "当用户希望打开真实可见的浏览器窗口（而非后台无头模式）时，使用 browser_use 的 headed 参数启动浏览器，随后可正常 open/snapshot/click 等。适用于用户想亲眼看到页面、演示或调试场景。",
+        "version_text": "1.0",
+        "commit_text": "",
+        "source": "builtin",
+        "protected": false,
+        "requirements": {
+          "require_bins": [],
+          "require_envs": []
+        },
+        "updated_at": "2026-06-01T14:02:20.258298Z"
+      },
+      "requirements": {
+        "require_bins": [],
+        "require_envs": []
+      },
+      "updated_at": "2026-06-01T14:02:20.258298Z",
+      "config": {}
+    },
+    "context-engineering": {
+      "enabled": true,
+      "channels": [
+        "all"
+      ],
+      "source": "builtin",
+      "metadata": {
+        "name": "context-engineering",
+        "description": "Optimizes agent context setup. Use when starting a new session, when agent output quality degrades, when switching between tasks, or when you need to configure rules files and context for a project.",
+        "version_text": "",
+        "commit_text": "",
+        "source": "builtin",
+        "protected": false,
+        "requirements": {
+          "require_bins": [],
+          "require_envs": []
+        },
+        "updated_at": "2026-06-01T14:02:20.278356Z"
+      },
+      "requirements": {
+        "require_bins": [],
+        "require_envs": []
+      },
+      "updated_at": "2026-06-01T14:02:20.278356Z",
+      "config": {}
+    },
+    "cron": {
+      "enabled": false,
+      "channels": [
+        "all"
+      ],
+      "source": "builtin",
+      "metadata": {
+        "name": "cron",
+        "description": "Use this skill only for scheduled or recurring tasks. Manage cron jobs with copaw cron list/create/get/state/pause/resume/delete/run. Always pass --agent-id explicitly. | 仅在需要未来定时执行或周期执行时使用本 skill。用 copaw cron list/create/get/state/pause/resume/delete/run 管理任务；必须显式传 --agent-id",
+        "version_text": "1.1",
+        "commit_text": "",
+        "source": "builtin",
+        "protected": false,
+        "requirements": {
+          "require_bins": [],
+          "require_envs": []
+        },
+        "updated_at": "2026-06-01T14:02:20.318801Z"
+      },
+      "requirements": {
+        "require_bins": [],
+        "require_envs": []
+      },
+      "updated_at": "2026-06-01T14:02:20.318801Z",
+      "config": {}
+    },
+    "documentation-and-adrs": {
+      "enabled": true,
+      "channels": [
+        "all"
+      ],
+      "source": "builtin",
+      "metadata": {
+        "name": "documentation-and-adrs",
+        "description": "Records decisions and documentation. Use when making architectural decisions, changing public APIs, shipping features, or when you need to record context that future engineers and agents will need to understand the codebase.",
+        "version_text": "",
+        "commit_text": "",
+        "source": "builtin",
+        "protected": false,
+        "requirements": {
+          "require_bins": [],
+          "require_envs": []
+        },
+        "updated_at": "2026-06-01T14:02:20.343153Z"
+      },
+      "requirements": {
+        "require_bins": [],
+        "require_envs": []
+      },
+      "updated_at": "2026-06-01T14:02:20.343153Z",
+      "config": {}
+    },
+    "docx": {
+      "enabled": true,
+      "channels": [
+        "all"
+      ],
+      "source": "custom",
+      "metadata": {
+        "name": "docx",
+        "description": "Use this skill whenever the user wants to create, read, edit, or manipulate Word documents (.docx files). Triggers include: any mention of \"Word doc\", \"word document\", \".docx\", or requests to produce professional documents with formatting like tables of contents, headings, page numbers, or letterheads. Also use when extracting or reorganizing content from .docx files, inserting or replacing images in documents, performing find-and-replace in Word files, working with tracked changes or comments, or converting content into a polished Word document. If the user asks for a \"report\", \"memo\", \"letter\", \"template\", or similar deliverable as a Word or .docx file, use this skill. Do NOT use for PDFs, spreadsheets, Google Docs, or general coding tasks unrelated to document generation.",
+        "version_text": "1.0",
+        "commit_text": "",
+        "source": "custom",
+        "protected": false,
+        "requirements": {
+          "require_bins": [],
+          "require_envs": []
+        },
+        "updated_at": "2026-06-01T14:02:21.777746Z"
+      },
+      "requirements": {
+        "require_bins": [],
+        "require_envs": []
+      },
+      "updated_at": "2026-06-01T14:02:21.777746Z",
+      "config": {}
+    },
+    "guidance": {
+      "enabled": false,
+      "channels": [
+        "all"
+      ],
+      "source": "builtin",
+      "metadata": {
+        "name": "guidance",
+        "description": "回答用户关于 CoPaw 安装与配置的问题：优先定位并阅读本地文档，再提炼答案；若本地信息不足，兜底访问官网文档。",
+        "version_text": "1.0",
+        "commit_text": "",
+        "source": "builtin",
+        "protected": false,
+        "requirements": {
+          "require_bins": [],
+          "require_envs": []
+        },
+        "updated_at": "2026-06-01T14:02:21.779251Z"
+      },
+      "requirements": {
+        "require_bins": [],
+        "require_envs": []
+      },
+      "updated_at": "2026-06-01T14:02:21.779251Z",
+      "config": {}
+    },
+    "idea-refine": {
+      "enabled": true,
+      "channels": [
+        "all"
+      ],
+      "source": "builtin",
+      "metadata": {
+        "name": "idea-refine",
+        "description": "Refines ideas iteratively. Refine ideas through structured divergent and convergent thinking. Use \"idea-refine\" or \"ideate\" to trigger.",
+        "version_text": "",
+        "commit_text": "",
+        "source": "builtin",
+        "protected": false,
+        "requirements": {
+          "require_bins": [],
+          "require_envs": []
+        },
+        "updated_at": "2026-06-01T14:02:21.897767Z"
+      },
+      "requirements": {
+        "require_bins": [],
+        "require_envs": []
+      },
+      "updated_at": "2026-06-01T14:02:21.897767Z",
+      "config": {}
+    },
+    "news": {
+      "enabled": false,
+      "channels": [
+        "all"
+      ],
+      "source": "builtin",
+      "metadata": {
+        "name": "news",
+        "description": "Look up the latest news for the user from specified news sites. Provides authoritative URLs for politics, finance, society, world, tech, sports, and entertainment. Use browser_use to open each URL and snapshot to get content, then summarize for the user.",
+        "version_text": "1.0",
+        "commit_text": "",
+        "source": "builtin",
+        "protected": false,
+        "requirements": {
+          "require_bins": [],
+          "require_envs": []
+        },
+        "updated_at": "2026-06-01T14:02:21.929143Z"
+      },
+      "requirements": {
+        "require_bins": [],
+        "require_envs": []
+      },
+      "updated_at": "2026-06-01T14:02:21.929143Z",
+      "config": {}
+    },
+    "pdf": {
+      "enabled": true,
+      "channels": [
+        "all"
+      ],
+      "source": "custom",
+      "metadata": {
+        "name": "pdf",
+        "description": "Use this skill whenever the user wants to do anything with PDF files. This includes reading or extracting text/tables from PDFs, combining or merging multiple PDFs into one, splitting PDFs apart, rotating pages, adding watermarks, creating new PDFs, filling PDF forms, encrypting/decrypting PDFs, extracting images, and OCR on scanned PDFs to make them searchable. If the user mentions a .pdf file or asks to produce one, use this skill.",
+        "version_text": "1.0",
+        "commit_text": "",
+        "source": "custom",
+        "protected": false,
+        "requirements": {
+          "require_bins": [],
+          "require_envs": []
+        },
+        "updated_at": "2026-06-01T14:02:22.220266Z"
+      },
+      "requirements": {
+        "require_bins": [],
+        "require_envs": []
+      },
+      "updated_at": "2026-06-01T14:02:22.220266Z",
+      "config": {}
+    },
+    "planning-and-task-breakdown": {
+      "enabled": true,
+      "channels": [
+        "all"
+      ],
+      "source": "builtin",
+      "metadata": {
+        "name": "planning-and-task-breakdown",
+        "description": "Breaks work into ordered tasks. Use when you have a spec or clear requirements and need to break work into implementable tasks. Use when a task feels too large to start, when you need to estimate scope, or when parallel work is possible.",
+        "version_text": "",
+        "commit_text": "",
+        "source": "builtin",
+        "protected": false,
+        "requirements": {
+          "require_bins": [],
+          "require_envs": []
+        },
+        "updated_at": "2026-06-01T14:02:22.287253Z"
+      },
+      "requirements": {
+        "require_bins": [],
+        "require_envs": []
+      },
+      "updated_at": "2026-06-01T14:02:22.287253Z",
+      "config": {}
+    },
+    "pretty-mermaid": {
+      "enabled": true,
+      "channels": [
+        "all"
+      ],
+      "source": "custom",
+      "metadata": {
+        "name": "pretty-mermaid",
+        "description": "Render beautiful Mermaid diagrams as SVG or ASCII art using the beautiful-mermaid library.\nSupports 15+ themes, 5 diagram types (flowchart, sequence, state, class, ER), and ultra-fast rendering.\n\nUse this skill when:\n1. User asks to \"render a mermaid diagram\" or provides .mmd files\n2. User requests \"create a flowchart/sequence diagram/state diagram\"\n3. User wants to \"apply a theme\" or \"beautify a diagram\"\n4. User needs to \"batch process multiple diagrams\"\n5. User mentions \"ASCII diagram\" or \"terminal-friendly diagram\"\n6. User wants to visualize architecture, workflows, or data models\n",
+        "version_text": "",
+        "commit_text": "",
+        "source": "custom",
+        "protected": false,
+        "requirements": {
+          "require_bins": [],
+          "require_envs": []
+        },
+        "updated_at": "2026-06-01T14:02:22.612181Z"
+      },
+      "requirements": {
+        "require_bins": [],
+        "require_envs": []
+      },
+      "updated_at": "2026-06-01T14:02:22.612181Z",
+      "config": {}
+    },
+    "source-driven-development": {
+      "enabled": true,
+      "channels": [
+        "all"
+      ],
+      "source": "builtin",
+      "metadata": {
+        "name": "source-driven-development",
+        "description": "Grounds every implementation decision in official documentation. Use when you want authoritative, source-cited code free from outdated patterns. Use when building with any framework or library where correctness matters.",
+        "version_text": "",
+        "commit_text": "",
+        "source": "builtin",
+        "protected": false,
+        "requirements": {
+          "require_bins": [],
+          "require_envs": []
+        },
+        "updated_at": "2026-06-01T14:02:22.691967Z"
+      },
+      "requirements": {
+        "require_bins": [],
+        "require_envs": []
+      },
+      "updated_at": "2026-06-01T14:02:22.691967Z",
+      "config": {}
+    },
+    "spec-driven-development": {
+      "enabled": true,
+      "channels": [
+        "all"
+      ],
+      "source": "builtin",
+      "metadata": {
+        "name": "spec-driven-development",
+        "description": "Creates specs before coding. Use when starting a new project, feature, or significant change and no specification exists yet. Use when requirements are unclear, ambiguous, or only exist as a vague idea.",
+        "version_text": "",
+        "commit_text": "",
+        "source": "builtin",
+        "protected": false,
+        "requirements": {
+          "require_bins": [],
+          "require_envs": []
+        },
+        "updated_at": "2026-06-01T14:02:22.832772Z"
+      },
+      "requirements": {
+        "require_bins": [],
+        "require_envs": []
+      },
+      "updated_at": "2026-06-01T14:02:22.832772Z",
+      "config": {}
+    },
+    "requirement-designer": {
+      "enabled": true,
+      "channels": [
+        "all"
+      ],
+      "source": "customized",
+      "metadata": {
+        "name": "requirement-designer",
+        "description": "Use when users need a formal requirement document, PRD, business requirement brief, customer-facing solution requirement, or product requirement clarification with business-focused Mermaid diagrams and a stable chapter structure.",
+        "version_text": "",
+        "commit_text": "",
+        "source": "customized",
+        "protected": false,
+        "requirements": {
+          "require_bins": [],
+          "require_envs": []
+        },
+        "updated_at": "2026-06-01T14:02:22.667238Z"
+      },
+      "requirements": {
+        "require_bins": [],
+        "require_envs": []
+      },
+      "updated_at": "2026-06-01T14:02:22.667238Z"
+    }
+  }
+}

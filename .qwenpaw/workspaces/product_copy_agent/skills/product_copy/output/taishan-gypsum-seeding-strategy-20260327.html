@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>泰山石膏种草方案策划</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 60px 0;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2c5270 100%);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '🌱';
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 100px;
+            opacity: 0.1;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .header .subtitle {
+            font-size: 20px;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .header .tags {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .header .tag {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        /* Section */
+        .section {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            font-size: 28px;
+            color: #1e3a5f;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #e34c35;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title .number {
+            background: #e34c35;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Strategy Overview */
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .strategy-item {
+            text-align: center;
+            padding: 25px 15px;
+            background: #f8f8f8;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .strategy-item:hover {
+            background: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+        }
+
+        .strategy-item .icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .strategy-item h4 {
+            font-size: 16px;
+            color: #1e3a5f;
+            margin-bottom: 10px;
+        }
+
+        .strategy-item p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Platform Strategy */
+        .platforms {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .platform-card {
+            background: #f8f8f8;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .platform-card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+
+        .platform-card .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px;
+            text-align: center;
+            border-radius: 12px 12px 0 0;
+            margin: 0;
+            position: relative;
+        }
+
+        .platform-card .header .icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .platform-card .header h3 {
+            font-size: 20px;
+            color: white;
+        }
+
+        .platform-card .content {
+            padding: 25px;
+        }
+
+        .platform-card .content h4 {
+            font-size: 15px;
+            color: #1e3a5f;
+            margin: 20px 0 10px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .platform-card .content ul {
+            list-style: none;
+        }
+
+        .platform-card .content li {
+            padding: 6px 0;
+            font-size: 14px;
+            color: #666;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .platform-card .content li::before {
+            content: '•';
+            color: #e34c35;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        /* Persona Strategy */
+        .personas {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .persona-card {
+            background: linear-gradient(135deg, #fff 0%, #f8f8f8 100%);
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .persona-card:hover {
+            border-color: #e34c35;
+            box-shadow: 0 8px 25px rgba(227,76,53,0.15);
+        }
+
+        .persona-card .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .persona-card .avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            margin-right: 20px;
+            font-size: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .persona-card .info h3 {
+            font-size: 20px;
+            color: #1e3a5f;
+            margin-bottom: 5px;
+        }
+
+        .persona-card .info p {
+            font-size: 13px;
+            color: #999;
+        }
+
+        .persona-card .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .persona-card .tag {
+            background: #e8f4f8;
+            color: #1e3a5f;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .persona-card .content h4 {
+            font-size: 15px;
+            color: #1e3a5f;
+            margin: 20px 0 10px;
+        }
+
+        .persona-card .content p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .persona-card .content .topics {
+            background: #fff8f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 3px solid #e34c35;
+        }
+
+        .persona-card .content .topics h5 {
+            font-size: 14px;
+            color: #e34c35;
+            margin-bottom: 10px;
+        }
+
+        .persona-card .content .topics ul {
+            list-style: none;
+        }
+
+        .persona-card .content .topics li {
+            padding: 4px 0;
+            font-size: 13px;
+            color: #666;
+            display: flex;
+            align-items: center;
+        }
+
+        .persona-card .content .topics li::before {
+            content: '📝';
+            margin-right: 8px;
+        }
+
+        /* Content Types */
+        .content-types {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .content-type {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .content-type:hover {
+            border-color: #e34c35;
+            background: #fff8f0;
+        }
+
+        .content-type h4 {
+            font-size: 18px;
+            color: #1e3a5f;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .content-type h4::before {
+            content: attr(data-icon);
+            margin-right: 12px;
+            font-size: 24px;
+        }
+
+        .content-type ul {
+            list-style: none;
+        }
+
+        .content-type li {
+            padding: 8px 0;
+            font-size: 14px;
+            color: #666;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .content-type li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #43e97b;
+            font-weight: bold;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e0e0e0;
+        }
+
+        .timeline-item {
+            margin-left: 50px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 20px;
+            width: 18px;
+            height: 18px;
+            background: #e34c35;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .timeline-item h4 {
+            font-size: 18px;
+            color: #1e3a5f;
+            margin-bottom: 10px;
+        }
+
+        .timeline-item p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .timeline-item .time {
+            font-size: 13px;
+            color: #999;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* KPI Section */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .kpi-card {
+            background: linear-gradient(135deg, #1e3a5f, #2c5270);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(30,58,95,0.3);
+        }
+
+        .kpi-card .value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #e34c35;
+            margin-bottom: 10px;
+        }
+
+        .kpi-card .label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .kpi-card .desc {
+            font-size: 12px;
+            margin-top: 10px;
+            opacity: 0.7;
+        }
+
+        /* Tips Box */
+        .tips-box {
+            background: linear-gradient(135deg, #e8f4f8, #d4eaf7);
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            border-left: 5px solid #1e3a5f;
+        }
+
+        .tips-box h4 {
+            font-size: 20px;
+            color: #1e3a5f;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .tips-box h4::before {
+            content: '💡';
+            margin-right: 12px;
+            font-size: 28px;
+        }
+
+        .tips-box ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .tips-box li {
+            padding: 10px 15px;
+            background: white;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #666;
+            display: flex;
+            align-items: center;
+        }
+
+        .tips-box li::before {
+            content: '✓';
+            color: #43e97b;
+            margin-right: 10px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px;
+            background: #1a1a1a;
+            color: white;
+            border-radius: 15px;
+            margin-top: 40px;
+        }
+
+        .footer h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .footer p {
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .footer .contact {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .footer .contact p {
+            color: white;
+            margin: 5px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .strategy-grid,
+            .platforms,
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .personas {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .strategy-grid,
+            .platforms,
+            .kpi-grid,
+            .content-types {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🌱 泰山石膏种草方案策划</h1>
+            <p class="subtitle">多平台、多维度、全周期的内容营销战略</p>
+            <div class="tags">
+                <span class="tag">小红书种草</span>
+                <span class="tag">抖音短视频</span>
+                <span class="tag">微博话题</span>
+                <span class="tag">知乎专业</span>
+            </div>
+        </div>
+
+        <!-- Strategy Overview -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="number">1</span>
+                种草策略概述
+            </h2>
+            <p style="color: #666; line-height: 1.8;">通过多平台协同、多角度切入、多形式内容，建立泰山石膏在消费者心智中的品牌认知。采用真实分享、专业背书、场景化种草相结合的方式，提升品牌美誉度和产品转化率。</p>
+
+            <div class="strategy-grid">
+                <div class="strategy-item">
+                    <div class="icon">🎯</div>
+                    <h4>精准定位</h4>
+                    <p>锁定装修人群、年轻家庭、设计师等目标受众</p>
+                </div>
+                <div class="strategy-item">
+                    <div class="icon">📱</div>
+                    <h4>多平台覆盖</h4>
+                    <p>小红书、抖音、微博、知乎、B站等主流平台</p>
+                </div>
+                <div class="strategy-item">
+                    <div class="icon">👥</div>
+                    <h4>多元人设</h4>
+                    <p>装修达人、设计师、宝妈、测评师等不同身份</p>
+                </div>
+                <div class="strategy-item">
+                    <div class="icon">📊</div>
+                    <h4>数据驱动</h4>
+                    <p>实时监测数据，优化内容策略，提升转化效果</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Platform Strategy -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="number">2</span>
+                平台种草策略
+            </h2>
+            <p style="color: #666;">针对不同平台的用户特点和内容偏好，制定差异化的种草方案</p>
+
+            <div class="platforms">
+                <!-- 小红书 -->
+                <div class="platform-card">
+                    <div class="header">
+                        <div class="icon">📕</div>
+                        <h3>小红书</h3>
+                    </div>
+                    <div class="content">
+                        <h4>平台特点</h4>
+                        <ul>
+                            <li>用户以年轻女性为主</li>
+                            <li>重视真实体验分享</li>
+                            <li>图片/视频质量要求高</li>
+                            <li>种草转化能力强</li>
+                        </ul>
+                        <h4>内容方向</h4>
+                        <ul>
+                            <li>装修日记分享</li>
+                            <li>产品测评对比</li>
+                            <li>避坑指南</li>
+                            <li>好物推荐清单</li>
+                        </ul>
+                        <h4>运营策略</h4>
+                        <ul>
+                            <li>打造装修达人IP</li>
+                            <li>使用热门话题标签</li>
+                            <li>重视评论区互动</li>
+                            <li>联合KOC/KOL推广</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 抖音 -->
+                <div class="platform-card">
+                    <div class="header" style="background: linear-gradient(135deg, #e34c35 0%, #ff6b5b 100%);">
+                        <div class="icon">🎵</div>
+                        <h3>抖音</h3>
+                    </div>
+                    <div class="content">
+                        <h4>平台特点</h4>
+                        <ul>
+                            <li>用户基数大，覆盖广</li>
+                            <li>短视频为主，节奏快</li>
+                            <li>重视创意和娱乐性</li>
+                            <li>病毒式传播能力强</li>
+                        </ul>
+                        <h4>内容方向</h4>
+                        <ul>
+                            <li>装修前后对比视频</li>
+                            <li>施工过程实拍</li>
+                            <li>产品功能演示</li>
+                            <li>情景剧式种草</li>
+                        </ul>
+                        <h4>运营策略</h4>
+                        <ul>
+                            <li>15-60秒短平快</li>
+                            <li>使用热门BGM</li>
+                            <li>制作系列内容</li>
+                            <li>投流精准推广</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 微博 -->
+                <div class="platform-card">
+                    <div class="header" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <div class="icon">🐦</div>
+                        <h3>微博</h3>
+                    </div>
+                    <div class="content">
+                        <h4>平台特点</h4>
+                        <ul>
+                            <li>信息传播速度快</li>
+                            <li>话题热度高</li>
+                            <li>便于裂变传播</li>
+                            <li>官方媒体友好</li>
+                        </ul>
+                        <h4>内容方向</h4>
+                        <ul>
+                            <li>品牌新闻发布</li>
+                            <li>热门话题参与</li>
+                            <li>专家观点分享</li>
+                            <li>用户互动抽奖</li>
+                        </ul>
+                        <h4>运营策略</h4>
+                        <ul>
+                            <li>创建品牌话题</li>
+                            <li>联动行业大V</li>
+                            <li>发起有奖活动</li>
+                            <li>及时回应热点</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Persona Strategy -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="number">3</span>
+                人设种草策略
+            </h2>
+            <p style="color: #666;">打造多元化的真实人设，从不同角度进行产品种草，提升内容可信度</p>
+
+            <div class="personas">
+                <!-- 装修达人 -->
+                <div class="persona-card">
+                    <div class="header">
+                        <div class="avatar" style="background: linear-gradient(135deg, #667eea, #764ba2);">👩</div>
+                        <div class="info">
+                            <h3>装修达人小美</h3>
+                            <p>已装修3套房 | 分享真实经验</p>
+                        </div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag">装修经验丰富</span>
+                        <span class="tag">真实分享</span>
+                        <span class="tag">避坑指南</span>
+                    </div>
+                    <div class="content">
+                        <h4>人设定位</h4>
+                        <p>已经装修过多个房子，有丰富的实战经验，用亲身经历分享装修心得和产品选择建议，具有很强的说服力。</p>
+                        <div class="topics">
+                            <h5>内容选题</h5>
+                            <ul>
+                                <li>第4套房装修日记（连载）</li>
+                                <li>装修避坑经验总结</li>
+                                <li>石膏板选择指南</li>
+                                <li>好物推荐清单</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 设计师 -->
+                <div class="persona-card">
+                    <div class="header">
+                        <div class="avatar" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">👨‍🎨</div>
+                        <div class="info">
+                            <h3>设计师阿明</h3>
+                            <p>10年室内设计经验 | 专业权威</p>
+                        </div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag">专业权威</span>
+                        <span class="tag">行业专家</span>
+                        <span class="tag">方案解读</span>
+                    </div>
+                    <div class="content">
+                        <h4>人设定位</h4>
+                        <p>资深室内设计师，从专业角度分析装修材料选择，分享设计理念和专业见解，建立品牌的专业形象。</p>
+                        <div class="topics">
+                            <h5>内容选题</h5>
+                            <ul>
+                                <li>设计师眼中的石膏板</li>
+                                <li>材料选择专业分析</li>
+                                <li>优秀案例方案解读</li>
+                                <li>装修材料科普</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 宝妈 -->
+                <div class="persona-card">
+                    <div class="header">
+                        <div class="avatar" style="background: linear-gradient(135deg, #fa709a, #fee140);">👩‍👧</div>
+                        <div class="info">
+                            <h3>宝妈小红</h3>
+                            <p>二胎妈妈 | 关注健康环保</p>
+                        </div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag">注重环保</span>
+                        <span class="tag">健康生活</span>
+                        <span class="tag">育儿分享</span>
+                    </div>
+                    <div class="content">
+                        <h4>人设定位</h4>
+                        <p>关注健康环保的宝妈，从家庭健康角度出发，强调产品的环保性能和安全性，特别是分解甲醛等健康功能。</p>
+                        <div class="topics">
+                            <h5>内容选题</h5>
+                            <ul>
+                                <li>环保装修怎么选材料</li>
+                                <li>儿童房装修重点</li>
+                                <li>甲醛那些事儿</li>
+                                <li>健康生活好物分享</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 测评师 -->
+                <div class="persona-card">
+                    <div class="header">
+                        <div class="avatar" style="background: linear-gradient(135deg, #f093fb, #f5576c);">🔍</div>
+                        <div class="info">
+                            <h3>测评师大伟</h3>
+                            <p>专业产品测评 | 数据说话</p>
+                        </div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag">专业测评</span>
+                        <span class="tag">数据对比</span>
+                        <span class="tag">客观权威</span>
+                    </div>
+                    <div class="content">
+                        <h4>人设定位</h4>
+                        <p>专业的产品测评师，用数据说话，进行横向对比测试，提供客观的产品评价和购买建议。</p>
+                        <div class="topics">
+                            <h5>内容选题</h5>
+                            <ul>
+                                <li>石膏板品牌大对比</li>
+                                <li>性能实测报告</li>
+                                <li>性价比分析</li>
+                                <li>购买避坑指南</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Types -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="number">4</span>
+                内容形式策略
+            </h2>
+            <p style="color: #666;">采用多种内容形式，满足不同用户的阅读偏好，提升内容传播力</p>
+
+            <div class="content-types">
+                <div class="content-type" data-icon="📝">
+                    <h4>图文笔记</h4>
+                    <ul>
+                        <li>装修日记长文</li>
+                        <li>产品测评图文</li>
+                        <li>避坑经验总结</li>
+                        <li>知识科普文章</li>
+                        <li>购买指南</li>
+                    </ul>
+                </div>
+
+                <div class="content-type" data-icon="🎥">
+                    <h4>短视频</h4>
+                    <ul>
+                        <li>装修前后对比</li>
+                        <li>施工过程实拍</li>
+                        <li>产品功能演示</li>
+                        <li>情景剧种草</li>
+                        <li>口播讲解</li>
+                    </ul>
+                </div>
+
+                <div class="content-type" data-icon="🎞️">
+                    <h4>直播互动</h4>
+                    <ul>
+                        <li>装修知识讲座</li>
+                        <li>产品介绍直播</li>
+                        <li>在线答疑解惑</li>
+                        <li>工地现场直播</li>
+                        <li>抽奖互动</li>
+                    </ul>
+                </div>
+
+                <div class="content-type" data-icon="📊">
+                    <h4>数据测评</h4>
+                    <ul>
+                        <li>横向对比测评</li>
+                        <li>性能数据报告</li>
+                        <li>性价比分析</li>
+                        <li>用户调研数据</li>
+                        <li>行业趋势分析</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="number">5</span>
+                执行时间线
+            </h2>
+            <p style="color: #666;">分阶段执行，确保种草效果最大化</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>第一阶段：准备期（1-2周）</h4>
+                    <p>完成人设账号搭建，制定详细内容日历，准备素材库，与KOC/KOL建立合作意向，启动平台账号运营。</p>
+                    <p class="time">2026年3月-4月</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>第二阶段：种草期（1-3个月）</h4>
+                    <p>开始系统化输出内容，重点打造爆款笔记/视频，启动KOL/KOC合作推广，加强用户互动和评论引导。</p>
+                    <p class="time">2026年4月-7月</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>第三阶段：发酵期（1-2个月）</h4>
+                    <p>根据数据反馈优化内容策略，加强话题运营，推动内容二次传播，扩大品牌声量，引导用户产生UGC。</p>
+                    <p class="time">2026年7月-9月</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>第四阶段：转化期（持续进行）</h4>
+                    <p>强化销售引导，设置转化路径，跟踪用户行为数据，优化转化漏斗，实现从种草到转化的闭环。</p>
+                    <p class="time">2026年9月-持续</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="number">6</span>
+                核心指标（KPI）
+            </h2>
+            <p style="color: #666;">设定可量化的关键指标，评估种草效果</p>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="value">1000万+</div>
+                    <div class="label">总曝光量</div>
+                    <div class="desc">全平台累计曝光</div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="value">500万+</div>
+                    <div class="label">总互动量</div>
+                    <div class="desc">点赞+评论+收藏</div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="value">100+</div>
+                    <div class="label">爆款内容</div>
+                    <div class="desc">点赞过1万内容</div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="value">50+</div>
+                    <div class="label">合作KOL/KOC</div>
+                    <div class="desc">联合推广账号</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="number">7</span>
+                种草成功要点
+            </h2>
+
+            <div class="tips-box">
+                <h4>种草成功的关键因素</h4>
+                <ul>
+                    <li>真实感第一：用真实的人设和真实的分享打动用户</li>
+                    <li>价值导向：提供真正有用的装修知识和避坑指南</li>
+                    <li>视觉美感：高质量的图片和视频是成功的基础</li>
+                    <li>情感共鸣：触达用户的装修焦虑和需求痛点</li>
+                    <li>持续输出：保持稳定的更新频率，维持账号活跃度</li>
+                    <li>数据驱动：根据数据反馈及时优化内容方向</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <h3>🌱 让泰山石膏走进千家万户</h3>
+            <p>通过系统化的种草策略，提升品牌认知度和美誉度，实现从认知到购买的转化闭环</p>
+            <div class="contact">
+                <p>📞 咨询热线：400-888-8888</p>
+                <p>🌐 官方网站：www.taishangypsum.com</p>
+                <p>📧 商务合作：business@taishangypsum.com</p>
+            </div>
+            <p style="margin-top: 30px; font-size: 12px;">© 2026 泰山石膏股份有限公司 | 种草方案策划文档</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "name": "digital-employee",
+  "enabledBackendModules": ["marketing"],
+  "enabledFrontendModules": ["marketing"],
+  "enabledPlugins": [],
+  "theme": "enterprise-blue",
+  "branding": {
+    "appName": "QwenPaw Digital Employee"
+  }
+}

@@ -10,6 +10,7 @@ from __future__ import annotations
 import asyncio
 import logging
 import os
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any, List, Literal, Optional, Type, TYPE_CHECKING
 
@@ -21,9 +22,14 @@ from agentscope.tool import Toolkit
 from anyio import ClosedResourceError
 from pydantic import BaseModel
 
+from backend.scenes.marketing.hooks import MarketingPostReplyHook
+
 from ..app.mcp import HttpStatefulClient, StdIOStatefulClient
 from .command_handler import CommandHandler
-from .hooks import BootstrapHook
+from .hooks import (
+    BootstrapHook,
+    BusinessPostReplyHookManager,
+)
 from .model_factory import create_model_and_formatter
 from .prompt import (
     build_multimodal_hint,
@@ -61,7 +67,9 @@ from .tools import (
     view_video,
     write_file,
 )
-from .utils import process_file_and_media_blocks_in_message
+from .utils import (
+    process_file_and_media_blocks_in_message,
+)
 from ..constant import (
     MEDIA_UNSUPPORTED_PLACEHOLDER,
     WORKING_DIR,
@@ -111,6 +119,8 @@ class QwenPawAgent(CodingModeMixin, ToolGuardMixin, ReActAgent):
         workspace_dir: Path | None = None,
         task_tracker: Any | None = None,
         plan_notebook: Any | None = None,
+        default_structured_model: Type[BaseModel] | None = None,
+        final_output_parser: Callable[[Msg], None] | None = None,
     ):
         """Initialize QwenPawAgent.
 
@@ -132,6 +142,11 @@ class QwenPawAgent(CodingModeMixin, ToolGuardMixin, ReActAgent):
                 (default: "skip")
             workspace_dir: Workspace directory for reading prompt files
                 (if None, uses global WORKING_DIR)
+            default_structured_model: Optional default pydantic model used
+                when callers do not provide ``structured_model`` to
+                ``reply()``.
+            final_output_parser: Optional parser invoked on the final reply
+                message after the model returns.
         """
         self._agent_config = agent_config
         self._env_context = env_context
@@ -140,6 +155,18 @@ class QwenPawAgent(CodingModeMixin, ToolGuardMixin, ReActAgent):
         self._namesake_strategy = namesake_strategy
         self._workspace_dir = workspace_dir
         self._task_tracker = task_tracker
+        if (
+            default_structured_model is not None
+            and not issubclass(default_structured_model, BaseModel)
+        ):
+            raise TypeError(
+                "default_structured_model must be a BaseModel subclass",
+            )
+        self._default_structured_model = default_structured_model
+        self._final_output_parser = final_output_parser
+        self._business_post_reply_hook_manager = (
+            self._build_business_post_reply_hook_manager()
+        )
 
         # Extract configuration from agent_config
         running_config = agent_config.running
@@ -1457,15 +1484,54 @@ class QwenPawAgent(CodingModeMixin, ToolGuardMixin, ReActAgent):
 
         # Normal message processing
         logger.info("QwenPawAgent.reply: max_iters=%s", self.max_iters)
+        active_structured_model = (
+            structured_model or self._default_structured_model
+        )
 
         request_context = getattr(self, "_request_context", {}) or {}
         channel_name = request_context.get("channel", "console")
         workspace_dir = Path(self._workspace_dir or WORKING_DIR)
         with apply_skill_config_env_overrides(workspace_dir, channel_name):
-            return await super().reply(
+            result = await super().reply(
                 msg=msg,
-                structured_model=structured_model,
+                structured_model=active_structured_model,
             )
+        result = await self._get_business_post_reply_hook_manager()(
+            self,
+            {
+                "msg": msg,
+                "structured_model": active_structured_model,
+            },
+            result,
+        )
+        return result
+
+    def _build_business_post_reply_hook_manager(
+        self,
+    ) -> BusinessPostReplyHookManager:
+        """Create the business post-reply hook manager."""
+
+        return BusinessPostReplyHookManager(
+            handlers=[
+                MarketingPostReplyHook(),
+            ],
+        )
+
+    def _get_business_post_reply_hook_manager(
+        self,
+    ) -> BusinessPostReplyHookManager:
+        """Return an existing business post-reply hook manager or create one."""
+
+        hook_manager = getattr(
+            self,
+            "_business_post_reply_hook_manager",
+            None,
+        )
+        if isinstance(hook_manager, BusinessPostReplyHookManager):
+            return hook_manager
+        hook_manager = self._build_business_post_reply_hook_manager()
+        self._business_post_reply_hook_manager = hook_manager
+        return hook_manager
 
     async def interrupt(self, msg: Msg | list[Msg] | None = None) -> None:
         """Interrupt the current reply process and wait for cleanup."""

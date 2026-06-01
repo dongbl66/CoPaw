@@ -8,7 +8,7 @@ import logging
 import re
 import uuid
 from pathlib import Path
-from typing import AsyncGenerator, Union
+from typing import AsyncGenerator, Union, Optional
 
 from fastapi import APIRouter, File, HTTPException, Query, Request, UploadFile
 from pydantic import BaseModel
@@ -19,6 +19,13 @@ from ...utils.logging import LOG_FILE_PATH
 from ..agent_context import get_agent_for_request
 from ..runner.title_generator import generate_and_update_title
 from ..utils import check_upload_size
+from ..weekly_report_store import (
+    create_report,
+    get_report,
+    list_reports,
+    update_report,
+    delete_report,
+)
 
 
 logger = logging.getLogger(__name__)
@@ -451,3 +458,96 @@ async def get_inbox_trace(run_id: str):
     if trace is None:
         raise HTTPException(status_code=404, detail="trace not found")
     return trace
+
+
+# ============================================================================
+# Weekly Report APIs
+# ============================================================================
+
+class CreateWeeklyReportRequest(BaseModel):
+    title: str
+    period_start: str
+    period_end: str
+    author: str
+    content: str
+    project_name: Optional[str] = None
+    tags: Optional[list[str]] = None
+
+
+class UpdateWeeklyReportRequest(BaseModel):
+    title: Optional[str] = None
+    content: Optional[str] = None
+    status: Optional[str] = None
+    project_name: Optional[str] = None
+    tags: Optional[list[str]] = None
+
+
+@router.post("/weekly-reports")
+async def create_weekly_report(req: CreateWeeklyReportRequest):
+    """Create a new weekly report"""
+    report = await create_report(
+        title=req.title,
+        period_start=req.period_start,
+        period_end=req.period_end,
+        author=req.author,
+        content=req.content,
+        project_name=req.project_name,
+        tags=req.tags,
+    )
+    return report.to_dict()
+
+
+@router.get("/weekly-reports")
+async def list_weekly_reports(
+    status: Optional[str] = Query(None),
+    project_name: Optional[str] = Query(None),
+    author: Optional[str] = Query(None),
+    limit: int = Query(50, ge=1, le=200),
+    offset: int = Query(0, ge=0),
+):
+    """List weekly reports with filters"""
+    reports = await list_reports(
+        status=status,
+        project_name=project_name,
+        author=author,
+        limit=limit,
+        offset=offset,
+    )
+    return {
+        "reports": [r.to_dict() for r in reports],
+        "total": len(reports),
+    }
+
+
+@router.get("/weekly-reports/{report_id}")
+async def get_weekly_report(report_id: str):
+    """Get a weekly report by ID"""
+    report = await get_report(report_id)
+    if report is None:
+        raise HTTPException(status_code=404, detail="Report not found")
+    return report.to_dict()
+
+
+@router.put("/weekly-reports/{report_id}")
+async def update_weekly_report(report_id: str, req: UpdateWeeklyReportRequest):
+    """Update a weekly report"""
+    report = await update_report(
+        report_id=report_id,
+        title=req.title,
+        content=req.content,
+        status=req.status,
+        project_name=req.project_name,
+        tags=req.tags,
+    )
+    if report is None:
+        raise HTTPException(status_code=404, detail="Report not found")
+    return report.to_dict()
+
+
+@router.delete("/weekly-reports/{report_id}")
+async def delete_weekly_report(report_id: str):
+    """Delete a weekly report"""
+    deleted = await delete_report(report_id)
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Report not found")
+    return {"deleted": True}

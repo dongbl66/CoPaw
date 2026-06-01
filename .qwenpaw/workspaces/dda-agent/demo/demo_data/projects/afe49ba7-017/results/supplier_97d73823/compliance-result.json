@@ -1,0 +1,44 @@
+{
+  "agent_role": "合规审核智能体",
+  "conclusion": "通过（1项建议整改）",
+  "issues": [
+    {
+      "rule_id": "R003",
+      "severity": "建议",
+      "description": "投标保证金汇款凭证中备注信息不完整，建议补充项目编号"
+    }
+  ],
+  "evidence": [
+    {
+      "rule_id": "R001",
+      "check": "营业执照",
+      "result": "符合"
+    },
+    {
+      "rule_id": "R002",
+      "check": "资质证书",
+      "result": "符合"
+    },
+    {
+      "rule_id": "R003",
+      "check": "投标保证金",
+      "result": "建议整改"
+    },
+    {
+      "rule_id": "R004",
+      "check": "投标有效期",
+      "result": "符合"
+    },
+    {
+      "rule_id": "R005",
+      "check": "投标函签署",
+      "result": "符合"
+    },
+    {
+      "rule_id": "R006",
+      "check": "授权委托书",
+      "result": "符合"
+    }
+  ],
+  "summary": "「星辰科技有限公司」满足全部资格条件和否决项要求，无重大不合规项。1项建议整改（保证金备注）。"
+}

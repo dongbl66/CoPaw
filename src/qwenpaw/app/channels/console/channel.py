@@ -13,6 +13,7 @@ pretty-printed to the terminal.
 from __future__ import annotations
 
 import copy
+import json
 import logging
 import os
 import sys
@@ -29,6 +30,7 @@ from agentscope_runtime.engine.schemas.agent_schemas import (
 from ....config.config import ConsoleConfig as ConsoleChannelConfig
 from ...console_push_store import append as push_store_append
 from ....constant import DEFAULT_MEDIA_DIR
+from .structured_result_event import StructuredResultPushEventFactory
 from ..base import (
     BaseChannel,
     AudioContent,
@@ -109,6 +111,9 @@ class ConsoleChannel(BaseChannel):
         )
         self.enabled = enabled
         self.bot_prefix = bot_prefix
+        self._structured_result_event_factory = (
+            StructuredResultPushEventFactory()
+        )
         self._workspace_dir = (
             Path(workspace_dir).expanduser() if workspace_dir else None
         )
@@ -403,6 +408,22 @@ class ConsoleChannel(BaseChannel):
 
                 data = self._serialize_event_for_sse(event)
                 yield f"data: {data}\n\n"
+
+                if (
+                    obj == "response"
+                    and status == RunStatus.Completed
+                ):
+                    structured_result_events = (
+                        self._structured_result_event_factory.build_from_response_output(
+                            session_id=session_id,
+                            output_messages=getattr(event, "output", None),
+                        )
+                    )
+                    for structured_result_event in structured_result_events:
+                        yield (
+                            "data: "
+                            f"{json.dumps(structured_result_event, ensure_ascii=False)}\n\n"
+                        )
 
                 if obj == "message" and status == RunStatus.Completed:
                     media_message = await self._extract_media_message(event)

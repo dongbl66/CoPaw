@@ -1,5 +1,37 @@
 import { request } from "../request";
 
+export interface WeeklyReport {
+  id: string;
+  title: string;
+  period_start: string;
+  period_end: string;
+  author: string;
+  content: string;
+  project_name?: string;
+  status: "draft" | "submitted" | "archived";
+  created_at: number;
+  updated_at: number;
+  tags: string[];
+}
+
+export interface CreateWeeklyReportRequest {
+  title: string;
+  period_start: string;
+  period_end: string;
+  author: string;
+  content: string;
+  project_name?: string;
+  tags?: string[];
+}
+
+export interface UpdateWeeklyReportRequest {
+  title?: string;
+  content?: string;
+  status?: string;
+  project_name?: string;
+  tags?: string[];
+}
+
 export interface PushMessage {
   id: string;
   text: string;
@@ -95,4 +127,45 @@ export const consoleApi = {
 
   getInboxTrace: (runId: string) =>
     request<InboxTrace>(`/console/inbox/traces/${encodeURIComponent(runId)}`),
+
+  // Weekly Report APIs
+  createWeeklyReport: (req: CreateWeeklyReportRequest) =>
+    request<WeeklyReport>("/console/weekly-reports", {
+      method: "POST",
+      body: JSON.stringify(req),
+    }),
+
+  listWeeklyReports: (params?: {
+    status?: string;
+    project_name?: string;
+    author?: string;
+    limit?: number;
+    offset?: number;
+  }) => {
+    const query = new URLSearchParams();
+    if (params?.status) query.set("status", params.status);
+    if (params?.project_name) query.set("project_name", params.project_name);
+    if (params?.author) query.set("author", params.author);
+    if (params?.limit !== undefined) query.set("limit", String(params.limit));
+    if (params?.offset !== undefined)
+      query.set("offset", String(params.offset));
+    const suffix = query.toString() ? `?${query.toString()}` : "";
+    return request<{ reports: WeeklyReport[]; total: number }>(
+      `/console/weekly-reports${suffix}`,
+    );
+  },
+
+  getWeeklyReport: (reportId: string) =>
+    request<WeeklyReport>(`/console/weekly-reports/${encodeURIComponent(reportId)}`),
+
+  updateWeeklyReport: (reportId: string, req: UpdateWeeklyReportRequest) =>
+    request<WeeklyReport>(`/console/weekly-reports/${encodeURIComponent(reportId)}`, {
+      method: "PUT",
+      body: JSON.stringify(req),
+    }),
+
+  deleteWeeklyReport: (reportId: string) =>
+    request<{ deleted: boolean }>(`/console/weekly-reports/${encodeURIComponent(reportId)}`, {
+      method: "DELETE",
+    }),
 };

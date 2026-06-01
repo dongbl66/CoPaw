@@ -127,6 +127,55 @@ function AppInner() {
   const { isDark } = useTheme();
   const { loading: pluginsLoading } = usePlugins();
   const selectedTheme = isDark ? bailianDarkTheme : bailianTheme;
+  const verdantTokens = isDark
+    ? {
+        colorPrimary: "#6FAF72",
+        colorInfo: "#7FAF9A",
+        colorSuccess: "#8BCF8B",
+        colorWarning: "#D2A46A",
+        colorError: "#C96E5E",
+        colorBgBase: "#0D1410",
+        colorBgLayout: "#0D1410",
+        colorBgContainer: "#18231C",
+        colorBgElevated: "#1F2B22",
+        colorBorder: "#314235",
+        colorSplit: "rgba(137, 161, 136, 0.18)",
+        colorText: "#EEF3EA",
+        colorTextSecondary: "#A8B5A1",
+        colorTextTertiary: "rgba(168, 181, 161, 0.78)",
+        colorFillSecondary: "rgba(111, 175, 114, 0.10)",
+        colorFillTertiary: "rgba(255, 255, 255, 0.04)",
+        colorFillQuaternary: "rgba(255, 255, 255, 0.02)",
+        borderRadius: 16,
+        borderRadiusLG: 20,
+        borderRadiusSM: 12,
+        fontFamily:
+          '"Bahnschrift", "Segoe UI Variable Display", "Segoe UI", "Microsoft YaHei UI", sans-serif',
+      }
+    : {
+        colorPrimary: "#5E9E63",
+        colorInfo: "#6E9A83",
+        colorSuccess: "#79B56F",
+        colorWarning: "#B88B5A",
+        colorError: "#C96E5E",
+        colorBgBase: "#F3F1E8",
+        colorBgLayout: "#F3F1E8",
+        colorBgContainer: "#FFFDF7",
+        colorBgElevated: "#FFFFFF",
+        colorBorder: "#D7DDCF",
+        colorSplit: "rgba(110, 128, 101, 0.16)",
+        colorText: "#213127",
+        colorTextSecondary: "#61715F",
+        colorTextTertiary: "rgba(97, 113, 95, 0.8)",
+        colorFillSecondary: "rgba(94, 158, 99, 0.10)",
+        colorFillTertiary: "rgba(33, 49, 39, 0.04)",
+        colorFillQuaternary: "rgba(33, 49, 39, 0.02)",
+        borderRadius: 16,
+        borderRadiusLG: 20,
+        borderRadiusSM: 12,
+        fontFamily:
+          '"Bahnschrift", "Segoe UI Variable Display", "Segoe UI", "Microsoft YaHei UI", sans-serif',
+      };
   const lang = i18n.resolvedLanguage || i18n.language || "en";
   const [antdLocale, setAntdLocale] = useState<Locale>(
     antdLocaleMap[lang] ?? enUS,
@@ -183,9 +232,7 @@ function AppInner() {
           algorithm: isDark
             ? antdTheme.darkAlgorithm
             : antdTheme.defaultAlgorithm,
-          token: {
-            colorPrimary: "#FF7F16",
-          },
+          token: verdantTokens,
         }}
       >
         <AntdApp>

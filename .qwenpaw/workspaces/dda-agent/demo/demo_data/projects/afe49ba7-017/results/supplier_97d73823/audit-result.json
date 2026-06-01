@@ -1,0 +1,32 @@
+{
+  "agent_role": "数据稽核智能体",
+  "conclusion": "通过",
+  "issues": [],
+  "evidence": [
+    {
+      "item": "投标总价",
+      "expected": "≤预算",
+      "actual": "¥8,560,000",
+      "result": "在预算内"
+    },
+    {
+      "item": "分项报价合计",
+      "expected": "=投标总价",
+      "actual": "¥8,560,000",
+      "result": "一致"
+    },
+    {
+      "item": "大写金额",
+      "expected": "=小写金额",
+      "actual": "捌佰伍拾陆万元整",
+      "result": "一致"
+    },
+    {
+      "item": "数量×单价",
+      "expected": "=分项金额",
+      "actual": "已核对10项",
+      "result": "一致"
+    }
+  ],
+  "summary": "「星辰科技有限公司」报价金额一致，大写小写匹配，分项合计与总价一致，无算术错误。"
+}

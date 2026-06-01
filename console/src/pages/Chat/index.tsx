@@ -68,6 +68,7 @@ import {
 import { openExternalLink } from "../../utils/openExternalLink";
 import { getLastEditorCopy } from "../Coding/lastEditorCopy";
 import { useUploadLimitStore } from "../../stores/uploadLimitStore";
+import ResultWorkbench from "./result-panel/ResultWorkbench";
 
 interface SessionInfo {
   session_id?: string;
@@ -1242,7 +1243,7 @@ export default function ChatPage() {
       },
       welcome: {
         ...i18nConfig.welcome,
-        nick: "QwenPaw",
+        nick: "FAE Console",
         avatar: "/qwenpaw.png",
       },
       sender: {
@@ -1415,21 +1416,18 @@ export default function ChatPage() {
   ]);
 
   return (
-    <div
-      style={{
-        height: "100%",
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <div className={styles.chatMessagesArea}>
-        <AgentScopeRuntimeWebUI
-          ref={chatRef}
-          key={refreshKey}
-          options={options}
-        />
+    <div className={styles.chatPageShell}>
+      <div className={styles.chatMainPane}>
+        <div className={styles.chatMessagesArea}>
+          <AgentScopeRuntimeWebUI
+            ref={chatRef}
+            key={refreshKey}
+            options={options}
+          />
+        </div>
       </div>
+
+      <ResultWorkbench sessionId={window.currentSessionId || chatId || null} />
 
       {/* Render approval cards as overlays */}
       {Array.from(approvalRequests.values()).map((request) => (

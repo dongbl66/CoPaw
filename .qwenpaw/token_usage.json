@@ -1,0 +1,11 @@
+{
+  "2026-06-01": {
+    "deepseek:deepseek-v4-flash": {
+      "provider_id": "deepseek",
+      "model_name": "deepseek-v4-flash",
+      "prompt_tokens": 327753,
+      "completion_tokens": 6664,
+      "call_count": 20
+    }
+  }
+}

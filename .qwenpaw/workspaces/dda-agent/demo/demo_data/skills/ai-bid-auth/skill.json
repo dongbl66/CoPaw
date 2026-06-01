@@ -1,0 +1,63 @@
+{
+  "id": "ai-bid-auth",
+  "name": "验真智能体",
+  "version": "1.0.0",
+  "description": "负责投标材料真伪核验与主体一致性检查",
+  "agent_role": "验真",
+  "capabilities": [
+    {
+      "name": "营业执照核验",
+      "method": "工商系统比对",
+      "check_items": [
+        "统一社会信用代码有效性",
+        "经营范围匹配",
+        "注册资本满足要求",
+        "经营状态正常"
+      ]
+    },
+    {
+      "name": "资质证书核验",
+      "method": "发证机构官网核实",
+      "check_items": [
+        "证书编号真实性",
+        "有效期检查",
+        "认证范围覆盖",
+        "发证机构权威性"
+      ]
+    },
+    {
+      "name": "主体一致性",
+      "method": "多文件交叉比对",
+      "check_items": [
+        "投标人名称一致性",
+        "法定代表人一致性",
+        "地址一致性",
+        "公章一致性"
+      ]
+    },
+    {
+      "name": "业绩真实性",
+      "method": "合同/验收单核验",
+      "check_items": [
+        "合同签约方一致性",
+        "项目金额合理性",
+        "时间逻辑性"
+      ]
+    }
+  ],
+  "input_schema": {
+    "files": "投标文件清单 (files.json)",
+    "rules": "评审规则引用"
+  },
+  "output_schema": {
+    "format": "verification-result.json",
+    "fields": [
+      "agent_role",
+      "conclusion",
+      "issues",
+      "evidence",
+      "summary"
+    ]
+  },
+  "failure_strategy": "标记issues，conclusion降级为'需复核'"
+}

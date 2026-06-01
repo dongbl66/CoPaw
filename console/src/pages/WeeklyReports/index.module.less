@@ -1,0 +1,90 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.toolbar {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.reportList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 16px;
+}
+
+.reportCard {
+  :global {
+    .ant-card-body {
+      padding: 16px;
+    }
+  }
+}
+
+.reportHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.reportTitle {
+  font-size: 16px;
+  font-weight: 600;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 12px;
+}
+
+.reportMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  color: #666;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.reportTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.reportTime {
+  color: #999;
+  font-size: 12px;
+}
+
+.viewModal {
+  .meta {
+    margin-bottom: 16px;
+  }
+
+  .tags {
+    margin-bottom: 16px;
+  }
+
+  .content {
+    padding: 0;
+    overflow: hidden;
+
+    :global {
+      img {
+        max-width: 100%;
+      }
+    }
+  }
+}

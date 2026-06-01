@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>泰山石膏 - 中国石膏行业引领者</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 24px;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .hero .cta {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .hero .cta:hover {
+            background: #e55a2b;
+        }
+        
+        /* Product Section */
+        .products {
+            padding: 60px 0;
+            background: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+            color: #1e3a5f;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .product-card {
+            background: #f9f9f9;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .product-card .content {
+            padding: 20px;
+        }
+        
+        .product-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #1e3a5f;
+        }
+        
+        .product-card p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .product-card .tag {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        
+        /* Advantages Section */
+        .advantages {
+            padding: 60px 0;
+            background: #f0f4f8;
+        }
+        
+        .advantages-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+        
+        .advantage-item {
+            text-align: center;
+            padding: 30px 20px;
+            background: white;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+        
+        .advantage-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .advantage-item .icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .advantage-item h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #1e3a5f;
+        }
+        
+        .advantage-item p {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Cases Section */
+        .cases {
+            padding: 60px 0;
+            background: white;
+        }
+        
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .case-card {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .case-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .case-card .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 20px;
+            color: white;
+        }
+        
+        .case-card h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .case-card p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #1e3a5f;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .footer p {
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .advantages-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .case-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>泰山石膏</h1>
+            <p>中国石膏行业引领者 · 国家级高新技术企业</p>
+            <a href="#products" class="cta">探索产品系列</a>
+        </div>
+    </section>
+    
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section-title">核心产品体系</h2>
+            
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="../assets/taishan-gypsum/paper-faced-gypsum-board.png" alt="纸面石膏板">
+                    <div class="content">
+                        <h3>纸面石膏板</h3>
+                        <p>采用优质天然石膏与护面纸，具有防火、隔音、抗震等特点，适用于各类吊顶、隔墙工程。</p>
+                        <span class="tag">畅销产品</span>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="../assets/taishan-gypsum/gypsum-based-fire-board.png" alt="石膏基阻燃板">
+                    <div class="content">
+                        <h3>石膏基阻燃板</h3>
+                        <p>A级防火性能，遇火不燃、不产生有毒烟雾，为建筑安全提供坚实保障。</p>
+                        <span class="tag">安全首选</span>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="../assets/taishan-gypsum/formaldehyde-reducing-gypsum-board.png" alt="分解甲醛石膏板">
+                    <div class="content">
+                        <h3>分解甲醛石膏板</h3>
+                        <p>创新环保技术，持续分解室内甲醛，24小时净化空气，呵护家人健康。</p>
+                        <span class="tag">环保健康</span>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="../assets/taishan-gypsum/gypsum-fiber-board.png" alt="石膏纤维板">
+                    <div class="content">
+                        <h3>石膏纤维板</h3>
+                        <p>高强韧、抗冲击，适用于对强度要求较高的隔墙、衬板等场景。</p>
+                        <span class="tag">高强耐用</span>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="../assets/taishan-gypsum/fabric-faced-gypsum-board.png" alt="布面石膏板">
+                    <div class="content">
+                        <h3>布面石膏板</h3>
+                        <p>表面平整细腻，可直接进行涂料装饰，减少施工工序，提升效率。</p>
+                        <span class="tag">施工便捷</span>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="../assets/taishan-gypsum/plaster-gypsum.png" alt="抹灰石膏">
+                    <div class="content">
+                        <h3>抹灰石膏</h3>
+                        <p>粉体细腻、粘结力强，适用于室内墙面抹灰找平，替代传统水泥砂浆。</p>
+                        <span class="tag">基层处理</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Advantages Section -->
+    <section class="advantages">
+        <div class="container">
+            <h2 class="section-title">选择泰山石膏的理由</h2>
+            
+            <div class="advantages-grid">
+                <div class="advantage-item">
+                    <div class="icon">🏭</div>
+                    <h4>规模化制造</h4>
+                    <p>全国布局20余个生产基地，年产能超5亿平方米</p>
+                </div>
+                
+                <div class="advantage-item">
+                    <div class="icon">✓</div>
+                    <h4>稳定交付</h4>
+                    <p>强大供应链体系，确保项目按时按质交付</p>
+                </div>
+                
+                <div class="advantage-item">
+                    <div class="icon">🏆</div>
+                    <h4>头部项目验证</h4>
+                    <p>服务大兴机场、冬奥场馆等国家级重点工程</p>
+                </div>
+                
+                <div class="advantage-item">
+                    <div class="icon">🔧</div>
+                    <h4>系统化产品</h4>
+                    <p>板材+龙骨+辅材一体化解决方案</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Cases Section -->
+    <section class="cases">
+        <div class="container">
+            <h2 class="section-title">经典案例</h2>
+            
+            <div class="case-grid">
+                <div class="case-card">
+                    <img src="../assets/taishan-gypsum/case-daxing-airport.png" alt="北京大兴国际机场">
+                    <div class="overlay">
+                        <h4>北京大兴国际机场</h4>
+                        <p>世界级枢纽 · 20万㎡石膏板应用</p>
+                    </div>
+                </div>
+                
+                <div class="case-card">
+                    <img src="../assets/taishan-gypsum/case-winter-olympics-venue.png" alt="北京冬奥场馆">
+                    <div class="overlay">
+                        <h4>北京冬奥场馆</h4>
+                        <p>绿色奥运 · 全线环保产品</p>
+                    </div>
+                </div>
+                
+                <div class="case-card">
+                    <img src="../assets/taishan-gypsum/case-xiongan-station.png" alt="雄安站">
+                    <div class="overlay">
+                        <h4>雄安站</h4>
+                        <p>千年大计 · 高品质保障</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>泰山石膏股份有限公司 · 国家级高新技术企业</p>
+            <p>中国石膏行业引领者 · 服务热线：400-XXX-XXXX</p>
+        </div>
+    </footer>
+</body>
+</html>
