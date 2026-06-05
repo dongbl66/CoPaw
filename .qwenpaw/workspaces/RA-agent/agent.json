@@ -1,7 +1,7 @@
 {
   "id": "RA-agent",
-  "name": "调研分析",
-  "description": "负责收集、整理、分析与特定问题或领域相关的信息，输出结构化的调研报告与分析结论。",
+  "name": "商机调研官",
+  "description": "专业的项目调研与商机分析助手，帮您深入调研项目、挖掘商机、生成产品需求说明文档。",
   "workspace_dir": "/srv/projects/ai-digital-employee/.runtime_home/.qwenpaw/workspaces/RA-agent",
   "template_id": "default",
   "channels": {
@@ -163,6 +163,18 @@
       "access_control_group": false,
       "dm_disabled": false,
       "group_disabled": false
+    },
+    "webapp": {
+      "enabled": true,
+      "bot_prefix": "",
+      "filter_tool_messages": false,
+      "filter_thinking": false,
+      "allow_from": [],
+      "deny_message": "",
+      "require_mention": false,
+      "access_control_dm": false,
+      "access_control_group": false,
+      "scene": "opportunity_insight"
     },
     "matrix": {
       "enabled": false,
@@ -349,7 +361,7 @@
   "last_dispatch": {
     "channel": "console",
     "user_id": "default",
-    "session_id": "1780322930643"
+    "session_id": "1780325759628"
   },
   "running": {
     "max_iters": 100,
