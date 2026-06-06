@@ -1,0 +1,36 @@
+{
+  "scene": "opportunity_insight",
+  "title": "商机研析",
+  "agent_id": "RA-agent",
+  "welcome": "商机智脑上线，帮你快速识别客户需求、项目机会与推进路径",
+  "placeholder": "请输入客户背景、需求描述、会议纪要或商机线索",
+  "suggestions": [
+    "我刚见完一个客户，帮我梳理这个商机该怎么继续跟",
+    "客户提了AI诉求，但需求很模糊，帮我设计追问路径",
+    "根据这段会议纪要，帮我判断预算、阶段和突破口"
+  ],
+  "capabilities": {
+    "history": true,
+    "voice": false,
+    "upload": false,
+    "stop_generation": true
+  },
+  "session": {
+    "namespace": "opportunity_insight",
+    "reuse_last": true
+  },
+  "meta_defaults": {
+    "scene": "opportunity_insight",
+    "source": "miniapp_webview",
+    "entry": "sales_opportunity"
+  },
+  "conversation_contract": {
+    "mode": "consultative_chat",
+    "pattern": [
+      "clarify",
+      "deep_dive",
+      "summary",
+      "next_action"
+    ]
+  }
+}
