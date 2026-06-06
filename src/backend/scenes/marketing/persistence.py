@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import logging
 from typing import Any
 
 from agentscope.message import Msg
@@ -10,6 +11,8 @@ from agentscope.message import Msg
 from backend.database.connection import BackendDatabase, get_backend_database
 
 from .service import MarketingOpportunityService, MarketingResultService
+
+logger = logging.getLogger(__name__)
 
 
 class MarketingStructuredResultPersistence:
@@ -34,25 +37,48 @@ class MarketingStructuredResultPersistence:
         metadata = msg.metadata if isinstance(msg.metadata, dict) else {}
         structured_result = metadata.get("structured_result")
         if not isinstance(structured_result, dict):
+            logger.info(
+                "[persistence] persist_message: no structured_result in metadata, skip"
+            )
             return
 
         business_result = metadata.get("business_result")
         if not isinstance(business_result, dict):
             business_result = {}
+            logger.info(
+                "[persistence] persist_message: no business_result in metadata, "
+                "using empty dict"
+            )
 
         result = structured_result.get("result")
         if not isinstance(result, dict):
+            logger.info(
+                "[persistence] persist_message: structured_result.result is not dict, skip"
+            )
             return
 
         result_type = result.get("type")
         payload = result.get("payload")
         if not isinstance(result_type, str) or not isinstance(payload, dict):
+            logger.info(
+                "[persistence] persist_message: result_type=%s payload_type=%s, skip",
+                result_type,
+                type(payload).__name__ if payload is not None else None,
+            )
             return
 
         title = structured_result.get("title")
         if not isinstance(title, str) or not title.strip():
             title = "分析结果"
 
+        logger.info(
+            "[persistence] persist_message: creating result, title=%s type=%s "
+            "session_id=%s agent_id=%s",
+            title.strip(),
+            result_type,
+            session_id,
+            agent_id,
+        )
         self._marketing_result_service.create_result(
             title=title.strip(),
             result_type=result_type,
@@ -70,6 +96,8 @@ class MarketingStructuredResultPersistence:
             session_id=session_id,
             agent_id=agent_id,
         )
+        logger.info("[persistence] persist_message: marketing_result created")
+
         self._persist_opportunities(
             business_result=business_result,
             session_id=session_id,
@@ -212,10 +240,22 @@ class MarketingStructuredResultPersistence:
     ) -> None:
         """Persist extracted opportunities under the marketing opportunity table."""
 
-        for item in self._extract_opportunities(business_result):
+        items = self._extract_opportunities(business_result)
+        logger.info(
+            "[persistence] _persist_opportunities: %d opportunity candidates extracted",
+            len(items),
+        )
+        for item in items:
             title = self._first_text(item, "title", "name", "项目名称", "商机标题")
             if not title:
+                logger.info(
+                    "[persistence] _persist_opportunities: skipping item without title"
+                )
                 continue
+            logger.info(
+                "[persistence] _persist_opportunities: creating opportunity title=%s",
+                title,
+            )
             self._marketing_opportunity_service.create_opportunity(
                 title=title,
                 opportunity_type=self._first_text(

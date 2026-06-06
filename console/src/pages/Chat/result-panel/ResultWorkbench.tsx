@@ -44,9 +44,22 @@ export default function ResultWorkbench({
     (resultRecord: MarketingResultRecord) => {
       const nextResult = toStructuredResultEventFromRecord(resultRecord);
       if (!nextResult) {
+        console.log(
+          "[result-panel:workbench] applyResultRecord: toStructuredResultEventFromRecord returned null, "
+          + "record_id=%d summary=%s info=%s",
+          resultRecord.id,
+          resultRecord.summary ? "present" : "missing",
+          resultRecord.info?.structuredResult ? "present" : "missing",
+        );
         return;
       }
 
+      console.log(
+        "[result-panel:workbench] applyResultRecord: record_id=%d type=%s title=%s",
+        resultRecord.id,
+        nextResult.result.type,
+        nextResult.title,
+      );
       setActiveRecord(resultRecord);
       setActiveResult(nextResult);
       if (latestResultIdRef.current !== resultRecord.id) {
@@ -64,16 +77,24 @@ export default function ResultWorkbench({
       return;
     }
 
+    console.log("[result-panel:workbench] loadLatestResult: polling session_id=%s", sessionId);
     setLoading(true);
     try {
       const response = await marketingResultApi.getLatestResult(sessionId);
       const latestItem = response.item;
       if (!latestItem) {
+        console.log("[result-panel:workbench] loadLatestResult: no item in response");
         return;
       }
+      console.log(
+        "[result-panel:workbench] loadLatestResult: got item id=%d title=%s result_type=%s",
+        latestItem.id,
+        latestItem.title,
+        latestItem.result_type,
+      );
       applyResultRecord(latestItem);
     } catch (error) {
-      console.error("Failed to load latest marketing result:", error);
+      console.error("[result-panel:workbench] loadLatestResult failed:", error);
     } finally {
       setLoading(false);
     }

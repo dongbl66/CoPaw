@@ -178,6 +178,12 @@ function ActionsRenderer({ payload }: { payload: StructuredActionsPayload }) {
 
 export function ResultRenderer({ result }: { result: StructuredResultEvent }) {
   const { t } = useTranslation();
+  console.log(
+    "[result-panel:render] ResultRenderer: type=%s title=%s result_keys=%s",
+    result.result.type,
+    result.title,
+    Object.keys(result.result).join(","),
+  );
   switch (result.result.type) {
     case "business":
       return (
@@ -308,7 +314,8 @@ export default function ResultPanel({
         {result ? (
           <ResultRenderer result={result} />
         ) : (
-          <Empty description={t("chat.resultPanel.empty")} />
+          (console.log("[result-panel:render] ResultPanel: result is null, showing empty"),
+          <Empty description={t("chat.resultPanel.empty")} />)
         )}
       </div>
     </aside>

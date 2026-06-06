@@ -309,7 +309,10 @@ class BusinessResultMetadataInjector:
             msg.metadata = {}
         text_blocks = _get_text_blocks(msg)
         if not text_blocks and not isinstance(msg.content, str):
-            logger.debug("Skip business result parse: no text content")
+            logger.info(
+                "[parser] inject: no text content found, msg.content type=%s",
+                type(msg.content).__name__,
+            )
             return
 
         raw_text = (
@@ -318,15 +321,25 @@ class BusinessResultMetadataInjector:
             else msg.content.strip()
         )
         if not raw_text:
-            logger.debug("Skip business result parse: empty text")
+            logger.info("[parser] inject: empty text after strip, skip")
             return
 
+        logger.info(
+            "[parser] inject: raw_text len=%d, preview=%.200s",
+            len(raw_text),
+            raw_text,
+        )
         parsed = _extract_business_payload(raw_text)
         if not isinstance(parsed, dict):
-            logger.debug("Business result not found in final output")
+            logger.info("[parser] inject: _extract_business_payload returned None")
             return
 
         business_result = parsed["meta"]["business_result"]
+        logger.info(
+            "[parser] inject: business_result parsed, keys=%s, has_opportunities=%s",
+            list(business_result.keys()),
+            self._structured_result_builder._has_opportunities(business_result),
+        )
         msg.metadata["business_result"] = business_result
         msg.metadata["business_result_source"] = "agent_output"
         msg.metadata["structured_result"] = (
@@ -334,6 +347,11 @@ class BusinessResultMetadataInjector:
                 business_result=business_result,
                 output_text=str(parsed.get("output", "")).strip(),
             )
+        )
+        logger.info(
+            "[parser] inject: structured_result built, type=%s, title=%s",
+            msg.metadata["structured_result"]["result"]["type"],
+            msg.metadata["structured_result"].get("title"),
         )
         _replace_text_output(msg, parsed.get("output", ""))
 
@@ -410,25 +428,78 @@ def _extract_business_payload(text: str) -> dict[str, Any] | None:
         candidates.append(text[start : end + 1])
     candidates.append(text)
 
-    for candidate in candidates:
+    logger.info(
+        "[parser] _extract_business_payload: %d fence blocks, %d total candidates",
+        len(fence_matches),
+        len(candidates),
+    )
+
+    for i, candidate in enumerate(candidates):
         try:
             parsed = json.loads(candidate)
         except json.JSONDecodeError:
+            logger.info(
+                "[parser] _extract_business_payload: candidate[%d] JSON decode failed, "
+                "preview=%.100s",
+                i,
+                candidate,
+            )
             continue
         if not isinstance(parsed, dict):
+            logger.info(
+                "[parser] _extract_business_payload: candidate[%d] is not dict, type=%s",
+                i,
+                type(parsed).__name__,
+            )
             continue
         meta = parsed.get("meta")
         if isinstance(meta, dict):
             business_result = meta.get("business_result")
             if isinstance(business_result, dict):
+                logger.info(
+                    "[parser] _extract_business_payload: found via meta.business_result "
+                    "at candidate[%d]",
+                    i,
+                )
                 parsed["meta"] = dict(meta)
                 parsed["meta"]["business_result"] = _normalize_business_result(
                     business_result,
                 )
                 return parsed
+            logger.info(
+                "[parser] _extract_business_payload: candidate[%d] has meta but "
+                "no business_result",
+                i,
+            )
             continue
+        top_level_business_result = parsed.get("business_result")
+        if isinstance(top_level_business_result, dict):
+            logger.info(
+                "[parser] _extract_business_payload: found via top-level "
+                "business_result at candidate[%d]",
+                i,
+            )
+            return {
+                "output": _resolve_output_text(parsed, text),
+                "meta": {
+                    "business_result": _normalize_business_result(
+                        top_level_business_result,
+                    ),
+                },
+            }
         if not _is_business_result_dict(parsed):
+            logger.info(
+                "[parser] _extract_business_payload: candidate[%d] not a "
+                "business_result dict, keys=%s",
+                i,
+                list(parsed.keys())[:10],
+            )
             continue
+        logger.info(
+            "[parser] _extract_business_payload: candidate[%d] matched as "
+            "bare business_result dict",
+            i,
+        )
         summary_text = text
         for candidate_text, span in fence_matches:
             if candidate == candidate_text:
@@ -440,7 +511,29 @@ def _extract_business_payload(text: str) -> dict[str, Any] | None:
                 "business_result": _normalize_business_result(parsed),
             },
         }
+    logger.info("[parser] _extract_business_payload: no match found in any candidate")
     return None
+
+
+def _resolve_output_text(parsed: dict[str, Any], fallback_text: str) -> str:
+    """Resolve a human-readable summary text from parsed wrapper payloads."""
+
+    output = parsed.get("output")
+    if isinstance(output, str) and output.strip():
+        return output.strip()
+
+    structured_result = parsed.get("structured_result")
+    if isinstance(structured_result, dict):
+        result = structured_result.get("result")
+        if isinstance(result, dict):
+            payload = result.get("payload")
+            if isinstance(payload, dict):
+                for key in ("text", "summary", "richText"):
+                    value = payload.get(key)
+                    if isinstance(value, str) and value.strip():
+                        return value.strip()
+
+    return fallback_text.strip()
 
 
 def _replace_text_output(msg: Msg, output_value: Any) -> None:

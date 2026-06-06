@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import logging
+
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from .dependencies import (
@@ -26,6 +28,8 @@ from .schemas.result import (
     MarketingResultUpdate,
 )
 from .service import MarketingOpportunityService, MarketingResultService
+
+logger = logging.getLogger(__name__)
 
 
 def create_router() -> APIRouter:
@@ -62,10 +66,16 @@ def create_router() -> APIRouter:
             build_marketing_result_service,
         ),
     ) -> MarketingResultLatestResponse:
+        result = marketing_result_service.get_latest_result_by_session(
+            session_id,
+        )
+        logger.info(
+            "[api] GET /results/latest: session_id=%s has_result=%s",
+            session_id,
+            result is not None,
+        )
         return MarketingResultLatestResponse(
-            item=marketing_result_service.get_latest_result_by_session(
-                session_id,
-            ),
+            item=result,
         )
 
     @router.post("/results/{result_id}/save", response_model=MarketingResultRead)

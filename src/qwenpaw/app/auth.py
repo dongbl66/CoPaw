@@ -69,6 +69,7 @@ _PUBLIC_PREFIXES: tuple[str, ...] = (
     "/logo.png",
     "/qwenpaw-symbol.svg",
     "/api/frontend_plugin/",
+    "/api/webapp/",
 )
 
 

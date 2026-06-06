@@ -28,6 +28,13 @@ class PostReplyBusinessHandler(Protocol):
 class BaseBusinessPostReplyHook(ABC):
     """Template-method base class for one business post-reply hook."""
 
+    @staticmethod
+    def _agent_id(agent: Any) -> str:
+        """Extract agent id from request_context or config."""
+        ctx = getattr(agent, "_request_context", {}) or {}
+        cfg = getattr(agent, "_agent_config", None)
+        return ctx.get("agent_id") or getattr(cfg, "id", "unknown")
+
     async def handle(
         self,
         agent: Any,
@@ -36,8 +43,15 @@ class BaseBusinessPostReplyHook(ABC):
     ) -> Msg | None:
         """Run the shared business post-reply flow."""
 
+        agent_id = self._agent_id(agent)
         if not self.should_handle(agent=agent, kwargs=kwargs, output=output):
+            logger.info(
+                "[hook:base] agent_id=%s should_handle=False, skip",
+                agent_id,
+            )
             return None
+
+        logger.info("[hook:base] agent_id=%s should_handle=True, start flow", agent_id)
 
         current_output = await self.parse_output(
             agent=agent,
@@ -53,10 +67,18 @@ class BaseBusinessPostReplyHook(ABC):
         )
         final_output = updated_output or parsed_output
 
+        logger.info(
+            "[hook:base] agent_id=%s apply_metadata done, entering persist",
+            agent_id,
+        )
         await self.persist(
             agent=agent,
             kwargs=kwargs,
             output=final_output,
+        )
+        logger.info(
+            "[hook:base] agent_id=%s persist done, flow complete",
+            agent_id,
         )
         return final_output
 

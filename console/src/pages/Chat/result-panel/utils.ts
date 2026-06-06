@@ -39,8 +39,21 @@ export function toStructuredResultEventFromRecord(
 ): StructuredResultEvent | null {
   const structuredResult = result.info?.structuredResult;
   if (isStructuredResultEvent(structuredResult)) {
+    console.log(
+      "[result-panel:utils] toStructuredResultEvent: found structuredResult in info, type=%s title=%s",
+      (structuredResult as StructuredResultEvent).result.type,
+      (structuredResult as StructuredResultEvent).title,
+    );
     return structuredResult;
   }
+
+  console.log(
+    "[result-panel:utils] toStructuredResultEvent: no structuredResult in info, "
+    + "info_keys=%s summary=%s fallback_to_text=%s",
+    result.info ? Object.keys(result.info).join(",") : "null",
+    result.summary ? "present" : "missing",
+    !!result.summary,
+  );
 
   if (!result.summary) {
     return null;
