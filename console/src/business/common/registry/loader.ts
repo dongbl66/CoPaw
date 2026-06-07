@@ -1,5 +1,6 @@
 import "@/business/marketing/manifest";
 import "@/business/fae/manifest";
+import "@/business/fraudTranscript/manifest";
 
 /**
  * 预加载内置业务模块。

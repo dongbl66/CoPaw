@@ -22,7 +22,8 @@ from agentscope.tool import Toolkit
 from anyio import ClosedResourceError
 from pydantic import BaseModel
 
-from backend.scenes.marketing.hooks import MarketingPostReplyHook
+from backend.core.business_hooks import get_business_post_reply_hooks
+from backend.core.loader import load_builtin_backend_modules
 
 from ..app.mcp import HttpStatefulClient, StdIOStatefulClient
 from .command_handler import CommandHandler
@@ -1511,10 +1512,9 @@ class QwenPawAgent(CodingModeMixin, ToolGuardMixin, ReActAgent):
     ) -> BusinessPostReplyHookManager:
         """Create the business post-reply hook manager."""
 
+        load_builtin_backend_modules()
         return BusinessPostReplyHookManager(
-            handlers=[
-                MarketingPostReplyHook(),
-            ],
+            handlers=get_business_post_reply_hooks(),
         )
 
     def _get_business_post_reply_hook_manager(

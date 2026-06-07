@@ -1,4 +1,5 @@
 import type { BusinessModuleManifest } from "./types";
+import { registerResultWorkbenchPage } from "./resultWorkbench";
 
 const manifests: BusinessModuleManifest[] = [];
 
@@ -9,6 +10,12 @@ export function registerBusinessModule(
   manifest: BusinessModuleManifest,
 ): void {
   manifests.push(manifest);
+  const resultWorkbench = manifest.resultWorkbench;
+  if (Array.isArray(resultWorkbench)) {
+    resultWorkbench.forEach(registerResultWorkbenchPage);
+  } else if (resultWorkbench) {
+    registerResultWorkbenchPage(resultWorkbench);
+  }
 }
 
 /**

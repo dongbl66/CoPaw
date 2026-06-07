@@ -6,6 +6,7 @@ export type StructuredResultType =
   | "html"
   | "table"
   | "text"
+  | "government_opportunity"
   | "actions";
 
 export interface StructuredResultAction {
@@ -116,6 +117,27 @@ export interface StructuredBusinessPayload {
   basicInfo?: Record<string, unknown>;
   productInfo?: Record<string, unknown>;
   opportunities?: StructuredBusinessOpportunity[];
+  attachments?: StructuredWorkbenchAttachment[];
+}
+
+export interface GovernmentOpportunityPayload {
+  title?: string;
+  summary?: string;
+  basicInfo?: {
+    projectName?: string;
+    customerName?: string;
+    city?: string;
+    industry?: string;
+    supportType?: string;
+  };
+  requirementDesc?: string;
+  opportunityRating?: "high" | "medium" | "low" | string;
+  opportunityScore?: number;
+  budget?: {
+    minYuan: number;
+    maxYuan: number;
+    note?: string;
+  };
   attachments?: StructuredWorkbenchAttachment[];
 }
 

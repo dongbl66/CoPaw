@@ -1,0 +1,58 @@
+{
+  "schema_version": "workspace-skill-manifest.v1",
+  "version": 1780851993057,
+  "skills": {
+    "fraud-transcript-question-guide": {
+      "enabled": true,
+      "channels": [
+        "all"
+      ],
+      "source": "custom",
+      "metadata": {
+        "name": "fraud-transcript-question-guide",
+        "description": "电诈笔录过程辅助。根据当前笔录、人员角色和缺失要素，给出下一问、深度追问和补充核实建议；不得输出 JSON 或 structured_result。",
+        "version_text": "",
+        "commit_text": "",
+        "source": "custom",
+        "protected": false,
+        "requirements": {
+          "require_bins": [],
+          "require_envs": []
+        },
+        "updated_at": "2026-06-07T12:26:23.688083Z"
+      },
+      "requirements": {
+        "require_bins": [],
+        "require_envs": []
+      },
+      "updated_at": "2026-06-07T12:26:23.688083Z",
+      "config": {}
+    },
+    "fraud-transcript-extract-report": {
+      "enabled": true,
+      "channels": [
+        "all"
+      ],
+      "source": "custom",
+      "metadata": {
+        "name": "fraud-transcript-extract-report",
+        "description": "电诈笔录要素提取与最终报告输出。输入完整或阶段性笔录后，严格输出项目兼容的 StructuredResultEvent JSON，供 ResultPanel 和后端 parser 使用。",
+        "version_text": "",
+        "commit_text": "",
+        "source": "custom",
+        "protected": false,
+        "requirements": {
+          "require_bins": [],
+          "require_envs": []
+        },
+        "updated_at": "2026-06-07T13:49:21.827306Z"
+      },
+      "requirements": {
+        "require_bins": [],
+        "require_envs": []
+      },
+      "updated_at": "2026-06-07T13:49:21.827306Z",
+      "config": {}
+    }
+  }
+}

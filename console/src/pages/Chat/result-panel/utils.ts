@@ -1,5 +1,6 @@
 import { chatApi } from "../../../api/modules/chat";
 import type { MarketingResultRecord } from "../../../api/modules/marketingResult";
+import type { FAEResultRecord } from "../../../api/modules/faeResult";
 import type {
   StructuredResultEvent,
   StructuredResultPushEvent,
@@ -37,28 +38,29 @@ function isStructuredResultPushEvent(
 export function toStructuredResultEventFromRecord(
   result: MarketingResultRecord,
 ): StructuredResultEvent | null {
+  console.debug(
+    "[ResultPanel] toStructuredResultEventFromRecord called",
+    result.id,
+    result.title,
+  );
+
   const structuredResult = result.info?.structuredResult;
   if (isStructuredResultEvent(structuredResult)) {
-    console.log(
-      "[result-panel:utils] toStructuredResultEvent: found structuredResult in info, type=%s title=%s",
-      (structuredResult as StructuredResultEvent).result.type,
-      (structuredResult as StructuredResultEvent).title,
+    console.debug(
+      "[ResultPanel] Found valid structuredResult: type=%s",
+      structuredResult.result?.type,
     );
     return structuredResult;
   }
 
-  console.log(
-    "[result-panel:utils] toStructuredResultEvent: no structuredResult in info, "
-    + "info_keys=%s summary=%s fallback_to_text=%s",
-    result.info ? Object.keys(result.info).join(",") : "null",
-    result.summary ? "present" : "missing",
-    !!result.summary,
-  );
-
   if (!result.summary) {
+    console.debug(
+      "[ResultPanel] No structuredResult found, and no summary to fallback",
+    );
     return null;
   }
 
+  console.debug("[ResultPanel] Falling back to summary text");
   return {
     eventType: "structured_result",
     version: "1.0",
@@ -84,26 +86,44 @@ export function toStructuredResultEventFromRecord(
 export function extractStructuredResultFromPayload(
   payload: unknown,
 ): StructuredResultEvent | null {
-  if (!isRecord(payload)) return null;
+  console.debug("[ResultPanel] extractStructuredResultFromPayload called");
+
+  if (!isRecord(payload)) {
+    console.debug("[ResultPanel] Payload is not a record, returning null");
+    return null;
+  }
 
   const directStructuredResult = extractStructuredResultFromDirectEvent(payload);
   if (directStructuredResult) {
+    console.debug(
+      "[ResultPanel] Found direct structured_result_event: type=%s",
+      directStructuredResult.result?.type,
+    );
     return directStructuredResult;
   }
 
   const output = payload.output;
-  if (!Array.isArray(output)) return null;
+  if (!Array.isArray(output)) {
+    console.debug("[ResultPanel] payload.output is not an array");
+    return null;
+  }
 
+  console.debug("[ResultPanel] Searching in output array (length=%d)", output.length);
   for (const item of output) {
     if (!isRecord(item)) continue;
     const metadata = item.metadata;
     if (!isRecord(metadata)) continue;
     const structuredResult = metadata.structured_result;
     if (isStructuredResultEvent(structuredResult)) {
+      console.debug(
+        "[ResultPanel] Found structured_result in metadata: type=%s",
+        structuredResult.result?.type,
+      );
       return structuredResult;
     }
   }
 
+  console.debug("[ResultPanel] No structured_result found in payload");
   return null;
 }
 
@@ -145,4 +165,49 @@ export function resolvePdfDisplayUrl(payload: {
     return chatApi.filePreviewUrl(payload.filePath);
   }
   return "";
+}
+
+/**
+ * 将后端存储的 FAE 结果记录转换为前端统一结构化结果事件。
+ */
+export function toStructuredResultEventFromFAERecord(
+  result: FAEResultRecord,
+): StructuredResultEvent | null {
+  console.debug(
+    "[ResultPanel] toStructuredResultEventFromFAERecord called",
+    result.id,
+    result.title,
+  );
+
+  // FAE results store the full StructuredResultEvent in info.structuredResult
+  const structuredResult = result.info?.structuredResult;
+  if (isStructuredResultEvent(structuredResult)) {
+    console.debug(
+      "[ResultPanel] Found valid FAE structuredResult: type=%s",
+      structuredResult.result?.type,
+    );
+    return structuredResult;
+  }
+
+  // Fallback: build a text result from summary
+  if (result.summary) {
+    console.debug("[ResultPanel] Falling back to FAE summary text");
+    return {
+      eventType: "structured_result",
+      version: "1.0",
+      title: result.title,
+      subtitle: result.scene || undefined,
+      result: {
+        type: "text",
+        payload: { text: result.summary },
+      },
+      meta: {
+        bizModule: "fae",
+        source: "stored_result_fallback",
+        timestamp: Date.parse(result.updated_at) || Date.now(),
+      },
+    };
+  }
+
+  return null;
 }

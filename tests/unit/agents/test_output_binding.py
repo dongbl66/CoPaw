@@ -108,6 +108,25 @@ def test_resolve_agent_output_binding_uses_market_agent_default_parser() -> None
     )
 
 
+def test_resolve_agent_output_binding_uses_fraud_transcript_default_parser() -> None:
+    """fraud_transcript_agent 未显式配置时也应自动绑定电诈笔录解析器。"""
+
+    from qwenpaw.agents.output_binding import resolve_agent_output_binding
+
+    binding = resolve_agent_output_binding(
+        AgentProfileConfig(
+            id="fraud_transcript_agent",
+            name="电诈笔录智能辅助",
+        ),
+    )
+
+    assert callable(binding.final_output_parser)
+    assert (
+        binding.final_output_parser.__name__
+        == "inject_fraud_transcript_metadata"
+    )
+
+
 def test_resolve_agent_output_binding_rejects_non_basemodel_symbol() -> None:
     """Structured model import paths must point to BaseModel subclasses."""
 

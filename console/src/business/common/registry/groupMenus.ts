@@ -27,6 +27,10 @@ export const BUSINESS_MENU_GROUP_META: Record<string, BusinessMenuGroupMeta> = {
     label: "内部提效",
     priority: 20,
   },
+  "fraud-transcript-group": {
+    label: "电诈笔录",
+    priority: 30,
+  },
 };
 
 /**

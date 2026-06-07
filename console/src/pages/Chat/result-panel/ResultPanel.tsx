@@ -1,4 +1,4 @@
-import { Button, Empty, Space, Table, Typography } from "antd";
+import { Button, Empty, Space, Table, Typography, Tag, Descriptions, Card } from "antd";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useMemo } from "react";
@@ -7,6 +7,7 @@ import {
   BusinessDetailContent,
   ProductSolutionDetailContent,
 } from "@/business/marketing/components/detailContent";
+import FraudTranscriptReport from "./FraudTranscriptReport";
 import { openExternalLink } from "../../../utils/openExternalLink";
 import { copyText } from "../utils";
 import { resolvePdfDisplayUrl } from "./utils";
@@ -21,6 +22,7 @@ import type {
   StructuredTablePayload,
   StructuredTextPayload,
   StructuredWebPayload,
+  GovernmentOpportunityPayload,
 } from "./types";
 import styles from "../index.module.less";
 
@@ -43,6 +45,10 @@ function TextRenderer({ payload }: { payload: StructuredTextPayload }) {
 }
 
 function BusinessRenderer({ payload }: { payload: StructuredBusinessPayload }) {
+  if (payload.scene === "fraud_transcript_report") {
+    return <FraudTranscriptReport payload={payload} />;
+  }
+
   return <BusinessDetailContent payload={payload} mode="panel" />;
 }
 
@@ -176,14 +182,135 @@ function ActionsRenderer({ payload }: { payload: StructuredActionsPayload }) {
   );
 }
 
+const OPPORTUNITY_RATING_COLORS: Record<string, string> = {
+  high: "red",
+  medium: "orange",
+  low: "blue",
+};
+
+const OPPORTUNITY_RATING_LABELS: Record<string, string> = {
+  high: "高价值",
+  medium: "中等价值",
+  low: "低价值",
+};
+
+function GovernmentOpportunityRenderer({
+  payload,
+}: {
+  payload: GovernmentOpportunityPayload;
+}) {
+  const { t } = useTranslation();
+  const { basicInfo, requirementDesc, opportunityRating, opportunityScore, budget } =
+    payload;
+
+  return (
+    <div className={styles.resultScrollBody}>
+      {/* 基本信息卡片 */}
+      {basicInfo ? (
+        <Card
+          size="small"
+          title={t("chat.resultPanel.basicInfo", "基本信息")}
+          style={{ marginBottom: 12 }}
+        >
+          <Descriptions size="small" column={2} bordered>
+            <Descriptions.Item label="项目名称">
+              {basicInfo.projectName}
+            </Descriptions.Item>
+            <Descriptions.Item label="客户名称">
+              {basicInfo.customerName}
+            </Descriptions.Item>
+            <Descriptions.Item label="城市">
+              {basicInfo.city}
+            </Descriptions.Item>
+            <Descriptions.Item label="行业">
+              {basicInfo.industry}
+            </Descriptions.Item>
+            <Descriptions.Item label="支撑类型">
+              <Tag color="processing">{basicInfo.supportType}</Tag>
+            </Descriptions.Item>
+          </Descriptions>
+          {opportunityRating ? (
+            <div style={{ marginTop: 8 }}>
+              <Space>
+                <Text strong>商机评级：</Text>
+                <Tag color={OPPORTUNITY_RATING_COLORS[opportunityRating] || "default"}>
+                  {OPPORTUNITY_RATING_LABELS[opportunityRating] || opportunityRating}
+                </Tag>
+                {opportunityScore != null ? (
+                  <Text type="secondary">评分：{opportunityScore}/100</Text>
+                ) : null}
+              </Space>
+            </div>
+          ) : null}
+          {budget ? (
+            <div style={{ marginTop: 4 }}>
+              <Text strong>预算区间：</Text>
+              <Text type="secondary">
+                ¥{budget.minYuan.toLocaleString()} - ¥{budget.maxYuan.toLocaleString()}
+                {budget.note ? `（${budget.note}）` : ""}
+              </Text>
+            </div>
+          ) : null}
+        </Card>
+      ) : null}
+
+      {/* 需求描述 */}
+      {requirementDesc ? (
+        <Card
+          size="small"
+          title={t("chat.resultPanel.requirementDesc", "需求描述")}
+          style={{ marginBottom: 12 }}
+        >
+          <Paragraph
+            ellipsis={{ rows: 8, expandable: true, symbol: "展开" }}
+            style={{ whiteSpace: "pre-wrap" }}
+          >
+            {requirementDesc}
+          </Paragraph>
+        </Card>
+      ) : null}
+
+      {/* 摘要 */}
+      {payload.summary && !requirementDesc ? (
+        <Card
+          size="small"
+          title={t("chat.resultPanel.summary", "分析摘要")}
+          style={{ marginBottom: 12 }}
+        >
+          <Paragraph style={{ whiteSpace: "pre-wrap" }}>
+            {payload.summary}
+          </Paragraph>
+        </Card>
+      ) : null}
+
+      {/* 附件 */}
+      {payload.attachments && payload.attachments.length > 0 ? (
+        <Card
+          size="small"
+          title={t("chat.resultPanel.attachments", "附件")}
+        >
+          {payload.attachments.map((att, idx) => (
+            <div key={idx} style={{ marginBottom: 8 }}>
+              <Text>{att.fileName}</Text>
+              {att.fileUrl ? (
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => openExternalLink(att.fileUrl!)}
+                >
+                  打开
+                </Button>
+              ) : null}
+            </div>
+          ))}
+        </Card>
+      ) : null}
+    </div>
+  );
+}
+
 export function ResultRenderer({ result }: { result: StructuredResultEvent }) {
   const { t } = useTranslation();
-  console.log(
-    "[result-panel:render] ResultRenderer: type=%s title=%s result_keys=%s",
-    result.result.type,
-    result.title,
-    Object.keys(result.result).join(","),
-  );
   switch (result.result.type) {
     case "business":
       return (
@@ -192,6 +319,12 @@ export function ResultRenderer({ result }: { result: StructuredResultEvent }) {
     case "product":
       return (
         <ProductRenderer payload={result.result.payload as StructuredProductPayload} />
+      );
+    case "government_opportunity":
+      return (
+        <GovernmentOpportunityRenderer
+          payload={result.result.payload as GovernmentOpportunityPayload}
+        />
       );
     case "text":
       return <TextRenderer payload={result.result.payload as StructuredTextPayload} />;
@@ -314,8 +447,7 @@ export default function ResultPanel({
         {result ? (
           <ResultRenderer result={result} />
         ) : (
-          (console.log("[result-panel:render] ResultPanel: result is null, showing empty"),
-          <Empty description={t("chat.resultPanel.empty")} />)
+          <Empty description={t("chat.resultPanel.empty")} />
         )}
       </div>
     </aside>

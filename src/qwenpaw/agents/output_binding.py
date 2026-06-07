@@ -5,7 +5,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import importlib
-import logging
 from collections.abc import Callable
 from typing import TYPE_CHECKING, Any
 
@@ -15,13 +14,27 @@ from pydantic import BaseModel
 if TYPE_CHECKING:
     from ..config.config import AgentProfileConfig
 
-logger = logging.getLogger("qwenpaw.agents.output_binding")
 
 MARKET_AGENT_ID = "market_agent"
-DEFAULT_MARKETING_PARSER_AGENT_IDS = frozenset({"market_agent", "RA-agent"})
+RA_AGENT_ID = "RA-agent"
+FRAUD_TRANSCRIPT_AGENT_ID = "fraud_transcript_agent"
+
 MARKETING_FINAL_OUTPUT_PARSER_IMPORT_PATH = (
     "backend.scenes.marketing.parsers.business_result:"
     "inject_business_result_metadata"
+)
+
+FAE_STRUCTURED_MODEL_IMPORT_PATH = (
+    "backend.scenes.fae.schemas.government_opportunity:"
+    "GovernmentOpportunityAnalysis"
+)
+FAE_FINAL_OUTPUT_PARSER_IMPORT_PATH = (
+    "backend.scenes.fae.parsers.government_opportunity_parser:"
+    "inject_government_opportunity_metadata"
+)
+FRAUD_TRANSCRIPT_FINAL_OUTPUT_PARSER_IMPORT_PATH = (
+    "backend.scenes.fraud_transcript.parsers.transcript_report:"
+    "inject_fraud_transcript_metadata"
 )
 
 
@@ -51,33 +64,34 @@ def resolve_agent_output_binding(
 ) -> AgentOutputBinding:
     """Resolve import-path configured output bindings for one agent."""
 
-    agent_id = getattr(agent_config, "id", None)
     binding_config = getattr(agent_config, "output_binding", None)
     if binding_config is None:
-        if agent_id not in DEFAULT_MARKETING_PARSER_AGENT_IDS:
-            logger.info(
-                "[output_binding] agent_id=%s → no default marketing parser, "
-                "binding=empty",
-                agent_id,
+        agent_id = getattr(agent_config, "id", None)
+        if agent_id == RA_AGENT_ID:
+            return AgentOutputBinding(
+                structured_model=_import_from_path(
+                    FAE_STRUCTURED_MODEL_IMPORT_PATH,
+                ),
+                final_output_parser=_import_from_path(
+                    FAE_FINAL_OUTPUT_PARSER_IMPORT_PATH,
+                ),
             )
-            return AgentOutputBinding()
-        logger.info(
-            "[output_binding] agent_id=%s → using default marketing parser",
-            agent_id,
-        )
-        structured_model = None
-        final_output_parser = _import_from_path(
-            MARKETING_FINAL_OUTPUT_PARSER_IMPORT_PATH,
-        )
-        return AgentOutputBinding(
-            structured_model=structured_model,
-            final_output_parser=final_output_parser,
-        )
+        if agent_id == MARKET_AGENT_ID:
+            return AgentOutputBinding(
+                structured_model=None,
+                final_output_parser=_import_from_path(
+                    MARKETING_FINAL_OUTPUT_PARSER_IMPORT_PATH,
+                ),
+            )
+        if agent_id == FRAUD_TRANSCRIPT_AGENT_ID:
+            return AgentOutputBinding(
+                structured_model=None,
+                final_output_parser=_import_from_path(
+                    FRAUD_TRANSCRIPT_FINAL_OUTPUT_PARSER_IMPORT_PATH,
+                ),
+            )
+        return AgentOutputBinding()
 
-    logger.info(
-        "[output_binding] agent_id=%s → explicit output_binding config used",
-        agent_id,
-    )
     structured_model = None
     if binding_config.structured_model_import_path:
         structured_model = _import_from_path(

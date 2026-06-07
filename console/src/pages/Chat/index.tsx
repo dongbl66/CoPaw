@@ -65,10 +65,14 @@ import {
   type CopyableResponse,
   type RuntimeLoadingBridgeApi,
 } from "./utils";
+import { enhanceJsonCodeBlocks } from "./jsonCodeBlockEnhancer";
 import { openExternalLink } from "../../utils/openExternalLink";
 import { getLastEditorCopy } from "../Coding/lastEditorCopy";
 import { useUploadLimitStore } from "../../stores/uploadLimitStore";
 import ResultWorkbench from "./result-panel/ResultWorkbench";
+import { extractStructuredResultFromPayload } from "./result-panel/utils";
+import type { StructuredResultEvent } from "./result-panel/types";
+import type { ResultBizModule } from "../../api/modules/unifiedResult";
 
 interface SessionInfo {
   session_id?: string;
@@ -128,6 +132,89 @@ function payloadCompletesResponse(payload: unknown): boolean {
 
   const record = payload as Record<string, unknown>;
   return record.object === "response" && record.status === "completed";
+}
+
+function buildStructuredResultJsonBlock(result: StructuredResultEvent): string {
+  return `\`\`\`json\n${JSON.stringify(result, null, 2)}\n\`\`\``;
+}
+
+function maskStructuredResultContent(
+  payload: Record<string, unknown>,
+  structuredResult: StructuredResultEvent,
+): Record<string, unknown> {
+  if (payload.object !== "response" || !Array.isArray(payload.output)) {
+    return payload;
+  }
+
+  const jsonBlock = buildStructuredResultJsonBlock(structuredResult);
+  return {
+    ...payload,
+    output: payload.output.map((item) => {
+      if (!item || typeof item !== "object" || Array.isArray(item)) {
+        return item;
+      }
+
+      const record = item as Record<string, unknown>;
+      const metadata = record.metadata;
+      const itemStructuredResult =
+        metadata && typeof metadata === "object"
+          ? (metadata as Record<string, unknown>).structured_result
+          : null;
+
+      if (itemStructuredResult !== structuredResult) {
+        return item;
+      }
+
+      if (Array.isArray(record.content)) {
+        let replaced = false;
+        return {
+          ...record,
+          content: record.content.map((block) => {
+            if (
+              replaced ||
+              !block ||
+              typeof block !== "object" ||
+              Array.isArray(block) ||
+              (block as Record<string, unknown>).type !== "text"
+            ) {
+              return block;
+            }
+            replaced = true;
+            return {
+              ...(block as Record<string, unknown>),
+              text: jsonBlock,
+            };
+          }),
+        };
+      }
+
+      if (typeof record.content === "string") {
+        return {
+          ...record,
+          content: jsonBlock,
+        };
+      }
+
+      return item;
+    }),
+  };
+}
+
+function resultBizModuleFromAgentId(
+  agentId?: string | null,
+): ResultBizModule | null {
+  if (!agentId) return null;
+  const normalized = agentId.toLowerCase().replace(/-/g, "_");
+  if (normalized.includes("fraud_transcript")) return "fraud_transcript";
+  if (normalized.includes("fae") || normalized === "ra_agent") return "fae";
+  if (
+    normalized === "default" ||
+    normalized.includes("marketing") ||
+    normalized.includes("market")
+  ) {
+    return "marketing";
+  }
+  return null;
 }
 
 function renderSuggestionLabel(command: string, description: string) {
@@ -680,6 +767,7 @@ export default function ChatPage() {
     return match?.[1];
   }, [location.pathname]);
   const [showModelPrompt, setShowModelPrompt] = useState(false);
+  const chatMessagesAreaRef = useRef<HTMLDivElement | null>(null);
   const { selectedAgent } = useAgentStore();
   const { toolRenderConfig } = usePlugins();
   const [refreshKey, setRefreshKey] = useState(0);
@@ -862,6 +950,56 @@ export default function ChatPage() {
   const whisperSpeechRef = useRef<WhisperSpeechButtonRef>(null);
   const [whisperEnabled, setWhisperEnabled] = useState(false);
   const [whisperChecked, setWhisperChecked] = useState(false);
+  const [resultWorkbenchOpen, setResultWorkbenchOpen] = useState(true);
+  const [resultRefreshSignal, setResultRefreshSignal] = useState(0);
+  const [directStructuredResult, setDirectStructuredResult] =
+    useState<StructuredResultEvent | null>(null);
+
+  const showStructuredResult = useCallback((result: StructuredResultEvent) => {
+    setDirectStructuredResult(result);
+    setResultWorkbenchOpen(true);
+    setResultRefreshSignal((value) => value + 1);
+  }, []);
+
+  useEffect(() => {
+    const container = chatMessagesAreaRef.current;
+    if (!container) return;
+
+    let rafId: number | null = null;
+    const labels = {
+      viewLabel: t("common.view"),
+      collapseLabel: t("common.collapse"),
+    };
+
+    const runEnhancement = () => {
+      rafId = null;
+      enhanceJsonCodeBlocks(container, labels, (structuredResult) => {
+        showStructuredResult(
+          structuredResult as unknown as StructuredResultEvent,
+        );
+      });
+    };
+
+    runEnhancement();
+
+    const observer = new MutationObserver(() => {
+      if (rafId !== null) return;
+      rafId = window.requestAnimationFrame(runEnhancement);
+    });
+
+    observer.observe(container, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    });
+
+    return () => {
+      observer.disconnect();
+      if (rafId !== null) {
+        window.cancelAnimationFrame(rafId);
+      }
+    };
+  }, [showStructuredResult, t]);
 
   // Check if Whisper transcription is configured
   useEffect(() => {
@@ -1307,6 +1445,15 @@ export default function ChatPage() {
             }
           }
 
+          const structuredResult = extractStructuredResultFromPayload(payload);
+          if (structuredResult) {
+            showStructuredResult(structuredResult);
+            return maskStructuredResultContent(
+              payload,
+              structuredResult,
+            ) as any;
+          }
+
           return payload as any;
         },
         replaceMediaURL: (url: string) => {
@@ -1418,7 +1565,7 @@ export default function ChatPage() {
   return (
     <div className={styles.chatPageShell}>
       <div className={styles.chatMainPane}>
-        <div className={styles.chatMessagesArea}>
+        <div ref={chatMessagesAreaRef} className={styles.chatMessagesArea}>
           <AgentScopeRuntimeWebUI
             ref={chatRef}
             key={refreshKey}
@@ -1427,7 +1574,14 @@ export default function ChatPage() {
         </div>
       </div>
 
-      <ResultWorkbench sessionId={window.currentSessionId || chatId || null} />
+      <ResultWorkbench
+        sessionId={window.currentSessionId || chatId || null}
+        open={resultWorkbenchOpen}
+        defaultBizModule={resultBizModuleFromAgentId(selectedAgent)}
+        refreshSignal={resultRefreshSignal}
+        directResult={directStructuredResult}
+        onOpenChange={setResultWorkbenchOpen}
+      />
 
       {/* Render approval cards as overlays */}
       {Array.from(approvalRequests.values()).map((request) => (
