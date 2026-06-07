@@ -107,6 +107,43 @@ describe("ResultWorkbench", () => {
     expect(mockGetLatestUnifiedResult).not.toHaveBeenCalled();
   });
 
+  it("loads the registered FAE workbench page from a direct FAE structured result", async () => {
+    registerResultWorkbenchPage({
+      bizModule: "fae",
+      Page: ({ sessionId, open, directResult }) =>
+        open ? (
+          <div data-testid="fae-workbench-page">
+            {sessionId}:{directResult?.title}
+          </div>
+        ) : null,
+    });
+
+    render(
+      <ResultWorkbench
+        sessionId="chat-fae"
+        directResult={{
+          eventType: "structured_result",
+          version: "1.0",
+          title: "FAE Opportunity Report",
+          result: {
+            type: "government_opportunity",
+            payload: {
+              summary: "A generated FAE result.",
+            },
+          },
+          meta: {
+            bizModule: "fae",
+          },
+        }}
+      />,
+    );
+
+    expect(await screen.findByTestId("fae-workbench-page")).toHaveTextContent(
+      "chat-fae:FAE Opportunity Report",
+    );
+    expect(mockGetLatestUnifiedResult).not.toHaveBeenCalled();
+  });
+
   it("shows an empty panel before any session result is available", async () => {
     render(<ResultWorkbench sessionId={null} />);
 
