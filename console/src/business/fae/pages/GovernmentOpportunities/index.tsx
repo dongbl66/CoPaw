@@ -1,24 +1,42 @@
-import { useMemo, useState } from "react";
-import { Button, Input, Table, Typography } from "antd";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Button, Empty, Input, Table, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { SearchOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import {
-  GOVERNMENT_OPPORTUNITY_SUPPORT_TYPES,
-  getGovernmentOpportunityListResponse,
-  type GovernmentOpportunityListItem,
-  type SupportType,
-} from "@/business/fae/mock/governmentOpportunities";
+import { faeResultApi } from "@/api/modules/faeResult";
+import type { FAEOpportunityRecord } from "@/api/modules/faeResult";
 import styles from "../governmentOpportunities.module.less";
 
-const { Link, Text } = Typography;
+const { Link } = Typography;
 
-const SUPPORT_TYPE_CLASS_NAME: Record<SupportType, string> = {
+const ALL_SUPPORT_TYPES = "全部类型";
+const GOVERNMENT_OPPORTUNITY_SUPPORT_TYPES = [
+  ALL_SUPPORT_TYPES,
+  "技术支撑",
+  "方案支撑",
+  "投标支撑",
+  "综合支撑",
+] as const;
+
+type SupportFilter = (typeof GOVERNMENT_OPPORTUNITY_SUPPORT_TYPES)[number];
+
+const SUPPORT_TYPE_CLASS_NAME: Record<string, string> = {
   技术支撑: styles.supportTagTechnical,
   方案支撑: styles.supportTagSolution,
   投标支撑: styles.supportTagBidding,
   综合支撑: styles.supportTagComprehensive,
 };
+
+interface GovernmentOpportunityListItem {
+  id: number;
+  projectName: string;
+  customerName: string;
+  city: string;
+  createTime: string;
+  updateTime: string;
+  industry: string;
+  supportType: string;
+}
 
 interface OverviewStat {
   key: string;
@@ -31,53 +49,88 @@ function getGovernmentOpportunityDetailPath(projectId: number): string {
   return `/biz/fae/government-opportunities/${encodeURIComponent(projectId)}`;
 }
 
-/**
- * FAE 工作区政企项目商机列表页。
- */
+function toListItem(record: FAEOpportunityRecord): GovernmentOpportunityListItem {
+  return {
+    id: record.id,
+    projectName: record.project_name,
+    customerName: record.customer_name,
+    city: record.city,
+    createTime: record.create_time,
+    updateTime: record.update_time,
+    industry: record.industry,
+    supportType: record.support_type,
+  };
+}
+
 export default function GovernmentOpportunitiesPage() {
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
-  const [selectedType, setSelectedType] = useState<"全部类型" | SupportType>(
-    "全部类型",
-  );
-  const response = useMemo(() => getGovernmentOpportunityListResponse(), []);
+  const [selectedType, setSelectedType] =
+    useState<SupportFilter>(ALL_SUPPORT_TYPES);
+  const [items, setItems] = useState<GovernmentOpportunityListItem[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const overviewStats = useMemo<OverviewStat[]>(
-    () => [
+  const loadOpportunities = useCallback(() => {
+    setLoading(true);
+    void faeResultApi
+      .listOpportunities()
+      .then((response) => {
+        setItems(response.items.map(toListItem));
+      })
+      .catch((error) => {
+        console.error("Failed to load FAE opportunities:", error);
+        setItems([]);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  useEffect(() => {
+    loadOpportunities();
+  }, [loadOpportunities]);
+
+  useEffect(() => {
+    window.addEventListener("fae:results-updated", loadOpportunities);
+    return () => {
+      window.removeEventListener("fae:results-updated", loadOpportunities);
+    };
+  }, [loadOpportunities]);
+
+  const overviewStats = useMemo<OverviewStat[]>(() => {
+    const cities = new Set(items.map((item) => item.city).filter(Boolean));
+    return [
       {
         key: "total",
-        value: response.stats.total,
+        value: items.length,
         label: "全部项目",
-        icon: "📋",
+        icon: "N",
       },
       {
         key: "active",
-        value: response.stats.active,
+        value: items.length,
         label: "活跃商机",
-        icon: "✅",
+        icon: "A",
       },
       {
         key: "recent",
-        value: response.stats.recent,
+        value: items.length,
         label: "近期更新",
-        icon: "⏱️",
+        icon: "R",
       },
       {
         key: "city",
-        value: response.stats.cities,
+        value: cities.size,
         label: "覆盖城市",
-        icon: "🏙️",
+        icon: "C",
       },
-    ],
-    [response],
-  );
+    ];
+  }, [items]);
 
   const filteredItems = useMemo(() => {
     const normalizedKeyword = keyword.trim().toLowerCase();
 
-    return response.list.filter((item) => {
+    return items.filter((item) => {
       const matchesType =
-        selectedType === "全部类型" || item.supportType === selectedType;
+        selectedType === ALL_SUPPORT_TYPES || item.supportType === selectedType;
       const matchesKeyword =
         !normalizedKeyword ||
         item.projectName.toLowerCase().includes(normalizedKeyword) ||
@@ -85,7 +138,7 @@ export default function GovernmentOpportunitiesPage() {
 
       return matchesType && matchesKeyword;
     });
-  }, [keyword, selectedType]);
+  }, [items, keyword, selectedType]);
 
   const columns = useMemo<ColumnsType<GovernmentOpportunityListItem>>(
     () => [
@@ -139,8 +192,12 @@ export default function GovernmentOpportunitiesPage() {
         title: "支持类型",
         dataIndex: "supportType",
         key: "supportType",
-        render: (value: SupportType) => (
-          <span className={`${styles.supportTag} ${SUPPORT_TYPE_CLASS_NAME[value]}`}>
+        render: (value: string) => (
+          <span
+            className={`${styles.supportTag} ${
+              SUPPORT_TYPE_CLASS_NAME[value] ?? ""
+            }`}
+          >
             {value}
           </span>
         ),
@@ -156,9 +213,7 @@ export default function GovernmentOpportunitiesPage() {
           <span className={styles.titleIcon}>N</span>
           <h2 className={styles.title}>项目商机管理</h2>
         </div>
-        <span className={styles.titleCount}>
-          共 {response.total} 个项目
-        </span>
+        <span className={styles.titleCount}>共 {items.length} 个项目</span>
       </div>
 
       <div className={styles.statsGrid}>
@@ -211,6 +266,7 @@ export default function GovernmentOpportunitiesPage() {
       <div className={`${styles.panel} ${styles.tablePanel}`}>
         <Table<GovernmentOpportunityListItem>
           rowKey="id"
+          loading={loading}
           columns={columns}
           dataSource={filteredItems}
           pagination={false}
@@ -220,7 +276,7 @@ export default function GovernmentOpportunitiesPage() {
             },
           })}
           locale={{
-            emptyText: <Text type="secondary">暂无政企项目商机</Text>,
+            emptyText: <Empty description="暂无政企项目商机" />,
           }}
         />
       </div>

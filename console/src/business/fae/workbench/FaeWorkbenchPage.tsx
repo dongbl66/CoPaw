@@ -15,6 +15,14 @@ function isFaeDirectResult(result: StructuredResultEvent | null): boolean {
   );
 }
 
+function getOpportunityId(record: FAEResultRecord | null): string | null {
+  const opportunityId = record?.info?.opportunityId;
+  if (typeof opportunityId === "number" || typeof opportunityId === "string") {
+    return String(opportunityId);
+  }
+  return null;
+}
+
 export default function FaeWorkbenchPage({
   sessionId,
   open,
@@ -101,9 +109,12 @@ export default function FaeWorkbenchPage({
         void saveCurrentResult();
       }}
       onViewDetail={() => {
-        if (activeRecord?.id) {
-          navigate(`/biz/fae/results/${activeRecord.id}`);
+        const opportunityId = getOpportunityId(activeRecord);
+        if (opportunityId) {
+          navigate(`/biz/fae/government-opportunities/${opportunityId}`);
+          return;
         }
+        navigate("/biz/fae/government-opportunities");
       }}
       showViewDetail={!!activeRecord?.id}
       saveLoading={saveLoading}

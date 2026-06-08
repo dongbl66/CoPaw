@@ -1,17 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { waitFor } from "@testing-library/react";
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Route, Routes } from "react-router-dom";
 import { renderWithProviders } from "@/test/common_setup";
-import FaeResultDetailPage from "./ResultDetail";
-import FaeResultsPage from "./Results";
 import GovernmentOpportunityDetailPage from "./GovernmentOpportunityDetail";
 import GovernmentOpportunitiesPage from "./GovernmentOpportunities";
 
-const { mockGetFaeResultDetail, mockListFaeResults, mockNavigate } = vi.hoisted(() => ({
-  mockGetFaeResultDetail: vi.fn(),
-  mockListFaeResults: vi.fn(),
+const { mockGetOpportunity, mockListOpportunities, mockNavigate } = vi.hoisted(() => ({
+  mockGetOpportunity: vi.fn(),
+  mockListOpportunities: vi.fn(),
   mockNavigate: vi.fn(),
 }));
 
@@ -25,98 +22,59 @@ vi.mock("react-router-dom", async (importOriginal) => {
 
 vi.mock("@/api/modules/faeResult", () => ({
   faeResultApi: {
-    getResultDetail: mockGetFaeResultDetail,
-    listResults: mockListFaeResults,
+    getOpportunity: mockGetOpportunity,
+    listOpportunities: mockListOpportunities,
   },
 }));
 
-function faeResultRecord(saveStatus = "saved") {
+function opportunityRecord(overrides: Record<string, unknown> = {}) {
   return {
-    id: 11,
-    title: "FAE Opportunity Report",
-    result_type: "government_opportunity",
-    save_status: saveStatus,
-    scene: "government_opportunity",
-    summary: "A saved FAE opportunity result.",
-    info: {
-      opportunityId: 99,
-      structuredResult: {
-        eventType: "structured_result",
-        version: "1.0",
-        title: "FAE Opportunity Report",
-        result: {
-          type: "government_opportunity",
-          payload: {
-            basicInfo: {
-              projectName: "Smart City Platform",
-              customerName: "City Gov",
-              city: "Hangzhou",
-              industry: "Government",
-              supportType: "Solution",
-            },
-            summary: "A saved FAE opportunity result.",
-          },
-        },
-        meta: {
-          bizModule: "fae",
-        },
-      },
-    },
-    basic_info: {},
-    attachments: [],
+    id: 1,
+    project_name: "智慧政务云平台建设项目",
+    customer_name: "广州市政务服务数据管理局",
+    city: "广州",
+    industry: "政府",
+    support_type: "技术支撑",
+    create_time: "2025-11-15",
+    update_time: "2026-05-20",
+    requirement_desc: "本项目需要构建一个统一的政务云平台...",
+    opportunity_rating: "high",
+    opportunity_score: 90,
+    budget_min_yuan: null,
+    budget_max_yuan: null,
+    budget_note: null,
+    display_content: [],
     session_id: "chat-fae",
     agent_id: "RA-agent",
-    created_at: "2026-06-07T00:00:00",
-    updated_at: "2026-06-07T00:01:00",
+    ...overrides,
   };
 }
 
 describe("FAE pages", () => {
   beforeEach(() => {
-    mockGetFaeResultDetail.mockReset();
-    mockGetFaeResultDetail.mockResolvedValue(faeResultRecord());
-    mockListFaeResults.mockReset();
-    mockListFaeResults.mockResolvedValue({ items: [faeResultRecord()] });
+    mockGetOpportunity.mockReset();
+    mockGetOpportunity.mockResolvedValue(opportunityRecord());
+    mockListOpportunities.mockReset();
+    mockListOpportunities.mockResolvedValue({
+      items: [
+        opportunityRecord(),
+        opportunityRecord({
+          id: 2,
+          project_name: "商业银行核心系统升级改造",
+          customer_name: "深圳前海微众银行",
+          city: "深圳",
+          industry: "金融",
+          support_type: "方案支撑",
+          create_time: "2026-01-08",
+          update_time: "2026-05-18",
+          requirement_desc: "围绕核心系统升级提供专项方案支撑。",
+        }),
+      ],
+    });
     mockNavigate.mockReset();
   });
 
-  it("shows saved FAE results, reloads after save events, and navigates to detail", async () => {
-    renderWithProviders(
-      <Routes>
-        <Route path="/biz/fae/results" element={<FaeResultsPage />} />
-      </Routes>,
-      { initialEntries: ["/biz/fae/results"] },
-    );
-
-    expect(await screen.findByText("FAE Opportunity Report")).toBeInTheDocument();
-    expect(mockListFaeResults).toHaveBeenCalledWith(true);
-
-    window.dispatchEvent(new CustomEvent("fae:results-updated"));
-
-    await waitFor(() => {
-      expect(mockListFaeResults).toHaveBeenCalledTimes(2);
-    });
-
-    const user = userEvent.setup();
-    await user.click(screen.getByRole("button", { name: "View Detail" }));
-
-    expect(mockNavigate).toHaveBeenCalledWith("/biz/fae/results/11");
-  });
-
-  it("shows a saved FAE result detail page", async () => {
-    renderWithProviders(
-      <Routes>
-        <Route path="/biz/fae/results/:resultId" element={<FaeResultDetailPage />} />
-      </Routes>,
-      { initialEntries: ["/biz/fae/results/11"] },
-    );
-
-    expect(await screen.findByText("FAE Opportunity Report")).toBeInTheDocument();
-    expect(screen.getByText("Smart City Platform")).toBeInTheDocument();
-    expect(mockGetFaeResultDetail).toHaveBeenCalledWith("11");
-  });
-
-  it("shows government opportunity list stats, filters and navigates to detail", async () => {
+  it("loads government opportunities from API, filters and navigates to detail", async () => {
     renderWithProviders(
       <Routes>
         <Route
@@ -128,9 +86,9 @@ describe("FAE pages", () => {
     );
 
     expect(screen.getByText("项目商机管理")).toBeInTheDocument();
-    expect(screen.getByText("共 8 个项目")).toBeInTheDocument();
-    expect(screen.getByText("活跃商机")).toBeInTheDocument();
-    expect(screen.getAllByText("技术支撑").length).toBeGreaterThan(0);
+    expect(await screen.findByText("智慧政务云平台建设项目")).toBeInTheDocument();
+    expect(mockListOpportunities).toHaveBeenCalledTimes(1);
+    expect(screen.getByText("共 2 个项目")).toBeInTheDocument();
 
     const user = userEvent.setup();
     await user.type(
@@ -138,7 +96,6 @@ describe("FAE pages", () => {
       "智慧政务云平台建设项目",
     );
 
-    expect(screen.getByText("智慧政务云平台建设项目")).toBeInTheDocument();
     expect(screen.queryByText("商业银行核心系统升级改造")).not.toBeInTheDocument();
 
     await user.clear(screen.getByPlaceholderText("搜索项目名称、客户名称..."));
@@ -150,7 +107,7 @@ describe("FAE pages", () => {
     );
   });
 
-  it("shows government opportunity detail sections and pdf preview", async () => {
+  it("loads government opportunity detail from API and shows sections", async () => {
     renderWithProviders(
       <Routes>
         <Route
@@ -161,12 +118,15 @@ describe("FAE pages", () => {
       { initialEntries: ["/biz/fae/government-opportunities/1"] },
     );
 
+    expect(await screen.findByText("项目基本信息")).toBeInTheDocument();
+    expect(mockGetOpportunity).toHaveBeenCalledWith("1");
     expect(screen.getByRole("button", { name: "返回项目列表" })).toBeInTheDocument();
-    expect(screen.getByText("项目基本信息")).toBeInTheDocument();
     expect(screen.getByText("需求描述")).toBeInTheDocument();
     expect(screen.getByText("需求文档（PDF预览）")).toBeInTheDocument();
     expect(screen.getByText("智慧政务云平台建设项目需求规格说明书")).toBeInTheDocument();
-    expect(screen.getByText("本项目需要构建一个统一的政务云平台...")).toBeInTheDocument();
+    expect(
+      screen.getAllByText("本项目需要构建一个统一的政务云平台...").length,
+    ).toBeGreaterThan(0);
     expect(screen.getByText(/项目 1 \/ 1/)).toBeInTheDocument();
 
     const user = userEvent.setup();

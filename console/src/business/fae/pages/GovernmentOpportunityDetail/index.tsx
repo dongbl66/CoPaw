@@ -1,19 +1,95 @@
-import { Button, Empty } from "antd";
+import { useEffect, useMemo, useState } from "react";
+import { Button, Empty, Spin } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import { getGovernmentOpportunityDetailById } from "@/business/fae/mock/governmentOpportunities";
+import { faeResultApi } from "@/api/modules/faeResult";
+import type { FAEOpportunityDetailResponse } from "@/api/modules/faeResult";
 import styles from "../governmentOpportunities.module.less";
+
+interface GovernmentOpportunityDetailView {
+  id: number;
+  projectName: string;
+  customerName: string;
+  city: string;
+  createTime: string;
+  updateTime: string;
+  industry: string;
+  supportType: string;
+  requirementDesc: string;
+}
 
 function getGovernmentOpportunityListPath(): string {
   return "/biz/fae/government-opportunities";
 }
 
-/**
- * FAE 工作区政企项目商机详情页。
- */
+function toDetailView(
+  record: FAEOpportunityDetailResponse,
+): GovernmentOpportunityDetailView {
+  return {
+    id: record.id,
+    projectName: record.project_name,
+    customerName: record.customer_name,
+    city: record.city,
+    createTime: record.create_time,
+    updateTime: record.update_time,
+    industry: record.industry,
+    supportType: record.support_type,
+    requirementDesc: record.requirement_desc,
+  };
+}
+
 export default function GovernmentOpportunityDetailPage() {
   const navigate = useNavigate();
   const { projectId } = useParams<{ projectId: string }>();
-  const record = getGovernmentOpportunityDetailById(projectId);
+  const [loading, setLoading] = useState(false);
+  const [record, setRecord] = useState<GovernmentOpportunityDetailView | null>(
+    null,
+  );
+
+  useEffect(() => {
+    if (!projectId) {
+      setRecord(null);
+      return;
+    }
+
+    setLoading(true);
+    void faeResultApi
+      .getOpportunity(projectId)
+      .then((response) => {
+        setRecord(toDetailView(response));
+      })
+      .catch((error) => {
+        console.error("Failed to load FAE opportunity detail:", error);
+        setRecord(null);
+      })
+      .finally(() => setLoading(false));
+  }, [projectId]);
+
+  const infoCards = useMemo(
+    () =>
+      record
+        ? [
+            { label: "项目名称", value: record.projectName },
+            { label: "客户名称", value: record.customerName },
+            { label: "来源（城市）", value: record.city },
+            { label: "行业", value: record.industry },
+            { label: "支持类型", value: record.supportType },
+            { label: "创建时间", value: record.createTime },
+            { label: "更新时间", value: record.updateTime },
+            { label: "项目ID", value: record.id },
+          ]
+        : [],
+    [record],
+  );
+
+  if (loading && !record) {
+    return (
+      <div className={styles.page}>
+        <div className={`${styles.panel} ${styles.detailSection}`}>
+          <Spin />
+        </div>
+      </div>
+    );
+  }
 
   if (!record) {
     return (
@@ -24,17 +100,6 @@ export default function GovernmentOpportunityDetailPage() {
       </div>
     );
   }
-
-  const infoCards = [
-    { label: "项目名称", value: record.projectName },
-    { label: "客户名称", value: record.customerName },
-    { label: "来源（城市）", value: record.city },
-    { label: "行业", value: record.industry },
-    { label: "支持类型", value: record.supportType },
-    { label: "创建时间", value: record.createTime },
-    { label: "更新时间", value: record.updateTime },
-    { label: "项目ID", value: record.id },
-  ];
 
   return (
     <div className={styles.page}>
@@ -83,39 +148,32 @@ export default function GovernmentOpportunityDetailPage() {
             <div className={styles.previewSection}>
               <div className={styles.previewSectionTitle}>一、项目背景</div>
               <div className={styles.previewParagraph}>
-                为响应国家“数字政府”建设号召，项目方计划建设统一的业务平台，整合现有分散的政务信息系统，
-                实现数据资源的统一管理和共享交换。当前各业务系统独立运行，数据孤岛现象严重，亟需通过统一
-                的平台建设提升政务服务效率和市民满意度。
+                为响应数字化建设要求，项目方计划建设统一业务平台，整合现有分散的信息系统，实现数据资源的统一管理和共享交换。
               </div>
             </div>
 
             <div className={styles.previewSection}>
               <div className={styles.previewSectionTitle}>二、需求概述</div>
-              <div className={styles.previewParagraph}>
-                本项目核心需求包括：构建 IaaS + PaaS 一体化云底座，支持容器化部署；建立统一数据共享交换平台，
-                实现跨部门数据打通；建设统一身份认证和权限管理模块；提供面向市民的移动端政务服务入口；
-                满足等保三级安全要求。
-              </div>
+              <div className={styles.previewParagraph}>{record.requirementDesc}</div>
             </div>
 
             <div className={styles.previewSection}>
               <div className={styles.previewSectionTitle}>三、技术要求</div>
               <div className={styles.previewParagraph}>
-                平台采用微服务架构，支持 Kubernetes 容器编排；数据库需支持分布式部署，具备读写分离能力；
-                前端需兼容主流浏览器并适配国产化环境；接口层遵循 RESTful 规范，支持统一 API 网关管理；
-                系统需提供 7x24 小时高可用能力，RTO 不超过 30 分钟，RPO 不超过 15 分钟。
+                平台需满足高可用、可扩展、统一认证、权限管理、接口规范和安全合规要求。
               </div>
             </div>
 
             <div className={styles.previewSection}>
               <div className={styles.previewSectionTitle}>四、实施计划</div>
               <div className={styles.previewParagraph}>
-                项目分三期建设：一期完成基础云平台搭建和核心数据打通；二期完成业务系统迁移；三期完成智能化
-                应用上线和整体优化。每期需提供详细里程碑计划和验收标准。
+                建议分阶段推进：先完成基础能力建设，再完成业务迁移和智能化应用上线。
               </div>
             </div>
 
-            <div className={styles.previewFooter}>本文档为项目需求预览说明，仅供内部参考使用 | 项目 1 / 1</div>
+            <div className={styles.previewFooter}>
+              本文档为项目需求预览说明，仅供内部参考使用 | 项目 {record.id} / 1
+            </div>
           </div>
         </div>
       </div>

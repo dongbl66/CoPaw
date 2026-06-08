@@ -2,8 +2,6 @@ import { registerBusinessModule } from "@/business/common/registry/registry";
 import type { BusinessModuleManifest } from "@/business/common/registry/types";
 import GovernmentOpportunityDetailPage from "./pages/GovernmentOpportunityDetail";
 import GovernmentOpportunitiesPage from "./pages/GovernmentOpportunities";
-import FaeResultDetailPage from "./pages/ResultDetail";
-import FaeResultsPage from "./pages/Results";
 import FaeWorkbenchPage from "./workbench/FaeWorkbenchPage";
 
 const faeManifest: BusinessModuleManifest = {
@@ -12,23 +10,6 @@ const faeManifest: BusinessModuleManifest = {
   version: "0.1.0",
   enabledByDefault: true,
   routes: [
-    {
-      key: "biz-fae-results",
-      path: "/biz/fae/results",
-      label: "FAE Saved Results",
-      component: FaeResultsPage,
-      priority: 28,
-      icon: "F",
-    },
-    {
-      key: "biz-fae-results-detail",
-      path: "/biz/fae/results/:resultId",
-      label: "FAE Result Detail",
-      component: FaeResultDetailPage,
-      activeMenuKey: "biz-fae-results",
-      priority: 29,
-      icon: "F",
-    },
     {
       key: "biz-fae-government-opportunities",
       path: "/biz/fae/government-opportunities",
@@ -48,14 +29,6 @@ const faeManifest: BusinessModuleManifest = {
     },
   ],
   menus: [
-    {
-      key: "biz-fae-results",
-      path: "/biz/fae/results",
-      label: "FAE Saved Results",
-      groupKey: "fae-workspace-group",
-      priority: 5,
-      icon: "F",
-    },
     {
       key: "biz-fae-government-opportunities",
       path: "/biz/fae/government-opportunities",

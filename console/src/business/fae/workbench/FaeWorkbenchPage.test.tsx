@@ -150,7 +150,9 @@ describe("FaeWorkbenchPage", () => {
     expect(listRefreshHandler).toHaveBeenCalledTimes(1);
 
     await user.click(screen.getByRole("button", { name: "detail" }));
-    expect(mockNavigate).toHaveBeenCalledWith("/biz/fae/results/11");
+    expect(mockNavigate).toHaveBeenCalledWith(
+      "/biz/fae/government-opportunities/99",
+    );
 
     window.removeEventListener("fae:results-updated", listRefreshHandler);
   });
