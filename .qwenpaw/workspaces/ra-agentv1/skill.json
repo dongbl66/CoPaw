@@ -1,0 +1,32 @@
+{
+  "schema_version": "workspace-skill-manifest.v1",
+  "version": 1780922329423,
+  "skills": {
+    "fae-government-opportunity-extract-report": {
+      "enabled": true,
+      "channels": [
+        "all"
+      ],
+      "source": "custom",
+      "metadata": {
+        "name": "fae-government-opportunity-extract-report",
+        "description": "政企/FAE 商机报告要求提取与结构化结果输出。用户提供调研材料、招投标信息、客户需求、项目线索或要求生成商机分析报告、报告要求提取、ResultPanel 结果时，必须使用本技能，输出可被 FAE 后端 parser 和右侧结果面板消费的 StructuredResultEvent JSON。",
+        "version_text": "1.0",
+        "commit_text": "",
+        "source": "custom",
+        "protected": false,
+        "requirements": {
+          "require_bins": [],
+          "require_envs": []
+        },
+        "updated_at": "2026-06-08T12:38:49.423Z"
+      },
+      "requirements": {
+        "require_bins": [],
+        "require_envs": []
+      },
+      "updated_at": "2026-06-08T12:38:49.423Z",
+      "config": {}
+    }
+  }
+}

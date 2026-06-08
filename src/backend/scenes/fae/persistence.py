@@ -52,7 +52,11 @@ class FAEGovernmentOpportunityPersistence:
 
         try:
             opportunity = self._opportunity_service.create_opportunity(
-                {**gov_opportunity, "session_id": session_id},
+                {
+                    **gov_opportunity,
+                    "session_id": session_id,
+                    "agent_id": agent_id or "RA-agent",
+                },
             )
             opportunity_id = int(opportunity["id"])
         except Exception as exc:  # pylint: disable=broad-except

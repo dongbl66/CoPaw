@@ -10,12 +10,13 @@ from agentscope.message import Msg
 
 from backend.scenes.fae.parsers.government_opportunity_parser import (
     FAE_BIZ_MODULE,
+    inject_government_opportunity_metadata,
     is_valid_fae_structured_result,
 )
 from qwenpaw.agents.hooks.post_reply_business import BaseBusinessPostReplyHook
 
 logger = logging.getLogger(__name__)
-FAE_AGENT_IDS = frozenset({"RA-agent"})
+FAE_AGENT_IDS = frozenset({"RA-agent", "ra-agentv1"})
 
 
 class FAEPostReplyHook(BaseBusinessPostReplyHook):
@@ -43,7 +44,7 @@ class FAEPostReplyHook(BaseBusinessPostReplyHook):
             )
             return False
 
-        return callable(getattr(agent, "_final_output_parser", None))
+        return True
 
     async def apply_metadata(
         self,
@@ -58,6 +59,10 @@ class FAEPostReplyHook(BaseBusinessPostReplyHook):
         final_output_parser = getattr(agent, "_final_output_parser", None)
         if callable(final_output_parser):
             final_output_parser(output)
+
+        metadata = output.metadata if isinstance(output.metadata, dict) else {}
+        if not is_valid_fae_structured_result(metadata.get("structured_result")):
+            inject_government_opportunity_metadata(output)
         return output
 
     async def persist(

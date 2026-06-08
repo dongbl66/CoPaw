@@ -102,7 +102,7 @@ def test_fae_structured_result_persistence_creates_result_and_opportunity(
     FAEGovernmentOpportunityPersistence().persist_message(
         msg,
         session_id="session-fae",
-        agent_id="RA-agent",
+        agent_id="ra-agentv1",
     )
 
     opportunities = FAEOpportunityService(database).list_opportunities()
@@ -111,6 +111,8 @@ def test_fae_structured_result_persistence_creates_result_and_opportunity(
     assert len(opportunities) == 1
     assert opportunities[0]["project_name"] == "Smart government cloud"
     assert opportunities[0]["session_id"] == "session-fae"
+    assert opportunities[0]["agent_id"] == "ra-agentv1"
     assert len(results) == 1
+    assert results[0]["agent_id"] == "ra-agentv1"
     assert results[0]["info"]["opportunityId"] == opportunities[0]["id"]
     assert results[0]["info"]["structuredResult"]["meta"]["bizModule"] == "fae"

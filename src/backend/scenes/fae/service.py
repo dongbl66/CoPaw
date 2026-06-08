@@ -103,7 +103,7 @@ class FAEOpportunityService:
                     budget_note,
                     json.dumps(display_content, ensure_ascii=False) if display_content else "[]",
                     payload.get("session_id"),
-                    "RA-agent",
+                    payload.get("agent_id") or "RA-agent",
                     now,
                     now,
                 ),
