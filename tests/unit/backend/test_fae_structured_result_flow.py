@@ -25,12 +25,12 @@ def _structured_result() -> dict:
         "result": {
             "type": "government_opportunity",
             "payload": {
-                "scene": "government_opportunity",
-                "title": "Smart government cloud",
-                "summary": "A high value FAE opportunity.",
-                "basicInfo": {
-                    "projectName": "Smart government cloud",
-                    "customerName": "City data bureau",
+            "scene": "government_opportunity",
+            "title": "Smart government cloud",
+            "output": "A high value FAE opportunity.",
+            "basicInfo": {
+                "projectName": "Smart government cloud",
+                "customerName": "City data bureau",
                     "city": "Guangzhou",
                     "industry": "Government",
                     "supportType": "Technical support",

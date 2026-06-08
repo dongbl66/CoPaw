@@ -52,24 +52,27 @@ description: 政企/FAE 商机报告要求提取与结构化结果输出。用�
 
 ## 字段要求
 
-`basicInfo` 至少覆盖：
+`payload` 顶层只保留以下字段，且字段名必须严格一致：
 
-- `projectName`: 项目名称
-- `customerName`: 客户名称
-- `city`: 城市
-- `industry`: 行业
-- `supportType`: 支撑类型，只能是 `技术支撑`、`方案支撑`、`投标支撑`、`综合支撑`
+- `output`
+- `project_name`
+- `customer_name`
+- `city`
+- `industry`
+- `support_type`
+- `requirement_desc`
+- `opportunity_rating`
+- `opportunity_score`
+- `budget`
+- `display_content`
 
-`payload` 顶层还必须包含：
+其中：
 
-- `title`: 报告标题
-- `summary`: 一句话商机摘要
-- `requirementDesc`: 报告要求和客户需求描述，尽量分点写清楚
-- `opportunityRating`: 只能是 `high`、`medium`、`low`
-- `opportunityScore`: 0-100 整数
-- `budget`: 预算区间对象
-- `opportunities`: 商机判断、待补充问题、跟进建议列表
-- `attachments`: 附件列表，没有附件时输出空数组
+- `output` 是一句话摘要
+- `support_type` 只能是 `技术支撑`、`方案支撑`、`投标支撑`、`综合支撑`
+- `opportunity_rating` 只能是 `high`、`medium`、`low`
+- `budget.min_yuan` 和 `budget.max_yuan` 用数字；没有预算时写 `null`
+- `display_content` 是附件列表，没有附件时输出空数组
 
 ## 支撑类型判断
 
@@ -96,10 +99,9 @@ description: 政企/FAE 商机报告要求提取与结构化结果输出。用�
 1. 提取项目名称、客户名称、城市、行业、支撑类型。
 2. 提取报告要求：客户想解决什么问题、需要什么材料、希望呈现什么结论。
 3. 梳理需求描述：业务背景、现状痛点、建设目标、技术/方案/投标要求。
-4. 判断预算区间；没有预算时 `minYuan` 和 `maxYuan` 写 `null`，并在 `note` 说明“材料未体现预算”。
-5. 评估商机等级和分数，并说明关键依据。
-6. 归纳待补充问题和下一步跟进动作，写入 `opportunities`。
-7. 严格按 JSON 模板输出。
+4. 判断预算区间；没有预算时 `min_yuan` 和 `max_yuan` 写 `null`，并在 `note` 说明“材料未体现预算”。
+5. 评估商机等级和分数，并写入 `output` 一句话摘要。
+6. 严格按 JSON 模板输出，不要额外添加 `opportunities`、`attachments` 之外的业务字段。
 
 ## JSON 模板
 
@@ -113,40 +115,27 @@ description: 政企/FAE 商机报告要求提取与结构化结果输出。用�
     "type": "government_opportunity",
     "payload": {
       "scene": "government_opportunity",
-      "title": "FAE 政企商机分析报告",
-      "summary": "",
-      "basicInfo": {
-        "projectName": "",
-        "customerName": "",
-        "city": "",
-        "industry": "",
-        "supportType": "方案支撑"
-      },
-      "requirementDesc": "",
-      "opportunityRating": "medium",
-      "opportunityScore": 60,
+      "output": "识别到高价值商机：客户名称 + 项目简述，预算约 X-XX 万",
+      "project_name": "项目全称",
+      "customer_name": "客户全称",
+      "city": "城市名",
+      "industry": "所属行业",
+      "support_type": "技术支撑 或 方案支撑 或 投标支撑 或 综合支撑",
+      "requirement_desc": "需求描述全文，分点列出核心诉求",
+      "opportunity_rating": "high 或 medium 或 low",
+      "opportunity_score": 85,
       "budget": {
-        "minYuan": null,
-        "maxYuan": null,
-        "note": "材料未体现预算"
+        "min_yuan": 28000,
+        "max_yuan": 698000,
+        "note": "可选说明"
       },
-      "opportunities": [
+      "display_content": [
         {
-          "title": "商机判断：客户需求是否明确",
-          "level": "部分明确",
-          "type": "报告要求提取",
-          "summary": "",
-          "reason": ""
-        },
-        {
-          "title": "待补充：预算与决策链",
-          "level": "待核实",
-          "type": "跟进问题",
-          "summary": "补充预算范围、决策部门、采购方式、项目时间表。",
-          "reason": "这些信息影响商机等级和推进优先级。"
+          "type": "pdf",
+          "file_name": "报告文件名.pdf",
+          "file_url": "https://..."
         }
-      ],
-      "attachments": []
+      ]
     }
   },
   "layout": {
@@ -168,7 +157,7 @@ description: 政企/FAE 商机报告要求提取与结构化结果输出。用�
 - `result.type` 是 `government_opportunity`。
 - `payload.scene` 是 `government_opportunity`。
 - `meta.bizModule` 是 `fae`。
-- `basicInfo.projectName`、`basicInfo.customerName`、`basicInfo.supportType` 存在。
-- `requirementDesc` 存在，且包含报告要求/客户需求。
-- `opportunities` 和 `attachments` 都存在。
+- `project_name`、`customer_name`、`support_type` 存在。
+- `requirement_desc` 存在，且包含报告要求/客户需求。
+- `display_content` 存在，没有附件时为空数组。
 - 没有 JSON 外的解释文本。

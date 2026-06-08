@@ -212,7 +212,8 @@ def government_opportunity_from_structured_result(
     )
 
     return {
-        "output": _first_text(payload, "summary")
+        "output": _first_text(payload, "output")
+        or _first_text(payload, "summary")
         or _first_text(structured_result, "subtitle"),
         "project_name": _first_text(payload, "project_name")
         or _first_text(payload, "projectName")
