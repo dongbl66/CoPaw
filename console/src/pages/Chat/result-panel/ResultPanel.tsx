@@ -194,14 +194,64 @@ const OPPORTUNITY_RATING_LABELS: Record<string, string> = {
   low: "低价值",
 };
 
+function normalizeGovernmentOpportunityPayload(
+  payload: GovernmentOpportunityPayload,
+) {
+  const budget = payload.budget;
+  const attachments =
+    payload.attachments ??
+    payload.display_content?.map((item) => ({
+      kind: (item.type || "file") as "pdf" | "html" | "web" | "image" | "file",
+      fileName: item.fileName ?? item.file_name,
+      fileUrl: item.fileUrl ?? item.file_url,
+      filePath: item.filePath ?? item.file_path,
+    })) ??
+    [];
+
+  return {
+    summary: payload.summary ?? payload.output,
+    basicInfo: {
+      projectName: payload.basicInfo?.projectName ?? payload.project_name,
+      customerName: payload.basicInfo?.customerName ?? payload.customer_name,
+      city: payload.basicInfo?.city ?? payload.city,
+      industry: payload.basicInfo?.industry ?? payload.industry,
+      supportType: payload.basicInfo?.supportType ?? payload.support_type,
+    },
+    requirementDesc: payload.requirementDesc ?? payload.requirement_desc,
+    opportunityRating:
+      payload.opportunityRating ?? payload.opportunity_rating,
+    opportunityScore:
+      payload.opportunityScore ?? payload.opportunity_score,
+    budget: budget
+      ? {
+          minYuan: budget.minYuan ?? budget.min_yuan ?? null,
+          maxYuan: budget.maxYuan ?? budget.max_yuan ?? null,
+          note: budget.note,
+        }
+      : null,
+    attachments,
+  };
+}
+
+function formatBudgetAmount(value: number | null | undefined): string {
+  return typeof value === "number" ? `¥${value.toLocaleString()}` : "待核实";
+}
+
 function GovernmentOpportunityRenderer({
   payload,
 }: {
   payload: GovernmentOpportunityPayload;
 }) {
   const { t } = useTranslation();
-  const { basicInfo, requirementDesc, opportunityRating, opportunityScore, budget } =
-    payload;
+  const {
+    summary,
+    basicInfo,
+    requirementDesc,
+    opportunityRating,
+    opportunityScore,
+    budget,
+    attachments,
+  } = normalizeGovernmentOpportunityPayload(payload);
 
   return (
     <div className={styles.resultScrollBody}>
@@ -246,7 +296,7 @@ function GovernmentOpportunityRenderer({
             <div style={{ marginTop: 4 }}>
               <Text strong>预算区间：</Text>
               <Text type="secondary">
-                ¥{budget.minYuan.toLocaleString()} - ¥{budget.maxYuan.toLocaleString()}
+                {formatBudgetAmount(budget.minYuan)} - {formatBudgetAmount(budget.maxYuan)}
                 {budget.note ? `（${budget.note}）` : ""}
               </Text>
             </div>
@@ -271,25 +321,25 @@ function GovernmentOpportunityRenderer({
       ) : null}
 
       {/* 摘要 */}
-      {payload.summary && !requirementDesc ? (
+      {summary && !requirementDesc ? (
         <Card
           size="small"
           title={t("chat.resultPanel.summary", "分析摘要")}
           style={{ marginBottom: 12 }}
         >
           <Paragraph style={{ whiteSpace: "pre-wrap" }}>
-            {payload.summary}
+            {summary}
           </Paragraph>
         </Card>
       ) : null}
 
       {/* 附件 */}
-      {payload.attachments && payload.attachments.length > 0 ? (
+      {attachments.length > 0 ? (
         <Card
           size="small"
           title={t("chat.resultPanel.attachments", "附件")}
         >
-          {payload.attachments.map((att, idx) => (
+          {attachments.map((att, idx) => (
             <div key={idx} style={{ marginBottom: 8 }}>
               <Text>{att.fileName}</Text>
               {att.fileUrl ? (

@@ -123,6 +123,15 @@ export interface StructuredBusinessPayload {
 export interface GovernmentOpportunityPayload {
   title?: string;
   summary?: string;
+  output?: string;
+  project_name?: string;
+  customer_name?: string;
+  city?: string;
+  industry?: string;
+  support_type?: string;
+  requirement_desc?: string;
+  opportunity_rating?: "high" | "medium" | "low" | string;
+  opportunity_score?: number;
   basicInfo?: {
     projectName?: string;
     customerName?: string;
@@ -134,11 +143,22 @@ export interface GovernmentOpportunityPayload {
   opportunityRating?: "high" | "medium" | "low" | string;
   opportunityScore?: number;
   budget?: {
-    minYuan: number;
-    maxYuan: number;
+    minYuan?: number | null;
+    maxYuan?: number | null;
+    min_yuan?: number | null;
+    max_yuan?: number | null;
     note?: string;
   };
   attachments?: StructuredWorkbenchAttachment[];
+  display_content?: Array<{
+    type?: string;
+    file_name?: string;
+    fileName?: string;
+    file_url?: string;
+    fileUrl?: string;
+    file_path?: string;
+    filePath?: string;
+  }>;
 }
 
 export interface StructuredProductPayload {
