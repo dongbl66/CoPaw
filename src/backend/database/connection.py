@@ -137,6 +137,48 @@ class BackendDatabase:
                 )
                 """,
             )
+            connection.execute(
+                """
+                CREATE TABLE IF NOT EXISTS fae_government_opportunities (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    project_name TEXT NOT NULL,
+                    customer_name TEXT NOT NULL,
+                    city TEXT NOT NULL,
+                    industry TEXT NOT NULL,
+                    support_type TEXT NOT NULL,
+                    requirement_desc TEXT,
+                    opportunity_rating TEXT,
+                    opportunity_score INTEGER,
+                    budget_min_yuan REAL,
+                    budget_max_yuan REAL,
+                    budget_note TEXT,
+                    display_content_json TEXT NOT NULL,
+                    session_id TEXT,
+                    agent_id TEXT,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                )
+                """,
+            )
+            connection.execute(
+                """
+                CREATE TABLE IF NOT EXISTS fae_results (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    title TEXT NOT NULL,
+                    result_type TEXT NOT NULL,
+                    save_status TEXT NOT NULL DEFAULT 'draft',
+                    scene TEXT,
+                    summary TEXT,
+                    detail_content_json TEXT NOT NULL,
+                    info_json TEXT NOT NULL,
+                    basic_info_json TEXT NOT NULL,
+                    session_id TEXT,
+                    agent_id TEXT,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                )
+                """,
+            )
             connection.commit()
 
         self._initialized = True
