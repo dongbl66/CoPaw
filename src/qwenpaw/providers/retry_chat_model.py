@@ -182,6 +182,22 @@ def _is_missing_reasoning_content_error(exc: Exception) -> bool:
     return "reasoning_content" in str(exc)
 
 
+def _is_unsupported_tool_choice_error(exc: Exception) -> bool:
+    """Return *True* if *exc* is a 400 about unsupported ``tool_choice``."""
+    if getattr(exc, "status_code", None) != 400:
+        return False
+
+    message = str(exc).lower()
+    if "tool_choice" not in message:
+        return False
+
+    return (
+        "does not support" in message
+        or "not support" in message
+        or "unsupported" in message
+    )
+
+
 def _inject_reasoning_content(
     args: tuple,
     kwargs: dict[str, Any],
@@ -212,6 +228,30 @@ def _inject_reasoning_content(
             modified = True
 
     return modified
+
+
+def _strip_unsupported_tool_choice(
+    args: tuple,
+    kwargs: dict[str, Any],
+) -> str | None:
+    """Remove unsupported ``tool_choice`` from request kwargs.
+
+    Returns the original ``tool_choice`` mode when a change was applied,
+    otherwise *None*.
+
+    When emulating ``tool_choice="none"``, tools are also removed from the
+    request so the provider cannot produce tool calls despite the missing
+    parameter support.
+    """
+    _ = args
+    tool_choice = kwargs.get("tool_choice")
+    if tool_choice is None:
+        return None
+
+    kwargs["tool_choice"] = None
+    if tool_choice == "none":
+        kwargs["tools"] = None
+    return str(tool_choice)
 
 
 def _extract_retry_after(exc: Exception) -> float | None:
@@ -392,6 +432,8 @@ class RetryChatModel(ChatModelBase):
 
         if cache.get(key, "needs_reasoning_content", False):
             _inject_reasoning_content(args, kwargs)
+        if cache.get(key, "rejects_tool_choice", False):
+            _strip_unsupported_tool_choice(args, kwargs)
 
         # Each model gets its own rate limiter keyed by
         # "provider_id:model_name" so that a 429 on one model (e.g. from a
@@ -439,21 +481,65 @@ class RetryChatModel(ChatModelBase):
                         },
                     ) from exc
 
-                try:
-                    result = await self._inner(*args, **kwargs)
-                except Exception as inner_exc:
-                    if not (
-                        _is_missing_reasoning_content_error(inner_exc)
-                        and _inject_reasoning_content(args, kwargs)
-                    ):
-                        raise
-                    cache.learn(key, "needs_reasoning_content", True)
-                    logger.warning(
-                        "Thinking-mode model requires reasoning_content "
-                        "on every assistant message. Injecting empty "
-                        "values and retrying (learned for future calls).",
-                    )
-                    result = await self._inner(*args, **kwargs)
+                compat_fixes_applied = 0
+                while True:
+                    try:
+                        result = await self._inner(*args, **kwargs)
+                        break
+                    except Exception as inner_exc:
+                        if (
+                            _is_missing_reasoning_content_error(inner_exc)
+                            and _inject_reasoning_content(args, kwargs)
+                        ):
+                            cache.learn(
+                                key,
+                                "needs_reasoning_content",
+                                True,
+                            )
+                            logger.warning(
+                                "Thinking-mode model requires "
+                                "reasoning_content on every assistant "
+                                "message. Injecting empty values and "
+                                "retrying (learned for future calls).",
+                            )
+                        else:
+                            if not (
+                                _is_unsupported_tool_choice_error(inner_exc)
+                            ):
+                                raise
+                            mode = _strip_unsupported_tool_choice(
+                                args,
+                                kwargs,
+                            )
+                            if mode is None:
+                                raise
+                            cache.learn(key, "rejects_tool_choice", True)
+                            if mode == "none":
+                                logger.warning(
+                                    "Model rejects tool_choice. "
+                                    "Retrying without the parameter and "
+                                    "withholding tools to emulate "
+                                    "tool_choice='none' (learned for "
+                                    "future calls).",
+                                )
+                            elif mode == "required":
+                                logger.warning(
+                                    "Model rejects tool_choice. "
+                                    "Retrying without the parameter; "
+                                    "tool_choice='required' cannot be "
+                                    "enforced exactly on this provider "
+                                    "(learned for future calls).",
+                                )
+                            else:
+                                logger.warning(
+                                    "Model rejects tool_choice. "
+                                    "Retrying without the parameter "
+                                    "(learned for future calls).",
+                                )
+
+                        compat_fixes_applied += 1
+                        if compat_fixes_applied >= 3:
+                            raise
 
                 if isinstance(result, AsyncGenerator):
                     # Transfer semaphore ownership to _wrap_stream, which uses

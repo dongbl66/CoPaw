@@ -10,6 +10,9 @@ from agentscope.message import Msg
 
 from backend.database.connection import get_backend_database
 
+from .parsers.government_opportunity_parser import (
+    government_opportunity_from_structured_result,
+)
 from .service import FAEOpportunityService, FAEResultService
 
 logger = logging.getLogger(__name__)
@@ -28,13 +31,9 @@ class FAEGovernmentOpportunityPersistence:
         msg: Msg,
         *,
         session_id: str | None,
+        agent_id: str | None = None,
     ) -> None:
-        """Persist government opportunity data into both opportunity and result tables."""
-
-        logger.debug(
-            "FAEPersistence.persist_message: session_id=%s",
-            session_id,
-        )
+        """Persist government opportunity data into opportunity/result tables."""
 
         metadata = msg.metadata if isinstance(msg.metadata, dict) else {}
         structured_result = metadata.get("structured_result")
@@ -44,28 +43,25 @@ class FAEGovernmentOpportunityPersistence:
 
         gov_opportunity = metadata.get("government_opportunity")
         if not isinstance(gov_opportunity, dict):
-            logger.debug("FAEPersistence: no government_opportunity, skipping")
+            gov_opportunity = government_opportunity_from_structured_result(
+                structured_result,
+            )
+        if not gov_opportunity:
+            logger.debug("FAEPersistence: no government opportunity data")
             return
 
-        # ── 1. Persist to opportunity table ──
         try:
-            opportunity_id = self._opportunity_service.create_opportunity(
-                {**gov_opportunity, "session_id": session_id}
-            )["id"]
-            logger.info(
-                "FAEPersistence: created opportunity id=%s, project=%s",
-                opportunity_id,
-                gov_opportunity.get("project_name"),
+            opportunity = self._opportunity_service.create_opportunity(
+                {**gov_opportunity, "session_id": session_id},
             )
-        except Exception as e:
-            logger.error("FAEPersistence: failed to create opportunity: %s", e)
+            opportunity_id = int(opportunity["id"])
+        except Exception as exc:  # pylint: disable=broad-except
+            logger.error("FAEPersistence: failed to create opportunity: %s", exc)
+            return
 
-        # ── 2. Persist to result table (for result panel polling) ──
         result = structured_result.get("result")
         if not isinstance(result, dict):
             return
-
-        result_type = result.get("type", "government_opportunity")
         payload = result.get("payload")
         if not isinstance(payload, dict):
             payload = {}
@@ -73,15 +69,20 @@ class FAEGovernmentOpportunityPersistence:
         title = (
             gov_opportunity.get("project_name")
             or structured_result.get("title")
-            or "商机分析"
+            or "FAE Opportunity Analysis"
+        )
+        summary = (
+            gov_opportunity.get("output")
+            or payload.get("summary")
+            or _message_text(msg)
         )
 
         try:
             result_record = self._result_service.create_result(
                 title=str(title).strip(),
-                result_type=str(result_type),
-                scene=gov_opportunity.get("industry"),
-                summary=gov_opportunity.get("output", str(msg.content)),
+                result_type=str(result.get("type", "government_opportunity")),
+                scene=str(payload.get("scene") or "government_opportunity"),
+                summary=str(summary).strip() if summary else None,
                 detail_content=self._build_detail_content(gov_opportunity),
                 info={
                     "messageContent": getattr(msg, "content", None),
@@ -91,15 +92,15 @@ class FAEGovernmentOpportunityPersistence:
                 },
                 basic_info=gov_opportunity,
                 session_id=session_id,
-                agent_id="RA-agent",
+                agent_id=agent_id or "RA-agent",
             )
             logger.info(
-                "FAEPersistence: created result id=%s, title=%s",
+                "FAEPersistence: created result id=%s opportunity_id=%s",
                 result_record["id"],
-                title,
+                opportunity_id,
             )
-        except Exception as e:
-            logger.error("FAEPersistence: failed to create result: %s", e)
+        except Exception as exc:  # pylint: disable=broad-except
+            logger.error("FAEPersistence: failed to create result: %s", exc)
 
     @staticmethod
     def _build_detail_content(
@@ -111,3 +112,15 @@ class FAEGovernmentOpportunityPersistence:
         if isinstance(display_content, list):
             return [item for item in display_content if isinstance(item, dict)]
         return []
+
+
+def _message_text(msg: Msg) -> str:
+    if isinstance(msg.content, str):
+        return msg.content
+    if isinstance(msg.content, list):
+        return "\n".join(
+            block.get("text", "")
+            for block in msg.content
+            if isinstance(block, dict) and isinstance(block.get("text"), str)
+        )
+    return ""

@@ -33,6 +33,10 @@ class ModelCapabilityCache:
         ``rejects_media`` (bool):
             The model rejects multimodal (image/audio/video) input
             despite being marked as supporting it.
+        ``rejects_tool_choice`` (bool):
+            The model rejects the OpenAI-compatible ``tool_choice``
+            request parameter, so callers must omit it and emulate
+            ``tool_choice="none"`` by also withholding tools.
     """
 
     _instance: ModelCapabilityCache | None = None
