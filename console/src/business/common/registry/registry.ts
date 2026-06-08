@@ -1,5 +1,6 @@
 import type { BusinessModuleManifest } from "./types";
 import { registerResultWorkbenchPage } from "./resultWorkbench";
+import { registerStructuredResultAdapter } from "./structuredResultAdapters";
 
 const manifests: BusinessModuleManifest[] = [];
 
@@ -15,6 +16,13 @@ export function registerBusinessModule(
     resultWorkbench.forEach(registerResultWorkbenchPage);
   } else if (resultWorkbench) {
     registerResultWorkbenchPage(resultWorkbench);
+  }
+
+  const structuredResultAdapters = manifest.structuredResultAdapters;
+  if (Array.isArray(structuredResultAdapters)) {
+    structuredResultAdapters.forEach(registerStructuredResultAdapter);
+  } else if (structuredResultAdapters) {
+    registerStructuredResultAdapter(structuredResultAdapters);
   }
 }
 

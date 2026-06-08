@@ -3,6 +3,7 @@ import type { BusinessModuleManifest } from "@/business/common/registry/types";
 import GovernmentOpportunityDetailPage from "./pages/GovernmentOpportunityDetail";
 import GovernmentOpportunitiesPage from "./pages/GovernmentOpportunities";
 import FaeWorkbenchPage from "./workbench/FaeWorkbenchPage";
+import { adaptGovernmentOpportunityResult } from "./workbench/governmentOpportunityAdapter";
 
 const faeManifest: BusinessModuleManifest = {
   id: "fae",
@@ -41,6 +42,11 @@ const faeManifest: BusinessModuleManifest = {
   resultWorkbench: {
     bizModule: "fae",
     Page: FaeWorkbenchPage,
+  },
+  structuredResultAdapters: {
+    bizModule: "fae",
+    resultType: "government_opportunity",
+    adapt: adaptGovernmentOpportunityResult,
   },
 };
 

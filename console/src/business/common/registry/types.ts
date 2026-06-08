@@ -1,6 +1,7 @@
 import type React from "react";
 import type { ResultBizModule } from "@/api/modules/unifiedResult";
 import type { StructuredResultEvent } from "@/pages/Chat/result-panel/types";
+import type { StructuredResultAdapterManifest } from "./structuredResultAdapters";
 
 /**
  * 业务页面路由声明。
@@ -57,4 +58,7 @@ export interface BusinessModuleManifest {
   resultWorkbench?:
     | BusinessResultWorkbenchManifest
     | BusinessResultWorkbenchManifest[];
+  structuredResultAdapters?:
+    | StructuredResultAdapterManifest
+    | StructuredResultAdapterManifest[];
 }

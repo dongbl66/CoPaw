@@ -6,8 +6,9 @@ export type StructuredResultType =
   | "html"
   | "table"
   | "text"
-  | "government_opportunity"
-  | "actions";
+  | "view_model"
+  | "actions"
+  | (string & {});
 
 export interface StructuredResultAction {
   key: string;
@@ -80,6 +81,27 @@ export interface StructuredActionsPayload {
   actions: StructuredResultAction[];
 }
 
+export interface StructuredViewModelField {
+  key?: string;
+  label: string;
+  value?: string | number | null;
+  variant?: "text" | "tag";
+  color?: string;
+}
+
+export interface StructuredViewModelSection {
+  key: string;
+  title: string;
+  fields?: StructuredViewModelField[];
+  text?: string;
+  attachments?: StructuredWorkbenchAttachment[];
+}
+
+export interface StructuredViewModelPayload {
+  summary?: string;
+  sections: StructuredViewModelSection[];
+}
+
 export interface StructuredWorkbenchAttachment {
   kind: "pdf" | "html" | "web" | "image" | "file";
   fileName?: string;
@@ -118,47 +140,6 @@ export interface StructuredBusinessPayload {
   productInfo?: Record<string, unknown>;
   opportunities?: StructuredBusinessOpportunity[];
   attachments?: StructuredWorkbenchAttachment[];
-}
-
-export interface GovernmentOpportunityPayload {
-  title?: string;
-  summary?: string;
-  output?: string;
-  project_name?: string;
-  customer_name?: string;
-  city?: string;
-  industry?: string;
-  support_type?: string;
-  requirement_desc?: string;
-  opportunity_rating?: "high" | "medium" | "low" | string;
-  opportunity_score?: number;
-  basicInfo?: {
-    projectName?: string;
-    customerName?: string;
-    city?: string;
-    industry?: string;
-    supportType?: string;
-  };
-  requirementDesc?: string;
-  opportunityRating?: "high" | "medium" | "low" | string;
-  opportunityScore?: number;
-  budget?: {
-    minYuan?: number | null;
-    maxYuan?: number | null;
-    min_yuan?: number | null;
-    max_yuan?: number | null;
-    note?: string;
-  };
-  attachments?: StructuredWorkbenchAttachment[];
-  display_content?: Array<{
-    type?: string;
-    file_name?: string;
-    fileName?: string;
-    file_url?: string;
-    fileUrl?: string;
-    file_path?: string;
-    filePath?: string;
-  }>;
 }
 
 export interface StructuredProductPayload {

@@ -7,6 +7,7 @@ import {
   BusinessDetailContent,
   ProductSolutionDetailContent,
 } from "@/business/marketing/components/detailContent";
+import { adaptStructuredResult } from "@/business/common/registry/structuredResultAdapters";
 import FraudTranscriptReport from "./FraudTranscriptReport";
 import { openExternalLink } from "../../../utils/openExternalLink";
 import { copyText } from "../utils";
@@ -21,8 +22,8 @@ import type {
   StructuredResultEvent,
   StructuredTablePayload,
   StructuredTextPayload,
+  StructuredViewModelPayload,
   StructuredWebPayload,
-  GovernmentOpportunityPayload,
 } from "./types";
 import styles from "../index.module.less";
 
@@ -182,165 +183,58 @@ function ActionsRenderer({ payload }: { payload: StructuredActionsPayload }) {
   );
 }
 
-const OPPORTUNITY_RATING_COLORS: Record<string, string> = {
-  high: "red",
-  medium: "orange",
-  low: "blue",
-};
-
-const OPPORTUNITY_RATING_LABELS: Record<string, string> = {
-  high: "高价值",
-  medium: "中等价值",
-  low: "低价值",
-};
-
-function normalizeGovernmentOpportunityPayload(
-  payload: GovernmentOpportunityPayload,
-) {
-  const budget = payload.budget;
-  const attachments =
-    payload.attachments ??
-    payload.display_content?.map((item) => ({
-      kind: (item.type || "file") as "pdf" | "html" | "web" | "image" | "file",
-      fileName: item.fileName ?? item.file_name,
-      fileUrl: item.fileUrl ?? item.file_url,
-      filePath: item.filePath ?? item.file_path,
-    })) ??
-    [];
-
-  return {
-    summary: payload.summary ?? payload.output,
-    basicInfo: {
-      projectName: payload.basicInfo?.projectName ?? payload.project_name,
-      customerName: payload.basicInfo?.customerName ?? payload.customer_name,
-      city: payload.basicInfo?.city ?? payload.city,
-      industry: payload.basicInfo?.industry ?? payload.industry,
-      supportType: payload.basicInfo?.supportType ?? payload.support_type,
-    },
-    requirementDesc: payload.requirementDesc ?? payload.requirement_desc,
-    opportunityRating:
-      payload.opportunityRating ?? payload.opportunity_rating,
-    opportunityScore:
-      payload.opportunityScore ?? payload.opportunity_score,
-    budget: budget
-      ? {
-          minYuan: budget.minYuan ?? budget.min_yuan ?? null,
-          maxYuan: budget.maxYuan ?? budget.max_yuan ?? null,
-          note: budget.note,
-        }
-      : null,
-    attachments,
-  };
-}
-
-function formatBudgetAmount(value: number | null | undefined): string {
-  return typeof value === "number" ? `¥${value.toLocaleString()}` : "待核实";
-}
-
-function GovernmentOpportunityRenderer({
-  payload,
-}: {
-  payload: GovernmentOpportunityPayload;
-}) {
+function ViewModelRenderer({ payload }: { payload: StructuredViewModelPayload }) {
   const { t } = useTranslation();
-  const {
-    summary,
-    basicInfo,
-    requirementDesc,
-    opportunityRating,
-    opportunityScore,
-    budget,
-    attachments,
-  } = normalizeGovernmentOpportunityPayload(payload);
 
   return (
     <div className={styles.resultScrollBody}>
-      {/* 基本信息卡片 */}
-      {basicInfo ? (
-        <Card
-          size="small"
-          title={t("chat.resultPanel.basicInfo", "基本信息")}
-          style={{ marginBottom: 12 }}
-        >
-          <Descriptions size="small" column={2} bordered>
-            <Descriptions.Item label="项目名称">
-              {basicInfo.projectName}
-            </Descriptions.Item>
-            <Descriptions.Item label="客户名称">
-              {basicInfo.customerName}
-            </Descriptions.Item>
-            <Descriptions.Item label="城市">
-              {basicInfo.city}
-            </Descriptions.Item>
-            <Descriptions.Item label="行业">
-              {basicInfo.industry}
-            </Descriptions.Item>
-            <Descriptions.Item label="支撑类型">
-              <Tag color="processing">{basicInfo.supportType}</Tag>
-            </Descriptions.Item>
-          </Descriptions>
-          {opportunityRating ? (
-            <div style={{ marginTop: 8 }}>
-              <Space>
-                <Text strong>商机评级：</Text>
-                <Tag color={OPPORTUNITY_RATING_COLORS[opportunityRating] || "default"}>
-                  {OPPORTUNITY_RATING_LABELS[opportunityRating] || opportunityRating}
-                </Tag>
-                {opportunityScore != null ? (
-                  <Text type="secondary">评分：{opportunityScore}/100</Text>
-                ) : null}
-              </Space>
-            </div>
-          ) : null}
-          {budget ? (
-            <div style={{ marginTop: 4 }}>
-              <Text strong>预算区间：</Text>
-              <Text type="secondary">
-                {formatBudgetAmount(budget.minYuan)} - {formatBudgetAmount(budget.maxYuan)}
-                {budget.note ? `（${budget.note}）` : ""}
-              </Text>
-            </div>
-          ) : null}
-        </Card>
-      ) : null}
-
-      {/* 需求描述 */}
-      {requirementDesc ? (
-        <Card
-          size="small"
-          title={t("chat.resultPanel.requirementDesc", "需求描述")}
-          style={{ marginBottom: 12 }}
-        >
-          <Paragraph
-            ellipsis={{ rows: 8, expandable: true, symbol: "展开" }}
-            style={{ whiteSpace: "pre-wrap" }}
-          >
-            {requirementDesc}
-          </Paragraph>
-        </Card>
-      ) : null}
-
-      {/* 摘要 */}
-      {summary && !requirementDesc ? (
+      {payload.summary ? (
         <Card
           size="small"
           title={t("chat.resultPanel.summary", "分析摘要")}
           style={{ marginBottom: 12 }}
         >
           <Paragraph style={{ whiteSpace: "pre-wrap" }}>
-            {summary}
+            {payload.summary}
           </Paragraph>
         </Card>
       ) : null}
 
-      {/* 附件 */}
-      {attachments.length > 0 ? (
+      {payload.sections.map((section) => (
         <Card
+          key={section.key}
           size="small"
-          title={t("chat.resultPanel.attachments", "附件")}
+          title={section.title}
+          style={{ marginBottom: 12 }}
         >
-          {attachments.map((att, idx) => (
-            <div key={idx} style={{ marginBottom: 8 }}>
+          {section.fields && section.fields.length > 0 ? (
+            <Descriptions size="small" column={2} bordered>
+              {section.fields.map((field) => (
+                <Descriptions.Item
+                  key={field.key ?? field.label}
+                  label={field.label}
+                >
+                  {field.variant === "tag" ? (
+                    <Tag color={field.color || "default"}>{field.value}</Tag>
+                  ) : (
+                    field.value ?? ""
+                  )}
+                </Descriptions.Item>
+              ))}
+            </Descriptions>
+          ) : null}
+
+          {section.text ? (
+            <Paragraph
+              ellipsis={{ rows: 8, expandable: true, symbol: "展开" }}
+              style={{ whiteSpace: "pre-wrap" }}
+            >
+              {section.text}
+            </Paragraph>
+          ) : null}
+
+          {section.attachments?.map((att, idx) => (
+            <div key={`${att.fileName ?? "attachment"}-${idx}`} style={{ marginBottom: 8 }}>
               <Text>{att.fileName}</Text>
               {att.fileUrl ? (
                 <Button
@@ -354,13 +248,18 @@ function GovernmentOpportunityRenderer({
             </div>
           ))}
         </Card>
-      ) : null}
+      ))}
     </div>
   );
 }
 
 export function ResultRenderer({ result }: { result: StructuredResultEvent }) {
   const { t } = useTranslation();
+  const adaptedResult = adaptStructuredResult(result);
+  if (adaptedResult !== result) {
+    return <ResultRenderer result={adaptedResult} />;
+  }
+
   switch (result.result.type) {
     case "business":
       return (
@@ -370,10 +269,10 @@ export function ResultRenderer({ result }: { result: StructuredResultEvent }) {
       return (
         <ProductRenderer payload={result.result.payload as StructuredProductPayload} />
       );
-    case "government_opportunity":
+    case "view_model":
       return (
-        <GovernmentOpportunityRenderer
-          payload={result.result.payload as GovernmentOpportunityPayload}
+        <ViewModelRenderer
+          payload={result.result.payload as StructuredViewModelPayload}
         />
       );
     case "text":

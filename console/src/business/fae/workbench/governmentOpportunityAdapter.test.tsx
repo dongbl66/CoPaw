@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { ResultRenderer } from "./ResultPanel";
-import type { StructuredResultEvent } from "./types";
+import { ResultRenderer } from "@/pages/Chat/result-panel/ResultPanel";
+import type { StructuredResultEvent } from "@/pages/Chat/result-panel/types";
+import { adaptGovernmentOpportunityResult } from "./governmentOpportunityAdapter";
 
 function buildSnakeCaseFaeResult(): StructuredResultEvent {
   return {
@@ -36,9 +37,12 @@ function buildSnakeCaseFaeResult(): StructuredResultEvent {
   };
 }
 
-describe("GovernmentOpportunityRenderer", () => {
-  it("renders snake_case FAE structured_result payloads", () => {
-    render(<ResultRenderer result={buildSnakeCaseFaeResult()} />);
+describe("adaptGovernmentOpportunityResult", () => {
+  it("adapts snake_case FAE structured_result payloads into a view model", () => {
+    const adapted = adaptGovernmentOpportunityResult(buildSnakeCaseFaeResult());
+
+    expect(adapted?.result.type).toBe("view_model");
+    render(<ResultRenderer result={adapted!} />);
 
     expect(screen.getByText("公安笔录智能评估与要素提取系统")).toBeInTheDocument();
     expect(screen.getByText("某省公安厅")).toBeInTheDocument();
@@ -47,7 +51,7 @@ describe("GovernmentOpportunityRenderer", () => {
     expect(
       screen.getByText("建设笔录规范性自动评估、涉诈要素提取和 RPA 自动调证能力。"),
     ).toBeInTheDocument();
-    expect(screen.getByText("75/100", { exact: false })).toBeInTheDocument();
-    expect(screen.getByText("待核实 - 待核实", { exact: false })).toBeInTheDocument();
+    expect(screen.getByText("75/100")).toBeInTheDocument();
+    expect(screen.getByText("待核实 - 待核实（材料未体现预算信息）")).toBeInTheDocument();
   });
 });
