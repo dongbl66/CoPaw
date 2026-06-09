@@ -109,6 +109,8 @@ class FAEResultRead(BaseModel):
     summary: str | None = None
     info: dict[str, Any] = Field(default_factory=dict)
     basic_info: dict[str, Any] = Field(default_factory=dict)
+    detail_content: list[dict[str, Any]] = Field(default_factory=list)
+    display_content: list[dict[str, Any]] = Field(default_factory=list)
     attachments: list[dict[str, Any]] = Field(default_factory=list)
     session_id: str | None = None
     agent_id: str | None = None

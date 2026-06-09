@@ -7,6 +7,7 @@ import {
   BusinessDetailContent,
   ProductSolutionDetailContent,
 } from "@/business/marketing/components/detailContent";
+import { DisplayContentPreview } from "@/business/common/components/DisplayContentPreview";
 import { adaptStructuredResult } from "@/business/common/registry/structuredResultAdapters";
 import FraudTranscriptReport from "./FraudTranscriptReport";
 import { openExternalLink } from "../../../utils/openExternalLink";
@@ -233,20 +234,9 @@ function ViewModelRenderer({ payload }: { payload: StructuredViewModelPayload })
             </Paragraph>
           ) : null}
 
-          {section.attachments?.map((att, idx) => (
-            <div key={`${att.fileName ?? "attachment"}-${idx}`} style={{ marginBottom: 8 }}>
-              <Text>{att.fileName}</Text>
-              {att.fileUrl ? (
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => openExternalLink(att.fileUrl!)}
-                >
-                  打开
-                </Button>
-              ) : null}
-            </div>
-          ))}
+          {section.attachments && section.attachments.length > 0 ? (
+            <DisplayContentPreview items={section.attachments} />
+          ) : null}
         </Card>
       ))}
     </div>

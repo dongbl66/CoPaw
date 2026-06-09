@@ -41,6 +41,8 @@ interface GovernmentOpportunityPayload {
     fileUrl?: string;
     file_path?: string;
     filePath?: string;
+    asset_id?: string;
+    assetId?: string;
   }>;
 }
 
@@ -66,6 +68,9 @@ function normalizeAttachments(
       fileName: item.fileName ?? item.file_name,
       fileUrl: item.fileUrl ?? item.file_url,
       filePath: item.filePath ?? item.file_path,
+      extra: {
+        asset_id: item.assetId ?? item.asset_id,
+      },
     })) ??
     []
   );

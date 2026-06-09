@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button, Empty, Spin } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
+import DisplayContentPreview from "@/business/common/components/DisplayContentPreview";
+import type { DisplayContentItem } from "@/business/common/components/DisplayContentPreview";
 import { faeResultApi } from "@/api/modules/faeResult";
 import type { FAEOpportunityDetailResponse } from "@/api/modules/faeResult";
 import styles from "../governmentOpportunities.module.less";
@@ -15,6 +17,7 @@ interface GovernmentOpportunityDetailView {
   industry: string;
   supportType: string;
   requirementDesc: string;
+  displayContent: DisplayContentItem[];
 }
 
 function getGovernmentOpportunityListPath(): string {
@@ -34,6 +37,7 @@ function toDetailView(
     industry: record.industry,
     supportType: record.support_type,
     requirementDesc: record.requirement_desc,
+    displayContent: record.display_content as DisplayContentItem[],
   };
 }
 
@@ -134,48 +138,11 @@ export default function GovernmentOpportunityDetailPage() {
       </div>
 
       <div className={`${styles.panel} ${styles.detailSection}`}>
-        <div className={styles.sectionTitle}>需求文档（PDF预览）</div>
-        <div className={styles.previewShell}>
-          <div className={styles.previewDocument}>
-            <div className={styles.previewTopLine} />
-            <h3 className={styles.previewTitle}>
-              {record.projectName}需求规格说明书
-            </h3>
-            <div className={styles.previewMeta}>
-              版本：V1.0 | 日期：{record.updateTime} | 项目编号：{record.id}
-            </div>
-
-            <div className={styles.previewSection}>
-              <div className={styles.previewSectionTitle}>一、项目背景</div>
-              <div className={styles.previewParagraph}>
-                为响应数字化建设要求，项目方计划建设统一业务平台，整合现有分散的信息系统，实现数据资源的统一管理和共享交换。
-              </div>
-            </div>
-
-            <div className={styles.previewSection}>
-              <div className={styles.previewSectionTitle}>二、需求概述</div>
-              <div className={styles.previewParagraph}>{record.requirementDesc}</div>
-            </div>
-
-            <div className={styles.previewSection}>
-              <div className={styles.previewSectionTitle}>三、技术要求</div>
-              <div className={styles.previewParagraph}>
-                平台需满足高可用、可扩展、统一认证、权限管理、接口规范和安全合规要求。
-              </div>
-            </div>
-
-            <div className={styles.previewSection}>
-              <div className={styles.previewSectionTitle}>四、实施计划</div>
-              <div className={styles.previewParagraph}>
-                建议分阶段推进：先完成基础能力建设，再完成业务迁移和智能化应用上线。
-              </div>
-            </div>
-
-            <div className={styles.previewFooter}>
-              本文档为项目需求预览说明，仅供内部参考使用 | 项目 {record.id} / 1
-            </div>
-          </div>
-        </div>
+        <div className={styles.sectionTitle}>需求报告预览</div>
+        <DisplayContentPreview
+          items={record.displayContent}
+          emptyText="暂无需求报告文件"
+        />
       </div>
     </div>
   );

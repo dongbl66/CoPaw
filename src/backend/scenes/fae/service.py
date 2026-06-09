@@ -9,6 +9,7 @@ from datetime import datetime
 from typing import Any
 
 from backend.database.connection import BackendDatabase, get_backend_database
+from backend.scenes.common.display_assets import normalize_display_content
 
 from .exceptions import FAEGovernmentOpportunityNotFoundError, FAEResultNotFoundError
 
@@ -161,6 +162,14 @@ class FAEOpportunityService:
     @staticmethod
     def _row_to_dict(row) -> dict[str, Any]:
         """Convert a SQLite row to a dict matching the API read model."""
+        display_content = normalize_display_content(
+            json.loads(row["display_content_json"] or "[]"),
+            biz_module="fae",
+            record_id=int(row["id"]),
+            agent_id=row["agent_id"],
+            collection="opportunities",
+        )
+
         return {
             "id": int(row["id"]),
             "project_name": str(row["project_name"]),
@@ -174,7 +183,7 @@ class FAEOpportunityService:
             "budget_min_yuan": row["budget_min_yuan"],
             "budget_max_yuan": row["budget_max_yuan"],
             "budget_note": row["budget_note"],
-            "display_content": json.loads(row["display_content_json"] or "[]"),
+            "display_content": display_content,
             "session_id": row["session_id"],
             "agent_id": row["agent_id"],
             "create_time": str(row["created_at"]),
@@ -301,6 +310,30 @@ class FAEResultService:
     @staticmethod
     def _row_to_result_dict(row) -> dict[str, Any]:
         """Convert a SQLite row to a result dict."""
+        detail_content = normalize_display_content(
+            json.loads(row["detail_content_json"] or "[]"),
+            biz_module="fae",
+            record_id=int(row["id"]),
+            agent_id=row["agent_id"],
+        )
+        info = json.loads(row["info_json"] or "{}")
+        if isinstance(info, dict):
+            structured_result = info.get("structuredResult")
+            if isinstance(structured_result, dict):
+                result = structured_result.get("result")
+                if isinstance(result, dict):
+                    payload = result.get("payload")
+                    if isinstance(payload, dict):
+                        payload["display_content"] = detail_content
+
+            payload = info.get("payload")
+            if isinstance(payload, dict):
+                payload["display_content"] = detail_content
+
+        basic_info = json.loads(row["basic_info_json"] or "{}")
+        if isinstance(basic_info, dict):
+            basic_info["display_content"] = detail_content
+
         return {
             "id": int(row["id"]),
             "title": str(row["title"]),
@@ -308,9 +341,11 @@ class FAEResultService:
             "save_status": str(row["save_status"] or "draft"),
             "scene": row["scene"],
             "summary": row["summary"],
-            "info": json.loads(row["info_json"] or "{}"),
-            "basic_info": json.loads(row["basic_info_json"] or "{}"),
-            "attachments": [],
+            "info": info,
+            "basic_info": basic_info,
+            "detail_content": detail_content,
+            "display_content": detail_content,
+            "attachments": detail_content,
             "session_id": row["session_id"],
             "agent_id": row["agent_id"],
             "created_at": row["created_at"],

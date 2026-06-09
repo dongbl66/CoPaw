@@ -108,6 +108,23 @@ describe("FAE pages", () => {
   });
 
   it("loads government opportunity detail from API and shows sections", async () => {
+    mockGetOpportunity.mockResolvedValueOnce(
+      opportunityRecord({
+        display_content: [
+          {
+            type: "html",
+            file_name: "智慧政务云平台建设项目_requirement_report.html",
+            file_url: "/api/backend/results/fae/opportunities/1/assets/html-0",
+          },
+          {
+            type: "pdf",
+            file_name: "智慧政务云平台建设项目_requirement_report.pdf",
+            file_url: "/api/backend/results/fae/opportunities/1/assets/pdf-1",
+          },
+        ],
+      }),
+    );
+
     renderWithProviders(
       <Routes>
         <Route
@@ -122,12 +139,17 @@ describe("FAE pages", () => {
     expect(mockGetOpportunity).toHaveBeenCalledWith("1");
     expect(screen.getByRole("button", { name: "返回项目列表" })).toBeInTheDocument();
     expect(screen.getByText("需求描述")).toBeInTheDocument();
-    expect(screen.getByText("需求文档（PDF预览）")).toBeInTheDocument();
-    expect(screen.getByText("智慧政务云平台建设项目需求规格说明书")).toBeInTheDocument();
+    expect(screen.getByText("需求报告预览")).toBeInTheDocument();
+    expect(
+      screen.getByText("智慧政务云平台建设项目_requirement_report.html"),
+    ).toBeInTheDocument();
     expect(
       screen.getAllByText("本项目需要构建一个统一的政务云平台...").length,
     ).toBeGreaterThan(0);
-    expect(screen.getByText(/项目 1 \/ 1/)).toBeInTheDocument();
+    expect(screen.getByTitle("preview-html-智慧政务云平台建设项目_requirement_report.html")).toHaveAttribute(
+      "src",
+      "/api/backend/results/fae/opportunities/1/assets/html-0",
+    );
 
     const user = userEvent.setup();
     await user.click(screen.getByRole("button", { name: "返回项目列表" }));

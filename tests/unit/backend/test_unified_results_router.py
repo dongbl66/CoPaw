@@ -118,3 +118,84 @@ async def test_latest_result_without_biz_module_returns_400() -> None:
     marketing_service.get_latest_result_by_session.assert_not_called()
     fae_service.get_latest_result_by_session.assert_not_called()
     fraud_service.get_latest_result_by_session.assert_not_called()
+
+
+async def test_result_asset_serves_registered_html_file(tmp_path, monkeypatch) -> None:
+    workspace_root = tmp_path / "workspaces" / "RA-agent" / "reports"
+    workspace_root.mkdir(parents=True)
+    report_file = workspace_root / "report.html"
+    report_file.write_text("<html><body>FAE report</body></html>", encoding="utf-8")
+
+    unified_router = __import__(
+        "backend.scenes.fae.unified_router",
+        fromlist=["WORKING_DIR"],
+    )
+    monkeypatch.setattr(unified_router, "WORKING_DIR", tmp_path)
+
+    app = FastAPI()
+    app.include_router(create_router())
+
+    fae_service = Mock()
+    fae_service.get_result.return_value = {
+        "id": 12,
+        "agent_id": "RA-agent",
+        "detail_content": [
+            {
+                "type": "html",
+                "file_name": "report.html",
+                "file_path": "reports/report.html",
+            },
+        ],
+    }
+    app.dependency_overrides[build_fae_result_service] = lambda: fae_service
+
+    client = AsyncClient(
+        transport=ASGITransport(app=app),
+        base_url="http://test",
+    )
+
+    async with client:
+        response = await client.get(
+            "/api/backend/results/fae/12/assets/html-0",
+        )
+
+    assert response.status_code == 200
+    assert response.headers["content-type"].startswith("text/html")
+    assert "FAE report" in response.text
+
+
+async def test_result_asset_rejects_path_traversal(tmp_path, monkeypatch) -> None:
+    unified_router = __import__(
+        "backend.scenes.fae.unified_router",
+        fromlist=["WORKING_DIR"],
+    )
+    monkeypatch.setattr(unified_router, "WORKING_DIR", tmp_path)
+
+    app = FastAPI()
+    app.include_router(create_router())
+
+    fae_service = Mock()
+    fae_service.get_result.return_value = {
+        "id": 12,
+        "agent_id": "RA-agent",
+        "detail_content": [
+            {
+                "type": "html",
+                "file_name": "secret.html",
+                "file_path": "../secret.html",
+            },
+        ],
+    }
+    app.dependency_overrides[build_fae_result_service] = lambda: fae_service
+
+    client = AsyncClient(
+        transport=ASGITransport(app=app),
+        base_url="http://test",
+    )
+
+    async with client:
+        response = await client.get(
+            "/api/backend/results/fae/12/assets/html-0",
+        )
+
+    assert response.status_code == 403

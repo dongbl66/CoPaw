@@ -39,6 +39,8 @@ export interface FAEResultRecord {
   summary?: string | null;
   info: Record<string, unknown>;
   basic_info: Record<string, unknown>;
+  detail_content?: Array<Record<string, unknown>>;
+  display_content?: Array<Record<string, unknown>>;
   attachments?: Array<Record<string, unknown>>;
   session_id?: string | null;
   agent_id?: string | null;
